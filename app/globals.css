@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
+/* Palette sampled from the SS Interiors logo: luxury charcoal slate field, champagne-gold line work and typography. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #22252a;
+  --bg-2: #1c1e22;
+  --surface: #2b2e35;
+  --line: rgba(215, 199, 150, 0.22);
+  --gold-1: #e4d5aa;
+  --gold-2: #d1b882;
+  --gold-3: #ba9f67;
+  --fg: #f5f2eb;
+  --muted: #aba89f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-gold: var(--gold-2);
+  --color-gold-light: var(--gold-1);
+  --color-gold-dark: var(--gold-3);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-serif: var(--font-playfair), Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gold-2);
+  color: #1e2025;
+}
+
+.gold-text {
+  background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gold-bg {
+  background: linear-gradient(135deg, var(--gold-1), var(--gold-2) 55%, var(--gold-3));
+}
+
+/* Frame with an offset second line, used behind images and cards. */
+.frame {
+  position: relative;
+}
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border: 1px solid var(--line);
+  pointer-events: none;
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(215, 199, 150, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(215, 199, 150, 0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
