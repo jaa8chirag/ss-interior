@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${outfit.variable} ${playfair.variable}`}>
-      <body className="flex min-h-screen flex-col">
+    <html lang="en" suppressHydrationWarning className={`${outfit.variable} ${playfair.variable}`}>
+      <body suppressHydrationWarning className="flex min-h-screen flex-col">
         <Intro />
         <Navbar />
         <main className="flex-1">{children}</main>
