@@ -48,13 +48,13 @@ const HERO_SLIDES = [
 export default function HomeView() {
   const heroRef = useRef<HTMLElement>(null);
 
-  // Slider State (Auto-transitions every 2 seconds continuously)
+  // Slider State (Auto-transitions every 3 seconds continuously)
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 2000);
+    }, 3000);
     return () => clearInterval(timer);
   }, []);
 
@@ -100,7 +100,7 @@ export default function HomeView() {
           {HERO_SLIDES.map((slide, idx) => (
             <div
               key={slide.image}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-500 ease-in-out ${
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
                 idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
