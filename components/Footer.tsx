@@ -64,15 +64,12 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand & Studio Info */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-5 space-y-6">
             <Link href="/" className="inline-block">
               <Brand size="lg" showText={true} />
             </Link>
             <p className="text-sm leading-relaxed text-muted max-w-sm">
               {SITE.motto}
-            </p>
-            <p className="text-xs text-gold/80 uppercase tracking-widest">
-              Residential · Farmhouses · Offices · Hospitality
             </p>
             <div className="flex items-center gap-3 pt-2">
               <a
@@ -124,42 +121,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Portfolio Categories */}
-          <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
-              Expertise
-            </h4>
-            <ul className="space-y-2.5 text-sm text-muted">
-              <li>
-                <Link href="/portfolio#apartments" className="hover:text-gold transition-colors">
-                  Apartments
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio#farmhouses" className="hover:text-gold transition-colors">
-                  Farmhouses
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio#offices" className="hover:text-gold transition-colors">
-                  Office Interiors
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio#hospitality" className="hover:text-gold transition-colors">
-                  Hospitality
-                </Link>
-              </li>
-              <li>
-                <Link href="/product-sourcing" className="hover:text-gold transition-colors">
-                  Global Sourcing
-                </Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Studio Coordinates */}
-          <div className="lg:col-span-3 space-y-4">
+          <div className="lg:col-span-4 space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
               Studio Location
             </h4>

@@ -7,27 +7,35 @@ interface BrandProps {
 }
 
 export default function Brand({ size = "md", showText = false, className = "" }: BrandProps) {
-  const dimensions = {
-    sm: { w: 52, h: 52, box: "w-[52px] h-[52px]" },
-    md: { w: 68, h: 68, box: "w-[68px] h-[68px]" },
-    lg: { w: 92, h: 92, box: "w-[92px] h-[92px]" },
-    xl: { w: 120, h: 120, box: "w-[120px] h-[120px]" },
+  const sizeClasses = {
+    sm: "h-12 w-auto",
+    md: "h-20 w-auto",
+    lg: "h-24 w-auto",
+    xl: "h-32 w-auto",
+  }[size];
+
+  const imgHeight = {
+    sm: 48,
+    md: 80,
+    lg: 96,
+    xl: 128,
   }[size];
 
   return (
     <div className={`flex items-center gap-3.5 group ${className}`}>
-      <div
-        className={`relative ${dimensions.box} overflow-hidden rounded-sm border border-gold/40 bg-[#282c30] shadow-md shadow-black/40 transition-transform duration-300 group-hover:scale-105 shrink-0`}
-      >
+      {/* Pure Logo without any gray box, borders, or container */}
+      <div className={`relative ${sizeClasses} shrink-0 transition-transform duration-300 group-hover:scale-105`}>
         <Image
-          src="/logo.jpg"
+          src="/logo.png"
           alt="SS Interiors — Since 2016"
-          width={dimensions.w}
-          height={dimensions.h}
+          width={Math.round(imgHeight * 1.18)}
+          height={imgHeight}
           priority
-          className="h-full w-full object-cover"
+          className="h-full w-auto object-contain filter drop-shadow-md"
+          style={{ width: "auto", height: "100%" }}
         />
       </div>
+
       {showText && (
         <div className="flex flex-col">
           <span className="font-serif text-lg tracking-[0.2em] font-semibold text-fg uppercase leading-tight">

@@ -2,9 +2,12 @@
 
 export const SITE = {
   name: "SS Interiors",
+  founder: "Vishan Kumar Gautam",
   tagline: "Since 2016",
   since: 2016,
   motto: "Good design yearns for boundless style that is underlined by simplicity",
+  about:
+    "Founded in 2016 by Vishan Kumar Gautam, SS INTERIORS is a design and execution firm specializing in premium residential and commercial projects, with expertise in high-end interior and exterior works.",
   email: "info@ssinteriors.in",
   phone: "+91 95997 32700",
   altPhone: "+91 98100 88200",
@@ -19,12 +22,10 @@ export const SITE = {
 
 export const NAV = [
   { href: "/", label: "Home" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/about", label: "About" },
-  { href: "/product-sourcing", label: "Product Sourcing" },
-  { href: "/press", label: "Press" },
-  { href: "/blogs", label: "Blogs" },
-  { href: "/contact", label: "Contact" },
+  { href: "/about", label: "About Us" },
+  { href: "/services", label: "Services" },
+  { href: "/projects", label: "Projects" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export const THREE_PILLARS = [
@@ -34,7 +35,7 @@ export const THREE_PILLARS = [
     image: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4f61695c-d90a-4bde-9b12-f866c6cee6e4/Luxury%2BApartment%2BLiving%2BRoom%2Bmonica%2Bkhanna%2Bdesigns.webp?format=1500w",
     description:
       "Our client’s needs and sensibilities are pivotal to our dream home creations. We combine a uniqueness in style with the nitty-gritties of the practical and functional to make our creations hugely distinctive. They are truly signatures of timeless appeal, with a stamp of minimalism and beautiful functionalism.",
-    link: "/portfolio#apartments",
+    link: "/services#apartments",
   },
   {
     title: "Office Interiors",
@@ -42,7 +43,7 @@ export const THREE_PILLARS = [
     image: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4228d866-d3c2-43e5-af0e-f20179c8d3f3/Office%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
     description:
       "High-end office spaces that strike the perfect balance between sophistication and functionality. Each project is thoughtfully tailored to reflect the client’s brand identity while creating an environment that inspires productivity and comfort. With a refined aesthetic and meticulous attention to detail, the designs incorporate premium materials, smart spatial planning, and custom furnishings.",
-    link: "/portfolio#offices",
+    link: "/services#offices",
   },
   {
     title: "Hospitality",
@@ -50,14 +51,14 @@ export const THREE_PILLARS = [
     image: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/ca77bf20-d673-4e06-a306-d480f9f45715/Hotel%2BPool%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
     description:
       "Spaces That Welcome, Experiences That Stay. Our hospitality projects are a fusion of luxury, experience, and storytelling. From boutique hotels to upscale resorts, we design immersive spaces that leave a lasting impression. Every element is thoughtfully curated - from mood lighting to custom furniture - to enhance guest comfort and brand identity.",
-    link: "/portfolio#hospitality",
+    link: "/services#hospitality",
   },
 ];
 
 export interface ProjectShowcaseItem {
   id: string;
   title: string;
-  category: "Apartments" | "Farmhouses" | "Office Interior" | "Hospitality";
+  category: string;
   tagline: string;
   description: string;
   featuredImage: string;
@@ -66,142 +67,126 @@ export interface ProjectShowcaseItem {
 
 export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
   {
-    id: "apartments",
-    title: "Apartments",
-    category: "Apartments",
-    tagline: "Where Luxury Meets Lifestyle, Room by Room.",
+    id: "residential",
+    title: "Luxury Residential Interiors",
+    category: "Residential",
+    tagline: "Bespoke Apartments, Penthouses & Duplexes",
     description:
-      "We design luxurious, detail-rich apartments that reflect elegance and individuality. Our bespoke interiors blend global design sensibilities with personalized touches, creating spaces that are both stylish and functional. Each apartment is a seamless balance of comfort, sophistication, and timeless aesthetics. With curated furniture from India, Europe, and Southeast Asia, every element is meticulously selected.",
-    featuredImage:
-      "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4f61695c-d90a-4bde-9b12-f866c6cee6e4/Luxury%2BApartment%2BLiving%2BRoom%2Bmonica%2Bkhanna%2Bdesigns.webp?format=1500w",
+      "From super-penthouses at DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Balancing custom millwork, ambient architectural lighting, and imported European materials.",
+    featuredImage: "/projects/camellias_hero.jpg",
     gallery: [
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4f61695c-d90a-4bde-9b12-f866c6cee6e4/Luxury%2BApartment%2BLiving%2BRoom%2Bmonica%2Bkhanna%2Bdesigns.webp?format=1500w",
-        caption: "Luxury Apartment Living Room — Bespoke Silhouettes & Warm Ambient Lighting",
+        url: "/projects/camellias_hero.jpg",
+        caption: "Luxury Residence — Grand Formal Living & Double-Height Architectural Detailing",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/8486ea4d-09ba-4183-9fdc-8022279fb9ed/Interior_View_Kitchen_upscayl_3x_ultramix_balanced.webp?format=1500w",
-        caption: "Modern Minimalist Kitchen — Integrated Quartz Finishes & High-End Appliances",
+        url: "/projects/camellias_1.jpg",
+        caption: "Master Presidential Suite — Custom Italian Millwork & Ambient Glow",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/b34d2ad8-e7f1-43b0-843b-647cb0633fcd/Flat%2BDrawing%2BRoom%2BInterior%2BDesign.webp?format=1500w",
-        caption: "Drawing Room & Formal Lounge — Tailored European Upholstery & Statement Art",
+        url: "/projects/camellias_2.jpg",
+        caption: "Formal Dining Lounge — Statement Chandelier & Handcrafted Finishes",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/e5a6e92f-293c-48b4-98a8-157808831f26/Luxury%2BApartment%2BBedroom%2Bmonica%2Bkhanna%2Bdesigns.webp?format=1500w",
-        caption: "Master Bedroom Suite — Custom Acoustic Paneling & Muted Neutral Palette",
+        url: "/projects/camellias_3.jpg",
+        caption: "Private Penthouse Sky Lounge — Seamless Indoor-Outdoor Flow",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/c3b96f9b-9ca9-43b0-8eb8-2b5864875df4/Apartment%2BLiving%2BRoom%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-        caption: "Curated Living Area — Seamless Indoor-Outdoor Flow & Natural Light",
+        url: "/projects/camellias_4.jpg",
+        caption: "Contemporary Joinery — Fluted Wood Accents & Polished Marble",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4353f9c6-98b4-422b-b31a-2f6dd57e81f5/Best+Interior+Designer+in+Gurgaon.webp?format=1500w",
-        caption: "Penthouse Dining Space — Fluted Wood Accents & Handcrafted Chandelier",
+        url: "/projects/camellias_6.jpg",
+        caption: "Bespoke Living Room — Tailored European Upholstery & Statement Art",
+      },
+    ],
+  },
+  {
+    id: "commercial",
+    title: "Commercial & Corporate Interiors",
+    category: "Commercial",
+    tagline: "Executive Workspaces & Corporate Headquarters",
+    description:
+      "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
+    featuredImage: "/projects/thecrest_hero.jpg",
+    gallery: [
+      {
+        url: "/projects/thecrest_hero.jpg",
+        caption: "Executive Headquarters — Formal Reception & Architectural Illumination",
+      },
+      {
+        url: "/projects/thecrest_2.jpg",
+        caption: "Executive Lounge & Bar — Moody Velvet Accents & Fluted Wood Detailing",
+      },
+      {
+        url: "/projects/thecrest_3.jpg",
+        caption: "Managing Director Cabin — Sleek Minimalist Desk & Custom Library Shelving",
+      },
+      {
+        url: "/projects/camellias_5.jpg",
+        caption: "Corporate Boardroom & Foyer — High-Performance Lighting & Turnkey MEP",
       },
     ],
   },
   {
     id: "farmhouses",
-    title: "Farmhouses",
+    title: "Country Estates & Farmhouses",
     category: "Farmhouses",
-    tagline: "Retreats of Tranquility, Crafted with Soul.",
+    tagline: "Expansive Sanctuaries in Harmony with Nature",
     description:
-      "Our farmhouse designs embody luxury, tranquility, and nature in perfect harmony. We specialise in expansive layouts, sustainable solutions, and Vastu-compliant planning. From architectural design to interior execution, every detail is tailored to elevate rural living into a refined, resort-like experience. Our expertise lies in combining comfort with understated grandeur.",
-    featuredImage:
-      "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/079a8822-e71f-4645-8da4-60e00448d430/Farmhouse%2Bliving%2Barea%2Bdesign.webp?format=1500w",
+      "Specialising in sprawling countryside retreats, private villas, and estate architecture. We integrate double-height vaulted spaces, hand-chiseled natural stone, transitional verandas, and Vastu-aligned spatial planning.",
+    featuredImage: "/projects/aralias_hero.jpg",
     gallery: [
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/079a8822-e71f-4645-8da4-60e00448d430/Farmhouse%2Bliving%2Barea%2Bdesign.webp?format=1500w",
-        caption: "Farmhouse Great Hall — Double-Height Glazing & Hand-Chiseled Natural Stone",
+        url: "/projects/aralias_hero.jpg",
+        caption: "Country Estate Great Hall — Double-Height Glazing & Hand-Chiseled Stone",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/ef489f30-0aac-48c5-b65c-b0fb1ec2a97b/Farmhouse%2Bdrawing%2Broom%2Binterior%2Bdesign.webp?format=1500w",
-        caption: "Farmhouse Drawing Room — Earthy Textures, Solid Teak Joinery & Fireplace",
+        url: "/projects/aralias_1.jpg",
+        caption: "Private Estate Veranda & Terrace — Harmonizing Architecture with Nature",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/b713c459-a29b-454f-8221-9afcc686f730/farmhouse%2Bbedroom%2Binterior%2Bdesign.webp?format=1500w",
-        caption: "Countryside Villa Bedroom — Organic Linens, Ambient Glow & Courtyard Views",
+        url: "/projects/aralias_2.jpg",
+        caption: "Drawing Room & Formal Lounge — Earthy Textures & Solid Teak Joinery",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1761993007277-2WPCNLZCZSS9L52DXH35/Farmhouse+Interior+Design+outer+view.webp?format=1500w",
-        caption: "Exterior Landscape & Veranda — Harmonizing Architecture with Nature",
+        url: "/projects/aralias_3.jpg",
+        caption: "Countryside Villa Bedroom — Organic Linens & Ambient Courtyard Views",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1761991932999-15TAG2F1LL5WPJG44MIW/Asthetic+Dining+Area+Interior.webp?format=1500w",
-        caption: "Aesthetic Dining Sanctuary — Hand-Poured Terrazzo & Bespoke Brass Hardware",
-      },
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1761993004510-TD1FLBPMFESJ2CSBWFQY/Farmhouse+Interior+Drawing+Room+Design.webp?format=1500w",
-        caption: "Intimate Reading Lounge — Classical Proportions with Contemporary Warmth",
-      },
-    ],
-  },
-  {
-    id: "offices",
-    title: "Office Interior",
-    category: "Office Interior",
-    tagline: "Workspaces That Think, Create, and Inspire.",
-    description:
-      "We create dynamic and modern workspaces that foster productivity and innovation. From premium finishes to ergonomic planning, our office interiors are built to inspire. With complete in-house execution of HVAC, MEP, and fire systems, we offer fully integrated solutions. Our team delivers smart, sustainable corporate environments across India.",
-    featuredImage:
-      "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4228d866-d3c2-43e5-af0e-f20179c8d3f3/Office%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-    gallery: [
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4228d866-d3c2-43e5-af0e-f20179c8d3f3/Office%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-        caption: "Executive Suite & Reception — Polished Stone, Slat Wall Architecture & Custom Lighting",
-      },
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/bc3d7cb8-8a13-411c-988c-d0e937749d66/Office%2BCabin%2BInterior%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-        caption: "Managing Director Cabin — Sleek Minimalist Desk, Veneer Paneling & Art Display",
-      },
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1750417875948-TBBRWE6TQBMFP5EQZWC9/Conference+Room+Interior+Design.jpg?format=1500w",
-        caption: "Boardroom & Video-Conferencing Center — Acoustic Ceiling & Integrated Smart Tech",
-      },
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1750417874661-6NBFT9A5WLWFI6OGOUI1/Office+Interior+Design.jpg?format=1500w",
-        caption: "Collaborative Work Lounge — Ergonomic Seating & Biophilic Planters",
-      },
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1750417870560-T0UING4VK9DP66CCW43R/Office+Cabin+Design.jpg?format=1500w",
-        caption: "Private Consultation Cabin — Tailored Library Shelving & Premium Leather Finishes",
-      },
-      {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/1763111857685-483QW4N7OY074L01WN8G/Executive%2BOffice%2BInterior%2BDesigner%2Bin%2BGurgaon.webp?format=1500w",
-        caption: "Corporate Headquarters Floor — High-Performance Lighting & Turnkey MEP Integration",
+        url: "/projects/aralias_4.jpg",
+        caption: "Dining Sanctuary — Hand-Poured Terrazzo & Bespoke Brass Hardware",
       },
     ],
   },
   {
     id: "hospitality",
-    title: "Hospitality",
+    title: "Hospitality & Turnkey Execution",
     category: "Hospitality",
-    tagline: "Spaces That Welcome, Experiences That Stay.",
+    tagline: "Presidential Suites, Experiential Dining & Resorts",
     description:
-      "Our hospitality projects are a fusion of luxury, experience, and storytelling. From boutique hotels to upscale resorts, we design immersive spaces that leave a lasting impression. Every element is thoughtfully curated - from mood lighting to custom furniture - to enhance guest comfort and brand identity. We bring creativity and functionality together in every guest experience.",
-    featuredImage:
-      "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/ca77bf20-d673-4e06-a306-d480f9f45715/Hotel%2BPool%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
+      "From five-star presidential suites like ITC Maurya to the Trump Tower NCR duplex sky lounge, our hospitality and turnkey execution weaves mood, tactile textures, and statement architecture into cohesive luxury journeys.",
+    featuredImage: "/projects/trumptower_hero.jpg",
     gallery: [
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/ca77bf20-d673-4e06-a306-d480f9f45715/Hotel%2BPool%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-        caption: "Luxury Resort Infinity Pool & Sunken Lounge — Architectural Illumination",
+        url: "/projects/trumptower_hero.jpg",
+        caption: "Presidential Duplex Penthouse Great Hall — Architectural Double-Height Living",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/2d3b0756-3225-45d0-8630-97966ba0a866/Hotel%2BRestaurant%2BInterior%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-        caption: "Fine Dining Restaurant & Bar — Moody Velvet Accents & Brass Geometric Screens",
+        url: "/projects/trumptower_1.jpg",
+        caption: "Presidential Sky Lounge — Panoramic City Views & Ambient Lighting",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/6d2ca7b4-b987-44ad-bb93-fb0bb4d7306d/Hotel%2BBedroom%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
-        caption: "Presidential Hotel Suite — Luxurious Bedscape & Custom Dressing Wardrobes",
+        url: "/projects/trumptower_2.jpg",
+        caption: "Luxury Floating Staircase & Double-Height Glazing",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/e4249240-11db-4068-8625-67f538632403/Resort%2BBedroom%2BInterior%2BDesign.webp?format=1500w",
-        caption: "Boutique Heritage Suite — Artisanal Detailing & Royal Architectural Echoes",
+        url: "/projects/trumptower_3.jpg",
+        caption: "Grand Master Suite — Bookmatched Italian Marble & Bespoke Dressing",
       },
       {
-        url: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/24270926-a05b-45c9-af36-f3f143938267/Hospitality%2BInterior%2BDesign.webp?format=1500w",
-        caption: "Resort Lobby & Atrium — Grand Volumetric Proportions & Natural Greenery",
+        url: "/projects/itc_maurya.jpg",
+        caption: "ITC Maurya — Grand Presidential Suite Luxury Renovation",
       },
     ],
   },
@@ -314,10 +299,26 @@ export const VENDOR_NOTICE = {
 };
 
 export const PROCESS = [
-  { step: "01", title: "Discovery & Brief", text: "In-depth consultation, lifestyle analysis, site survey, and functional requirement mapping." },
-  { step: "02", title: "Concept & 3D Visuals", text: "Mood boards, space planning, detailed 3D photorealistic walkthroughs, and material selection." },
-  { step: "03", title: "Technical & BOQ", text: "Comprehensive MEP, HVAC, joinery working drawings, and a fully transparent itemised BOQ." },
-  { step: "04", title: "Turnkey Execution", text: "Dedicated project lead, rigorous quality inspections, bespoke styling, and flawless handover." },
+  {
+    step: "01",
+    title: "Concept & Planning",
+    text: "Comprehensive lifestyle analysis, space planning, design mood boards, and photorealistic 3D architectural visualisations.",
+  },
+  {
+    step: "02",
+    title: "Technical & BOQ",
+    text: "Complete architectural working drawings, MEP, HVAC, lighting schematics, and transparent itemised Bill of Quantities (BOQ).",
+  },
+  {
+    step: "03",
+    title: "Cost & Management",
+    text: "Transparent budget estimation, milestone scheduling, material procurement coordination, and stringent cost control.",
+  },
+  {
+    step: "04",
+    title: "Turnkey Execution",
+    text: "Dedicated on-site project management, precision craftsmanship, quality inspections, bespoke styling, and flawless handover.",
+  },
 ];
 
 export const img = (id: string, w = 1200) =>

@@ -7,7 +7,7 @@ import { Expand, ArrowRight } from "lucide-react";
 import ImageLightbox from "./ImageLightbox";
 import { SHOWCASE_SECTIONS, SITE, VENDOR_NOTICE } from "@/lib/site";
 
-const CATEGORIES = ["All", "Apartments", "Farmhouses", "Office Interior", "Hospitality"] as const;
+const CATEGORIES = ["All", "DLF Camellias", "DLF Magnolias", "DLF Aralias", "Trump Tower & The Crest"] as const;
 
 export default function PortfolioView() {
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -43,10 +43,10 @@ export default function PortfolioView() {
       {/* Page Header */}
       <section className="mx-auto max-w-7xl px-6 lg:px-10 py-12 text-center">
         <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
-          Portfolio Archive
+          Our Projects
         </span>
         <h1 className="mt-3 font-serif text-4xl sm:text-6xl font-light text-fg">
-          Architectural Portfolio
+          Architectural Projects
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted font-light">
           A showcase of bespoke residences, expansive country estates, forward-thinking corporate headquarters, and high-touch hospitality venues designed and executed by SS Interiors since 2016.

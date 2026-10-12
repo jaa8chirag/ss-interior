@@ -79,8 +79,23 @@ body {
     transform: translateX(-50%);
   }
 }
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
 .marquee {
-  animation: marquee 45s linear infinite;
+  animation: marquee 75s linear infinite;
+}
+.marquee-reverse {
+  animation: marquee-reverse 85s linear infinite;
+}
+.marquee:hover,
+.marquee-reverse:hover {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

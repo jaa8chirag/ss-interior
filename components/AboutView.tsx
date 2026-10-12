@@ -17,35 +17,43 @@ export default function AboutView() {
               About SS Interiors · Established {SITE.since}
             </span>
             <h1 className="font-serif text-4xl sm:text-6xl font-light text-fg leading-tight">
-              Architecture &amp; Interior Design is <span className="gold-text italic">Our Passion</span>.
+              Design &amp; Execution Excellence by <span className="gold-text italic">SS Interiors</span>
             </h1>
-            <p className="text-base leading-relaxed text-muted font-light">
-              Since {SITE.since}, SS Interiors has been dedicated to crafting environments of distinction. We blend contemporary international design sensibilities with functional rigor, creating spaces that feel timeless, comfortable, and quietly opulent.
+            <p className="text-base leading-relaxed text-fg/90 font-light">
+              Founded in 2016 by <span className="text-gold font-medium">Vishan Kumar Gautam</span>, SS INTERIORS is a design and execution firm specializing in premium residential and commercial projects, with expertise in high-end interior and exterior works.
             </p>
             <p className="text-sm leading-relaxed text-muted font-light">
-              Our principal team has shaped signature dream homes, sprawling farmhouse estates, forward-thinking corporate headquarters, and high-touch hospitality destinations across Gurgaon, Delhi NCR, and nationwide.
+              With a focus on luxury, sophistication, and precision, we bring together technical expertise, refined craftsmanship, and meticulous attention to detail to deliver exceptional spaces. From comprehensive project planning to seamless execution, our approach is driven by an understanding of the quality, aesthetics, and finishing standards expected in high-end developments.
             </p>
+            <p className="text-sm leading-relaxed text-muted font-light">
+              Backed by a team of skilled technical engineers and experienced consultants, SS INTERIORS is equipped to handle complex project requirements, intricate detailing, and demanding execution schedules while maintaining the highest standards of workmanship and professionalism.
+            </p>
+            <div className="p-4 border-l-2 border-gold bg-[#282c32] rounded-sm">
+              <p className="text-sm italic text-gold-light leading-relaxed">
+                &ldquo;At SS INTERIORS, we believe that luxury lies in the details. Our commitment is to translate architectural vision into distinguished spaces through superior execution, premium finishes, and uncompromising quality. Every project reflects our dedication to excellence, precision, and timely delivery, making us a trusted execution partner for discerning clients and premium developments.&rdquo;
+              </p>
+            </div>
             <div className="pt-2 flex flex-wrap gap-4">
               <Button href="/contact">Book Consultation</Button>
-              <Button href="/portfolio" variant="ghost">View Portfolio</Button>
+              <Button href="/services" variant="ghost">Our Services</Button>
             </div>
           </div>
 
           <div className="lg:col-span-5 relative">
             <div className="frame">
-              <div className="relative h-[28rem] sm:h-[34rem] w-full overflow-hidden border border-line bg-[#282c32] shadow-2xl">
+              <div className="relative h-[28rem] sm:h-[34rem] w-full overflow-hidden border border-gold/30 bg-[#282c32] shadow-2xl">
                 <img
-                  src="https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4353f9c6-98b4-422b-b31a-2f6dd57e81f5/Best+Interior+Designer+in+Gurgaon.webp?format=1500w"
-                  alt="SS Interiors Design Studio"
-                  className="h-full w-full object-cover"
+                  src="/team/founder.jpg"
+                  alt="Vishan Kumar Gautam — Founder & Principal Director, SS Interiors"
+                  className="h-full w-full object-cover object-top"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1d1f24] via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 p-4 bg-[#22252a]/90 backdrop-blur-md border border-gold/30">
-                  <p className="font-serif text-sm text-gold italic">
-                    &ldquo;Good design yearns for boundless style that is underlined by simplicity.&rdquo;
+                <div className="absolute inset-0 bg-gradient-to-t from-[#16181b]/95 via-[#16181b]/20 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 p-4 bg-[#1a1c20]/90 backdrop-blur-md border border-gold/40 shadow-xl">
+                  <p className="font-serif text-lg text-fg font-medium tracking-wide">
+                    Vishan Kumar Gautam
                   </p>
-                  <span className="text-[10px] uppercase tracking-widest text-muted block mt-1 font-sans">
-                    — SS Interiors Philosophy
+                  <span className="text-[11px] uppercase tracking-widest text-gold block mt-0.5 font-sans font-medium">
+                    Founder &amp; Principal Director
                   </span>
                 </div>
               </div>
@@ -135,15 +143,15 @@ export default function AboutView() {
             <div className="lg:col-span-6 grid grid-cols-2 gap-4">
               <div className="h-64 sm:h-72 border border-line/60 overflow-hidden">
                 <img
-                  src="https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/079a8822-e71f-4645-8da4-60e00448d430/Farmhouse%2Bliving%2Barea%2Bdesign.webp?format=1000w"
-                  alt="SS Interiors Living"
+                  src="/projects/camellias_1.jpg"
+                  alt="SS Interiors Luxury Residential"
                   className="h-full w-full object-cover"
                 />
               </div>
               <div className="h-64 sm:h-72 border border-line/60 overflow-hidden mt-6">
                 <img
-                  src="https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/bc3d7cb8-8a13-411c-988c-d0e937749d66/Office%2BCabin%2BInterior%2BMonica%2BKhanna%2BDesigns.webp?format=1000w"
-                  alt="SS Interiors Office"
+                  src="/projects/thecrest_1.jpg"
+                  alt="SS Interiors Turnkey Execution"
                   className="h-full w-full object-cover"
                 />
               </div>
