@@ -64,7 +64,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand & Studio Info */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="inline-block">
               <Brand size="lg" showText={true} />
             </Link>
@@ -102,10 +102,10 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* Company Links */}
+          <div className="lg:col-span-2 space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
-              Navigation
+              Company
             </h4>
             <ul className="space-y-2.5 text-sm text-muted">
               {NAV.map((n) => (
@@ -121,8 +121,49 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* Explore Links */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
+              Explore
+            </h4>
+            <ul className="space-y-2.5 text-sm text-muted">
+              <li>
+                <Link
+                  href="/services#residential"
+                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                >
+                  <span className="text-gold/40">›</span> Luxury Residential
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services#farmhouses"
+                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                >
+                  <span className="text-gold/40">›</span> Country Estates
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services#commercial"
+                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                >
+                  <span className="text-gold/40">›</span> Commercial &amp; Offices
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services#hospitality"
+                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                >
+                  <span className="text-gold/40">›</span> Hospitality &amp; Turnkey
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* Studio Coordinates */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-3 space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
               Studio Location
             </h4>
