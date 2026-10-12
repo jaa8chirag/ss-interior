@@ -1,30 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Expand, ArrowRight } from "lucide-react";
 import ImageLightbox from "./ImageLightbox";
-import { SHOWCASE_SECTIONS, SITE, VENDOR_NOTICE } from "@/lib/site";
+import { SHOWCASE_SECTIONS, ADDITIONAL_PROJECTS, SITE, VENDOR_NOTICE } from "@/lib/site";
+
+const CATEGORIES = ["All", "Residential", "Commercial", "Farmhouses", "Hospitality"] as const;
 
 export default function PortfolioView() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<{ url: string; caption: string }[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Flatten all items with category tagging
-  const allProjects = SHOWCASE_SECTIONS.flatMap((sec) =>
-    sec.gallery.map((item) => ({
-      ...item,
-      category: sec.category,
-      sectionId: sec.id,
-      sectionTitle: sec.title,
-    }))
-  );
+  // Combine showcase sections + additional projects
+  const allProjects = useMemo(() => {
+    const showcaseItems = SHOWCASE_SECTIONS.flatMap((sec) =>
+      sec.gallery.map((item) => ({
+        ...item,
+        category: sec.category,
+        sectionId: sec.id,
+        sectionTitle: sec.title,
+      }))
+    );
+    return [...showcaseItems, ...ADDITIONAL_PROJECTS];
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === "All") return allProjects;
+    return allProjects.filter((p) => p.category === selectedCategory);
+  }, [allProjects, selectedCategory]);
 
   const openLightbox = (index: number) => {
-    setLightboxImages(allProjects.map((p) => ({ url: p.url, caption: p.caption })));
+    setLightboxImages(filteredProjects.map((p) => ({ url: p.url, caption: p.caption })));
     setLightboxIndex(index);
     setLightboxOpen(true);
   };
@@ -40,15 +52,32 @@ export default function PortfolioView() {
           Architectural Projects
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted font-light">
-          A showcase of bespoke residences, expansive country estates, forward-thinking corporate headquarters, and high-touch hospitality venues designed and executed by SS Interiors since 2016.
+          A curated showcase of bespoke residences, expansive country estates, corporate headquarters, and high-touch hospitality venues designed and executed by SS Interiors since 2016.
         </p>
+
+        {/* Category Filter Pills */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`rounded-full px-5 py-2 text-xs uppercase tracking-widest transition-all ${
+                selectedCategory === cat
+                  ? "bg-gold text-black font-semibold shadow-md shadow-gold/20"
+                  : "bg-[#25282e] text-muted hover:text-fg hover:bg-[#2b2e35] border border-line/60"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </section>
 
       {/* Projects Grid */}
       <section className="mx-auto max-w-7xl px-6 lg:px-10 py-8">
         <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence>
-            {allProjects.map((project, idx) => (
+            {filteredProjects.map((project, idx) => (
               <motion.div
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}

@@ -73,31 +73,31 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Bespoke Apartments, Penthouses & Duplexes",
     description:
       "From super-penthouses at DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Balancing custom millwork, ambient architectural lighting, and imported European materials.",
-    featuredImage: "/projects/camellias_hero.jpg",
+    featuredImage: "/projects/camellias_real_1.jpg",
     gallery: [
       {
-        url: "/projects/camellias_hero.jpg",
-        caption: "Luxury Residence — Grand Formal Living & Double-Height Architectural Detailing",
+        url: "/projects/camellias_real_1.jpg",
+        caption: "DLF Camellias — Grand Formal Dining & Japanese Mural Architecture",
       },
       {
-        url: "/projects/camellias_1.jpg",
-        caption: "Master Presidential Suite — Custom Italian Millwork & Ambient Glow",
+        url: "/projects/camellias_real_2.jpg",
+        caption: "DLF Camellias — Private Bar & Wood-Paneled Foyer",
       },
       {
-        url: "/projects/camellias_2.jpg",
-        caption: "Formal Dining Lounge — Statement Chandelier & Handcrafted Finishes",
+        url: "/projects/camellias_real_3.jpg",
+        caption: "DLF Camellias — Master Presidential Suite & Marble Fireplace",
       },
       {
-        url: "/projects/camellias_3.jpg",
-        caption: "Private Penthouse Sky Lounge — Seamless Indoor-Outdoor Flow",
+        url: "/projects/magnolias_real_1.jpg",
+        caption: "DLF Magnolias — Bookmatched White Marble Foyer & Floral Backlit Art",
       },
       {
-        url: "/projects/camellias_4.jpg",
-        caption: "Contemporary Joinery — Fluted Wood Accents & Polished Marble",
+        url: "/projects/magnolias_real_2.jpg",
+        caption: "DLF Magnolias — Grand Living Salon & Backlit Onyx Wall",
       },
       {
-        url: "/projects/camellias_6.jpg",
-        caption: "Bespoke Living Room — Tailored European Upholstery & Statement Art",
+        url: "/projects/magnolias_real_3.jpg",
+        caption: "DLF Magnolias — Intimate Family TV Lounge & Fluted Brass Accents",
       },
     ],
   },
@@ -108,23 +108,31 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Executive Workspaces & Corporate Headquarters",
     description:
       "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
-    featuredImage: "/projects/thecrest_hero.jpg",
+    featuredImage: "/projects/corp_15.jpg",
     gallery: [
       {
-        url: "/projects/thecrest_hero.jpg",
-        caption: "Executive Headquarters — Formal Reception & Architectural Illumination",
+        url: "/projects/corp_15.jpg",
+        caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
       },
       {
-        url: "/projects/thecrest_2.jpg",
-        caption: "Executive Lounge & Bar — Moody Velvet Accents & Fluted Wood Detailing",
+        url: "/projects/corp_16.jpg",
+        caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Ambient Linears",
       },
       {
-        url: "/projects/thecrest_3.jpg",
-        caption: "Managing Director Cabin — Sleek Minimalist Desk & Custom Library Shelving",
+        url: "/projects/corp_18.jpg",
+        caption: "Acoustic Glass Partition Executive Desks & Precision LED Layouts",
       },
       {
-        url: "/projects/camellias_5.jpg",
-        caption: "Corporate Boardroom & Foyer — High-Performance Lighting & Turnkey MEP",
+        url: "/projects/corp_20.jpg",
+        caption: "Director Executive Cabin — Sleek Minimalist Desk & Custom Credenza",
+      },
+      {
+        url: "/projects/corp_26.jpg",
+        caption: "Managing Director Leadership Suite — Marble Conference Setting",
+      },
+      {
+        url: "/projects/corp_27.jpg",
+        caption: "Corporate Reception Lounge & Acoustic Feature Wall Detailing",
       },
     ],
   },
@@ -146,16 +154,20 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
         caption: "Private Estate Veranda & Terrace — Harmonizing Architecture with Nature",
       },
       {
-        url: "/projects/aralias_2.jpg",
-        caption: "Drawing Room & Formal Lounge — Earthy Textures & Solid Teak Joinery",
+        url: "/projects/estate_real_1.jpg",
+        caption: "Grand Dining Salon & Crystal Chandelier — Solid Seasoned Hardwoods",
       },
       {
-        url: "/projects/aralias_3.jpg",
-        caption: "Countryside Villa Bedroom — Organic Linens & Ambient Courtyard Views",
+        url: "/projects/estate_real_2.jpg",
+        caption: "Master Ensuite — Green Onyx Double Vanity & Architectural Frameless Glazing",
+      },
+      {
+        url: "/projects/estate_real_3.jpg",
+        caption: "Double-Height Estate Drawing Hall — Coffered Ceilings & Bespoke Silk Carpets",
       },
       {
         url: "/projects/aralias_4.jpg",
-        caption: "Dining Sanctuary — Hand-Poured Terrazzo & Bespoke Brass Hardware",
+        caption: "Dining Sanctuary & Courtyard Views — Hand-Poured Terrazzo & Brass Hardware",
       },
     ],
   },
@@ -177,8 +189,12 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
         caption: "Presidential Sky Lounge — Panoramic City Views & Ambient Lighting",
       },
       {
-        url: "/projects/trumptower_2.jpg",
-        caption: "Luxury Floating Staircase & Double-Height Glazing",
+        url: "/projects/onyx_staircase.jpg",
+        caption: "Illuminated Translucent Honey Onyx Floating Staircase — Five-Star Architectural Grandeur",
+      },
+      {
+        url: "/projects/luxury_bar.jpg",
+        caption: "Signature Hospitality Bar Counter — Fluted Panelling & Arched Backlit Display",
       },
       {
         url: "/projects/trumptower_3.jpg",
@@ -186,9 +202,124 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
       },
       {
         url: "/projects/itc_maurya.jpg",
-        caption: "ITC Maurya — Grand Presidential Suite Luxury Renovation",
+        caption: "ITC Maurya — Grand Presidential Suite Luxury Turnkey Renovation",
       },
     ],
+  },
+];
+
+export const ADDITIONAL_PROJECTS = [
+  {
+    url: "/projects/corp_25.jpg",
+    caption: "Corporate Breakout & Collaboration Hub — Modern Scandinavian High Stools",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/corp_17.jpg",
+    caption: "Agile Team Workspace — Glass Partitions & Acoustic Ceiling Clouds",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/corp_21.jpg",
+    caption: "Senior Executive Cabin — Panoramic Skyline Views & Ergonomic Mesh Seating",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/corp_19.jpg",
+    caption: "Executive Corridor & Gallery — Architectural Strip Lighting & Soundproofing",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/camellias_real_4.jpg",
+    caption: "DLF Camellias — Backlit Onyx Entry Console & Vertical Architectural Screen",
+    category: "Residential",
+    sectionId: "residential",
+    sectionTitle: "Luxury Residential Interiors",
+  },
+  {
+    url: "/projects/camellias_real_5.jpg",
+    caption: "DLF Camellias — Fluted Timber Corridor & Concealed Flush Wardrobes",
+    category: "Residential",
+    sectionId: "residential",
+    sectionTitle: "Luxury Residential Interiors",
+  },
+  {
+    url: "/projects/camellias_real_6.jpg",
+    caption: "DLF Camellias — Contemporary Fireplace Detail & Sculptural Mirrors",
+    category: "Residential",
+    sectionId: "residential",
+    sectionTitle: "Luxury Residential Interiors",
+  },
+  {
+    url: "/projects/magnolias_real_4.jpg",
+    caption: "DLF Magnolias — Sculptural Birds Foyer Wall & Floating Stone Console",
+    category: "Residential",
+    sectionId: "residential",
+    sectionTitle: "Luxury Residential Interiors",
+  },
+  {
+    url: "/projects/magnolias_real_5.jpg",
+    caption: "DLF Magnolias — Powder Room Hand-Carved Rose Onyx Basin",
+    category: "Residential",
+    sectionId: "residential",
+    sectionTitle: "Luxury Residential Interiors",
+  },
+  {
+    url: "/projects/curved_master_suite.jpg",
+    caption: "Bespoke Master Bed Suite — Curved Velvet Headboard & Floating Cove Lighting",
+    category: "Residential",
+    sectionId: "residential",
+    sectionTitle: "Luxury Residential Interiors",
+  },
+  {
+    url: "/projects/thecrest_hero.jpg",
+    caption: "DLF The Crest — Executive Headquarters Formal Reception",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/thecrest_2.jpg",
+    caption: "DLF The Crest — Private Executive Lounge & Custom Fluted Bar",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/thecrest_3.jpg",
+    caption: "DLF The Crest — Managing Director Cabin & Custom Library Shelving",
+    category: "Commercial",
+    sectionId: "commercial",
+    sectionTitle: "Commercial & Corporate Interiors",
+  },
+  {
+    url: "/projects/trumptower_2.jpg",
+    caption: "Trump Tower NCR — Luxury Floating Cantilever Staircase & Double-Height Glazing",
+    category: "Hospitality",
+    sectionId: "hospitality",
+    sectionTitle: "Hospitality & Turnkey Execution",
+  },
+  {
+    url: "/projects/aralias_2.jpg",
+    caption: "DLF Aralias — Drawing Room & Formal Lounge with Earthy Textures",
+    category: "Farmhouses",
+    sectionId: "farmhouses",
+    sectionTitle: "Country Estates & Farmhouses",
+  },
+  {
+    url: "/projects/aralias_3.jpg",
+    caption: "DLF Aralias — Countryside Villa Bedroom & Courtyard Views",
+    category: "Farmhouses",
+    sectionId: "farmhouses",
+    sectionTitle: "Country Estates & Farmhouses",
   },
 ];
 
