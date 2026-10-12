@@ -40,26 +40,6 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-line/50 bg-[#1e2025] text-fg">
-      {/* Top Banner / Vendor Notice Bar */}
-      <div className="border-b border-line/30 bg-[#25282f]/80 px-6 py-6">
-        <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-gold">
-              {VENDOR_NOTICE.title}
-            </span>
-            <p className="text-xs text-muted max-w-4xl leading-relaxed">
-              {VENDOR_NOTICE.text}
-            </p>
-          </div>
-          <a
-            href="mailto:info@ssinteriors.in?subject=VENDOR%20Partnership%20Inquiry"
-            className="shrink-0 border border-gold/40 px-4 py-2 text-xs uppercase tracking-widest text-gold hover:bg-gold hover:text-[#202328] transition-colors"
-          >
-            Send Profile
-          </a>
-        </div>
-      </div>
-
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">

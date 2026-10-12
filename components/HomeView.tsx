@@ -56,7 +56,7 @@ export default function HomeView() {
     if (isPaused) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 7000);
+    }, 4800);
     return () => clearInterval(timer);
   }, [isPaused]);
 
@@ -91,26 +91,26 @@ export default function HomeView() {
 
   return (
     <>
-      {/* ================= HERO SECTION ================= */}
+      {/* ================= HERO SECTION (PURE PLAIN CINEMATIC SLIDER) ================= */}
       <section
         ref={heroRef}
         id="top"
-        className="relative flex min-h-screen items-center justify-center overflow-hidden pt-20 pb-16"
+        className="relative flex min-h-screen items-center justify-center overflow-hidden"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Multi-Image Background Carousel with GPU-Accelerated Pure CSS Crossfade (Zero JANK) */}
+        {/* Multi-Image Background Carousel with GPU-Accelerated Pure CSS Crossfade */}
         <div className="absolute inset-0 h-full w-full overflow-hidden">
           {HERO_SLIDES.map((slide, idx) => (
             <div
               key={slide.image}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
                 idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
               <img
                 src={slide.image}
-                alt={slide.title}
+                alt={slide.subtitle}
                 loading={idx === 0 ? "eager" : "lazy"}
                 decoding="async"
                 className="h-full w-full object-cover object-center transform-gpu"
@@ -119,32 +119,14 @@ export default function HomeView() {
           ))}
         </div>
 
-        {/* Soft, Lightened Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-black/30 pointer-events-none z-10" />
-        <div className="absolute inset-0 bg-black/15 pointer-events-none z-10" />
+        {/* Soft, Transparent Gradient into Next Section */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1f2227]/90 via-transparent to-black/15 pointer-events-none z-10" />
 
-        {/* Central Content Block: Pure Minimal Elegance */}
-        <div className="relative z-20 mx-auto max-w-5xl px-6 text-center pointer-events-none">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="space-y-4"
-            >
-              {/* Ek Choti Line (Subheading) */}
-              <p className="text-xs uppercase tracking-[0.45em] text-gold font-sans font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                {HERO_SLIDES[currentSlide].subtitle}
-              </p>
-
-              {/* Ek Badi Line (Heading) */}
-              <h1 className="font-serif text-3xl font-light leading-snug tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] sm:text-5xl md:text-6xl max-w-4xl mx-auto">
-                &ldquo;{HERO_SLIDES[currentSlide].title}&rdquo;
-              </h1>
-            </motion.div>
-          </AnimatePresence>
+        {/* Bottom Center: Single Refined Line (Not Too Big) */}
+        <div className="absolute bottom-10 inset-x-0 z-20 mx-auto max-w-3xl px-6 text-center pointer-events-none">
+          <p className="font-serif text-sm sm:text-base md:text-lg italic text-white/95 tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+            &ldquo;{SITE.motto}&rdquo;
+          </p>
         </div>
       </section>
 

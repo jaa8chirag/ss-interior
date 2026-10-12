@@ -113,26 +113,6 @@ export default function PortfolioView() {
         </motion.div>
       </section>
 
-      {/* Vendor Notice Banner */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 mt-16">
-        <div className="border border-gold/30 bg-[#25282f] p-8 text-center space-y-3">
-          <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold">
-            {VENDOR_NOTICE.title}
-          </span>
-          <p className="mx-auto max-w-3xl text-xs text-muted leading-relaxed font-light">
-            {VENDOR_NOTICE.text}
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/contact"
-              className="text-xs uppercase tracking-widest text-gold hover:text-gold-light inline-flex items-center gap-2"
-            >
-              Contact Studio <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Lightbox Modal */}
       <ImageLightbox
         isOpen={lightboxOpen}

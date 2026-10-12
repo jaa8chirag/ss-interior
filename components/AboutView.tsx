@@ -44,7 +44,7 @@ export default function AboutView() {
               <div className="relative h-[28rem] sm:h-[34rem] w-full overflow-hidden border border-gold/30 bg-[#282c32] shadow-2xl">
                 <img
                   src="/team/founder.jpg"
-                  alt="Vishan Kumar Gautam — Founder & Principal Director, SS Interiors"
+                  alt="Vishan Kumar Gautam — Founder & Creator, SS Interiors"
                   className="h-full w-full object-cover object-top"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#16181b]/95 via-[#16181b]/20 to-transparent" />
@@ -53,7 +53,7 @@ export default function AboutView() {
                     Vishan Kumar Gautam
                   </p>
                   <span className="text-[11px] uppercase tracking-widest text-gold block mt-0.5 font-sans font-medium">
-                    Founder &amp; Principal Director
+                    Founder &amp; Creator
                   </span>
                 </div>
               </div>
@@ -157,18 +157,6 @@ export default function AboutView() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Vendor Notice Banner */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 pb-12">
-        <div className="border border-gold/30 bg-[#25282f] p-8 text-center space-y-3">
-          <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold">
-            {VENDOR_NOTICE.title}
-          </span>
-          <p className="mx-auto max-w-3xl text-xs text-muted leading-relaxed font-light">
-            {VENDOR_NOTICE.text}
-          </p>
         </div>
       </section>
     </div>

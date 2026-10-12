@@ -44,15 +44,15 @@ export default function Navbar() {
                   href={n.href}
                   className={`relative text-xs uppercase tracking-[0.22em] transition-colors duration-300 ${
                     isActive
-                      ? "text-gold font-semibold"
-                      : "text-fg/80 hover:text-gold-light"
+                      ? "text-white font-bold"
+                      : "text-white/90 hover:text-white"
                   }`}
                 >
                   {n.label}
                   {isActive && (
                     <motion.span
                       layoutId="nav-indicator"
-                      className="absolute -bottom-2 inset-x-0 h-0.5 gold-bg"
+                      className="absolute -bottom-2 inset-x-0 h-0.5 bg-white"
                     />
                   )}
                 </Link>
@@ -65,10 +65,10 @@ export default function Navbar() {
         <div className="hidden items-center gap-6 lg:flex">
           <a
             href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
-            className="flex items-center gap-2 text-xs uppercase tracking-widest text-muted hover:text-gold transition-colors"
+            className="flex items-center gap-2 text-xs uppercase tracking-widest text-white hover:text-white/80 transition-colors"
           >
-            <Phone className="h-3.5 w-3.5 text-gold" />
-            <span className="hidden xl:inline">{SITE.phone}</span>
+            <Phone className="h-3.5 w-3.5 text-white" />
+            <span className="hidden xl:inline text-white font-medium">{SITE.phone}</span>
           </a>
           <Link
             href="/contact"
@@ -82,7 +82,7 @@ export default function Navbar() {
         <button
           aria-label="Toggle Navigation Menu"
           onClick={() => setOpen((o) => !o)}
-          className="border border-line/60 bg-[#282c30] p-2.5 text-gold lg:hidden rounded-sm hover:border-gold transition-colors"
+          className="border border-line/60 bg-[#282c30] p-2.5 text-white lg:hidden rounded-sm hover:border-white transition-colors"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
