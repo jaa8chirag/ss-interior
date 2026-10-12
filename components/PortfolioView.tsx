@@ -7,11 +7,7 @@ import { Expand, ArrowRight } from "lucide-react";
 import ImageLightbox from "./ImageLightbox";
 import { SHOWCASE_SECTIONS, SITE, VENDOR_NOTICE } from "@/lib/site";
 
-const CATEGORIES = ["All", "DLF Camellias", "DLF Magnolias", "DLF Aralias", "Trump Tower & The Crest"] as const;
-
 export default function PortfolioView() {
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<{ url: string; caption: string }[]>([]);
@@ -27,13 +23,8 @@ export default function PortfolioView() {
     }))
   );
 
-  const filteredProjects =
-    activeCategory === "All"
-      ? allProjects
-      : allProjects.filter((p) => p.category === activeCategory);
-
   const openLightbox = (index: number) => {
-    setLightboxImages(filteredProjects.map((p) => ({ url: p.url, caption: p.caption })));
+    setLightboxImages(allProjects.map((p) => ({ url: p.url, caption: p.caption })));
     setLightboxIndex(index);
     setLightboxOpen(true);
   };
@@ -51,30 +42,13 @@ export default function PortfolioView() {
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted font-light">
           A showcase of bespoke residences, expansive country estates, forward-thinking corporate headquarters, and high-touch hospitality venues designed and executed by SS Interiors since 2016.
         </p>
-
-        {/* Filter Tabs */}
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 text-xs uppercase tracking-widest transition-all duration-300 rounded-sm ${
-                activeCategory === cat
-                  ? "gold-bg text-[#22252a] font-semibold shadow-md shadow-gold/15"
-                  : "border border-line/60 bg-[#25282f] text-fg/80 hover:border-gold hover:text-gold"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
       </section>
 
       {/* Projects Grid */}
       <section className="mx-auto max-w-7xl px-6 lg:px-10 py-8">
         <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence>
-            {filteredProjects.map((project, idx) => (
+            {allProjects.map((project, idx) => (
               <motion.div
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
