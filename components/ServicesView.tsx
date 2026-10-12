@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Compass, Layers, Palette, ShieldCheck, Sparkles } from "lucide-react";
@@ -97,6 +98,23 @@ const PROCESS_STEPS = [
 ];
 
 export default function ServicesView() {
+  useEffect(() => {
+    const scrollToHash = () => {
+      if (typeof window !== "undefined" && window.location.hash) {
+        const id = window.location.hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 150);
+        }
+      }
+    };
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
+
   return (
     <div className="pt-28 pb-24 bg-[#1e2025]">
       {/* Header */}
@@ -119,7 +137,8 @@ export default function ServicesView() {
           return (
             <div
               key={service.id}
-              className={`grid gap-12 lg:grid-cols-12 items-center rounded-sm border border-line/50 bg-[#25282e]/80 p-8 sm:p-12 transition-all hover:border-gold/50 hover:shadow-2xl hover:shadow-black/40`}
+              id={service.id}
+              className={`scroll-mt-32 grid gap-12 lg:grid-cols-12 items-center rounded-sm border border-line/50 bg-[#25282e]/80 p-8 sm:p-12 transition-all hover:border-gold/50 hover:shadow-2xl hover:shadow-black/40`}
             >
               <div
                 className={`lg:col-span-6 ${

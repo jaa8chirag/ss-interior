@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDown, ArrowRight, Expand, Plus, Sparkles, Award } from "lucide-react";
 import Brand from "./Brand";
 import ClientSlider from "./ClientSlider";
@@ -47,8 +47,6 @@ const HERO_SLIDES = [
 
 export default function HomeView() {
   const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
   // Slider State
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -61,6 +59,24 @@ export default function HomeView() {
     }, 7000);
     return () => clearInterval(timer);
   }, [isPaused]);
+
+  // Smooth hash scroll on mount and hash changes
+  useEffect(() => {
+    const scrollToHash = () => {
+      if (typeof window !== "undefined" && window.location.hash) {
+        const id = window.location.hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 150);
+        }
+      }
+    };
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
+  }, []);
 
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -83,42 +99,39 @@ export default function HomeView() {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Multi-Image Background Carousel with Ultra-Smooth, Slow Cinematic Crossfade */}
+        {/* Multi-Image Background Carousel with GPU-Accelerated Pure CSS Crossfade (Zero JANK) */}
         <div className="absolute inset-0 h-full w-full overflow-hidden">
-          <AnimatePresence mode="sync">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{
-                opacity: { duration: 2.4, ease: [0.4, 0, 0.2, 1] },
-                scale: { duration: 3.0, ease: "easeOut" },
-              }}
-              className="absolute inset-0 h-full w-full"
+          {HERO_SLIDES.map((slide, idx) => (
+            <div
+              key={slide.image}
+              className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ease-in-out ${
+                idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+              }`}
             >
               <img
-                src={HERO_SLIDES[currentSlide].image}
-                alt={HERO_SLIDES[currentSlide].title}
-                className="h-full w-full object-cover object-center"
+                src={slide.image}
+                alt={slide.title}
+                loading={idx === 0 ? "eager" : "lazy"}
+                decoding="async"
+                className="h-full w-full object-cover object-center transform-gpu"
               />
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          ))}
         </div>
 
-        {/* Soft, Lightened Overlays (drastically reduced black for natural, bright image clarity) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-black/30 pointer-events-none" />
-        <div className="absolute inset-0 bg-black/15 pointer-events-none" />
+        {/* Soft, Lightened Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-black/30 pointer-events-none z-10" />
+        <div className="absolute inset-0 bg-black/15 pointer-events-none z-10" />
 
-        {/* Central Content Block: Pure Minimal Elegance - 1 Badi Line & 1 Choti Line */}
-        <div className="relative z-10 mx-auto max-w-5xl px-6 text-center pointer-events-none">
+        {/* Central Content Block: Pure Minimal Elegance */}
+        <div className="relative z-20 mx-auto max-w-5xl px-6 text-center pointer-events-none">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
               className="space-y-4"
             >
               {/* Ek Choti Line (Subheading) */}

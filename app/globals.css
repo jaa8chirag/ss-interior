@@ -89,9 +89,13 @@ body {
 }
 .marquee {
   animation: marquee 75s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .marquee-reverse {
   animation: marquee-reverse 85s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 .marquee:hover,
 .marquee-reverse:hover {

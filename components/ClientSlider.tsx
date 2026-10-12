@@ -365,7 +365,7 @@ export default function ClientSlider() {
           {row1.map((client, idx) => (
             <div
               key={`row1-${client.company}-${idx}`}
-              className="group relative flex flex-col justify-between w-72 sm:w-80 shrink-0 rounded-sm border border-line/50 bg-[#22252b]/90 p-5 backdrop-blur-sm transition-all duration-300 hover:border-gold hover:bg-[#282c34] hover:shadow-xl hover:shadow-black/50"
+              className="group relative flex flex-col justify-between w-72 sm:w-80 shrink-0 rounded-sm border border-line/50 bg-[#22252b] p-5 transition-all duration-300 hover:border-gold hover:bg-[#282c34] hover:shadow-xl hover:shadow-black/50"
             >
               {/* Top: Logo & Company Name */}
               <div className="flex items-center justify-between border-b border-line/30 pb-3">
@@ -402,7 +402,7 @@ export default function ClientSlider() {
           {row2.map((client, idx) => (
             <div
               key={`row2-${client.company}-${idx}`}
-              className="group relative flex flex-col justify-between w-72 sm:w-80 shrink-0 rounded-sm border border-line/50 bg-[#22252b]/90 p-5 backdrop-blur-sm transition-all duration-300 hover:border-gold hover:bg-[#282c34] hover:shadow-xl hover:shadow-black/50"
+              className="group relative flex flex-col justify-between w-72 sm:w-80 shrink-0 rounded-sm border border-line/50 bg-[#22252b] p-5 transition-all duration-300 hover:border-gold hover:bg-[#282c34] hover:shadow-xl hover:shadow-black/50"
             >
               {/* Top: Logo & Company Name */}
               <div className="flex items-center justify-between border-b border-line/30 pb-3">
