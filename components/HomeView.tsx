@@ -48,17 +48,15 @@ const HERO_SLIDES = [
 export default function HomeView() {
   const heroRef = useRef<HTMLElement>(null);
 
-  // Slider State
+  // Slider State (Auto-transitions every 2 seconds continuously)
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
-    if (isPaused) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4800);
+    }, 2000);
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, []);
 
   // Smooth hash scroll on mount and hash changes
   useEffect(() => {
@@ -96,15 +94,13 @@ export default function HomeView() {
         ref={heroRef}
         id="top"
         className="relative flex min-h-screen items-center justify-center overflow-hidden"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
       >
         {/* Multi-Image Background Carousel with GPU-Accelerated Pure CSS Crossfade */}
         <div className="absolute inset-0 h-full w-full overflow-hidden">
           {HERO_SLIDES.map((slide, idx) => (
             <div
               key={slide.image}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
+              className={`absolute inset-0 h-full w-full transition-opacity duration-500 ease-in-out ${
                 idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
