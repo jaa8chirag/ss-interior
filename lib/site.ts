@@ -102,41 +102,6 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     ],
   },
   {
-    id: "commercial",
-    title: "Commercial & Corporate Interiors",
-    category: "Commercial",
-    tagline: "Executive Workspaces & Corporate Headquarters",
-    description:
-      "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
-    featuredImage: "/projects/corp_15.jpg",
-    gallery: [
-      {
-        url: "/projects/corp_15.jpg",
-        caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
-      },
-      {
-        url: "/projects/corp_16.jpg",
-        caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Ambient Linears",
-      },
-      {
-        url: "/projects/corp_18.jpg",
-        caption: "Acoustic Glass Partition Executive Desks & Precision LED Layouts",
-      },
-      {
-        url: "/projects/corp_20.jpg",
-        caption: "Director Executive Cabin — Sleek Minimalist Desk & Custom Credenza",
-      },
-      {
-        url: "/projects/corp_26.jpg",
-        caption: "Managing Director Leadership Suite — Marble Conference Setting",
-      },
-      {
-        url: "/projects/corp_27.jpg",
-        caption: "Corporate Reception Lounge & Acoustic Feature Wall Detailing",
-      },
-    ],
-  },
-  {
     id: "farmhouses",
     title: "Country Estates & Farmhouses",
     category: "Farmhouses",
@@ -168,6 +133,41 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
       {
         url: "/projects/aralias_4.jpg",
         caption: "Dining Sanctuary & Courtyard Views — Hand-Poured Terrazzo & Brass Hardware",
+      },
+    ],
+  },
+  {
+    id: "commercial",
+    title: "Commercial & Corporate Interiors",
+    category: "Commercial",
+    tagline: "Executive Workspaces & Corporate Headquarters",
+    description:
+      "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
+    featuredImage: "/projects/corp_15.jpg",
+    gallery: [
+      {
+        url: "/projects/corp_15.jpg",
+        caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
+      },
+      {
+        url: "/projects/corp_16.jpg",
+        caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Ambient Linears",
+      },
+      {
+        url: "/projects/corp_18.jpg",
+        caption: "Acoustic Glass Partition Executive Desks & Precision LED Layouts",
+      },
+      {
+        url: "/projects/corp_20.jpg",
+        caption: "Director Executive Cabin — Sleek Minimalist Desk & Custom Credenza",
+      },
+      {
+        url: "/projects/corp_26.jpg",
+        caption: "Managing Director Leadership Suite — Marble Conference Setting",
+      },
+      {
+        url: "/projects/corp_27.jpg",
+        caption: "Corporate Reception Lounge & Acoustic Feature Wall Detailing",
       },
     ],
   },

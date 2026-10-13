@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowDown, ArrowRight, Expand, Plus, Sparkles, Award } from "lucide-react";
+import { Expand } from "lucide-react";
 import Brand from "./Brand";
 import ClientSlider from "./ClientSlider";
 import ContactSection from "./ContactSection";
@@ -120,62 +120,35 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* ================= 4 SERVICES SHOWCASE SECTIONS (LEFT BIG IMAGE, RIGHT DETAILS) ================= */}
+      {/* ================= 4 SERVICES SHOWCASE SECTIONS (TITLE ON TOP, FULL GRAND IMAGE) ================= */}
       {SHOWCASE_SECTIONS.map((section, sIndex) => {
         return (
           <section
             key={section.id}
             id={section.id}
-            className={`scroll-mt-20 py-8 sm:py-10 border-b border-line content-auto ${
+            className={`scroll-mt-20 py-12 sm:py-16 border-b border-line content-auto ${
               sIndex % 2 === 0 ? "bg-white" : "bg-[#fcfaf7]"
             }`}
           >
-            <div className="mx-auto max-w-7xl px-6 lg:px-10">
-              <div className="grid gap-8 lg:gap-12 lg:grid-cols-12 items-center">
-                {/* LEFT: Grand Big Image Showcase Slider */}
-                <div className="lg:col-span-7 xl:col-span-8">
-                  <SectionImageSlider
-                    items={section.gallery}
-                    sectionCategory={section.category}
-                    onOpenLightbox={(imgIdx) => openLightbox(section.gallery, imgIdx)}
-                    autoplayDelay={3600 + sIndex * 500}
-                  />
-                </div>
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+              {/* Title on TOP (Clean, normal & elegant — no right-side text clutter) */}
+              <div className="mb-6 sm:mb-8 text-center max-w-3xl mx-auto space-y-2">
+                <span className="text-[11px] uppercase tracking-[0.38em] text-gold font-sans font-medium block">
+                  Services · 0{sIndex + 1}
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light text-fg leading-tight">
+                  {section.title}
+                </h2>
+              </div>
 
-                {/* RIGHT: Refined Minimal Details */}
-                <div className="lg:col-span-5 xl:col-span-4 space-y-6">
-                  <div>
-                    <span className="text-[11px] uppercase tracking-[0.38em] text-gold font-sans font-medium block">
-                      Services · 0{sIndex + 1}
-                    </span>
-                    <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-5xl font-light text-fg leading-[1.15]">
-                      {section.title}
-                    </h2>
-                    <p className="mt-2.5 font-serif text-base sm:text-lg italic text-gold">
-                      {section.tagline}
-                    </p>
-                  </div>
-
-                  <p className="text-sm leading-relaxed text-muted font-light line-clamp-4">
-                    {section.description}
-                  </p>
-
-                  <div className="pt-2 flex items-center gap-4">
-                    <Link
-                      href={`/portfolio#${section.id}`}
-                      className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#17181c] text-white hover:bg-gold transition-colors text-xs uppercase tracking-[0.22em] font-medium rounded-xs shadow-sm"
-                    >
-                      <span>View Projects</span>
-                      <ArrowRight className="h-3.5 w-3.5 text-gold hover:text-white" />
-                    </Link>
-                    <Link
-                      href="/contact"
-                      className="text-xs uppercase tracking-[0.22em] text-fg/80 hover:text-gold transition-colors font-medium border-b border-line hover:border-gold pb-0.5"
-                    >
-                      Inquire
-                    </Link>
-                  </div>
-                </div>
+              {/* Full Width Grand Image Slider */}
+              <div className="w-full">
+                <SectionImageSlider
+                  items={section.gallery}
+                  sectionCategory={section.category}
+                  onOpenLightbox={(imgIdx) => openLightbox(section.gallery, imgIdx)}
+                  autoplayDelay={3600 + sIndex * 500}
+                />
               </div>
             </div>
           </section>

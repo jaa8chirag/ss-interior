@@ -64,7 +64,7 @@ export default function SectionImageSlider({
         onClick={() => onOpenLightbox(current)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="group relative h-[420px] sm:h-[500px] md:h-[560px] lg:h-[600px] w-full overflow-hidden rounded-md border border-line bg-[#ede8df] shadow-sm cursor-pointer select-none"
+        className="group relative h-[460px] sm:h-[560px] md:h-[640px] lg:h-[700px] xl:h-[740px] w-full overflow-hidden rounded-md border border-gold/30 hover:border-gold/60 bg-[#ede8df] shadow-md cursor-pointer select-none transition-colors"
       >
         {items.map((item, idx) => (
           <div
