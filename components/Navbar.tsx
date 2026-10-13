@@ -20,12 +20,15 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isHome = pathname === "/";
+  const showSolidHeader = !isHome || scrolled || open;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open
+        showSolidHeader
           ? "border-b border-line/80 bg-[#faf8f5]/95 backdrop-blur-md shadow-sm"
-          : "bg-gradient-to-b from-black/60 via-black/20 to-transparent"
+          : "bg-transparent"
       }`}
     >
       <nav className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 lg:px-10">
@@ -43,7 +46,7 @@ export default function Navbar() {
                 <Link
                   href={n.href}
                   className={`relative text-xs uppercase tracking-[0.22em] transition-colors duration-300 ${
-                    scrolled
+                    showSolidHeader
                       ? isActive
                         ? "text-gold font-bold"
                         : "text-fg/80 hover:text-gold"
@@ -57,7 +60,7 @@ export default function Navbar() {
                     <motion.span
                       layoutId="nav-indicator"
                       className={`absolute -bottom-2 inset-x-0 h-0.5 ${
-                        scrolled ? "bg-gold" : "bg-white"
+                        showSolidHeader ? "bg-gold" : "bg-white"
                       }`}
                     />
                   )}
@@ -72,12 +75,12 @@ export default function Navbar() {
           <a
             href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
             className={`flex items-center gap-2 text-xs uppercase tracking-widest transition-colors ${
-              scrolled
+              showSolidHeader
                 ? "text-fg hover:text-gold"
                 : "text-white hover:text-white/80 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
             }`}
           >
-            <Phone className={`h-3.5 w-3.5 ${scrolled ? "text-[#846326]" : "text-white drop-shadow-sm"}`} />
+            <Phone className={`h-3.5 w-3.5 ${showSolidHeader ? "text-[#846326]" : "text-white drop-shadow-sm"}`} />
             <span className="hidden xl:inline font-medium">{SITE.phone}</span>
           </a>
           <Link
@@ -93,7 +96,7 @@ export default function Navbar() {
           aria-label="Toggle Navigation Menu"
           onClick={() => setOpen((o) => !o)}
           className={`border p-2.5 lg:hidden rounded-sm transition-colors ${
-            scrolled
+            showSolidHeader
               ? "border-line bg-white text-fg hover:border-gold"
               : "border-white/40 bg-black/40 text-white hover:border-white"
           }`}
