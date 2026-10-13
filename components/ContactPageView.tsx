@@ -26,19 +26,16 @@ export default function ContactPageView() {
   }
 
   return (
-    <div className="pt-28 pb-20 bg-[#faf8f5] text-fg">
+    <div className="pt-24 pb-16 bg-[#faf8f5] text-fg">
       {/* Header */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-12 text-center">
-        <h1 className="font-serif text-4xl sm:text-6xl font-light text-fg">
+      <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-4 pb-2 text-center">
+        <h1 className="font-serif text-3xl sm:text-5xl font-light text-fg">
           Contact Studio
         </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted font-light">
-          We welcome inquiries for bespoke residential commissions, expansive country estates, forward-thinking corporate headquarters, and high-touch hospitality projects.
-        </p>
       </section>
 
       {/* Main Content Grid */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-6">
+      <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-4 pb-8">
         <div className="grid gap-16 lg:grid-cols-12 items-start">
           {/* Coordinates & Info */}
           <div className="lg:col-span-5 space-y-8">
