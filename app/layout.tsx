@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import Intro from "@/components/Intro";
+import SiteShell from "@/components/SiteShell";
 
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"] });
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
@@ -20,10 +18,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning className={`${outfit.variable} ${playfair.variable}`}>
-      <body suppressHydrationWarning className="flex min-h-screen flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body suppressHydrationWarning className="flex min-h-screen flex-col bg-bg text-fg">
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

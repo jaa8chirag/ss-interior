@@ -174,9 +174,6 @@ export default function Footer() {
         <div className="mt-16 pt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
           <p>© {new Date().getFullYear()} {SITE.name}. All Rights Reserved. Since {SITE.since}.</p>
           <div className="flex items-center gap-6">
-            <Link href="/admin" className="hover:text-gold transition-colors text-[11px] uppercase tracking-wider">
-              Studio Portal
-            </Link>
             <Link href="/contact" className="hover:text-gold transition-colors">
               Terms &amp; Conditions
             </Link>

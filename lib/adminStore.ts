@@ -5,6 +5,7 @@ export interface LeadItem {
   name: string;
   phone: string;
   email: string;
+  city?: string;
   category: string;
   message: string;
   createdAt: string;
