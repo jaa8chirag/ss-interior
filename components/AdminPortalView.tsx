@@ -32,6 +32,8 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Check,
+  Pencil,
+  RotateCcw,
 } from "lucide-react";
 import {
   LeadItem,
@@ -40,12 +42,13 @@ import {
   fetchLeadsFromDb,
   updateLeadStatus,
   deleteLead,
-  getCustomProjects,
+  getProjects,
   fetchProjectsFromDb,
-  addCustomProject,
-  deleteCustomProject,
+  addProject,
+  updateProject,
+  deleteProject,
+  resetProjectsToDefault,
 } from "@/lib/adminStore";
-import { SITE } from "@/lib/site";
 
 const DEFAULT_ADMIN_PASSCODE = "admin123";
 
@@ -64,9 +67,10 @@ export default function AdminPortalView() {
   const [leadFilter, setLeadFilter] = useState<string>("all");
   const [leadSearch, setLeadSearch] = useState<string>("");
 
-  // Projects State
-  const [customProjects, setCustomProjects] = useState<AdminProjectItem[]>([]);
+  // Projects State (unified: initial 38 studio projects + custom uploaded projects)
+  const [projects, setProjects] = useState<AdminProjectItem[]>([]);
   const [projectCategoryFilter, setProjectCategoryFilter] = useState<string>("all");
+  const [projectSearch, setProjectSearch] = useState<string>("");
 
   // Add Project Form State
   const [formCategory, setFormCategory] = useState<"Residential" | "Farmhouses" | "Commercial" | "Hospitality">("Residential");
@@ -78,6 +82,17 @@ export default function AdminPortalView() {
   const [formSuccessMessage, setFormSuccessMessage] = useState("");
   const [isSubmittingProject, setIsSubmittingProject] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Edit Project Modal State
+  const [editingProject, setEditingProject] = useState<AdminProjectItem | null>(null);
+  const [editCategory, setEditCategory] = useState<"Residential" | "Farmhouses" | "Commercial" | "Hospitality">("Residential");
+  const [editProjectName, setEditProjectName] = useState("");
+  const [editClientScope, setEditClientScope] = useState("");
+  const [editLocation, setEditLocation] = useState("");
+  const [editCaption, setEditCaption] = useState("");
+  const [editImageUrl, setEditImageUrl] = useState("");
+  const [isSavingEdit, setIsSavingEdit] = useState(false);
+  const editFileInputRef = useRef<HTMLInputElement>(null);
 
   // Database status
   const [dbStatus, setDbStatus] = useState<"checking" | "connected" | "offline">("checking");
@@ -98,7 +113,7 @@ export default function AdminPortalView() {
     const startTime = performance.now();
     try {
       setLeads(getLeads());
-      setCustomProjects(getCustomProjects());
+      setProjects(getProjects());
 
       const [dbLeads, dbProjects] = await Promise.all([
         fetchLeadsFromDb(),
@@ -116,7 +131,7 @@ export default function AdminPortalView() {
       }
 
       if (dbProjects) {
-        setCustomProjects(dbProjects);
+        setProjects(dbProjects);
       }
     } catch {
       setDbStatus("offline");
@@ -154,7 +169,7 @@ export default function AdminPortalView() {
     setPasscode("");
   };
 
-  // Image Upload handler (converts file to base64)
+  // Image Upload handler for Add form
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -172,6 +187,25 @@ export default function AdminPortalView() {
     reader.readAsDataURL(file);
   };
 
+  // Image Upload handler for Edit modal
+  const handleEditFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload a valid image file (JPG, PNG, WebP).");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      setEditImageUrl(result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Add Project Submit
   const handleAddProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formImageUrl.trim() || !formCaption.trim() || !formProjectName.trim()) {
@@ -183,7 +217,7 @@ export default function AdminPortalView() {
     const subId = formProjectName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
     try {
-      await addCustomProject({
+      await addProject({
         category: formCategory,
         projectName: formProjectName.trim(),
         subProjectId: subId,
@@ -210,7 +244,72 @@ export default function AdminPortalView() {
     }
   };
 
-  // Export Leads to CSV for Excel/Spreadsheets
+  // Start Edit Project
+  const handleStartEdit = (proj: AdminProjectItem) => {
+    setEditingProject(proj);
+    setEditCategory(proj.category);
+    setEditProjectName(proj.projectName);
+    setEditClientScope(proj.clientScope);
+    setEditLocation(proj.location);
+    setEditCaption(proj.caption);
+    setEditImageUrl(proj.url);
+  };
+
+  // Save Edit Project Submit
+  const handleSaveEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProject) return;
+
+    if (!editImageUrl.trim() || !editCaption.trim() || !editProjectName.trim()) {
+      alert("Please provide Project Name, Caption, and Image URL.");
+      return;
+    }
+
+    setIsSavingEdit(true);
+    const subId = editProjectName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+    try {
+      await updateProject(editingProject.id, {
+        category: editCategory,
+        projectName: editProjectName.trim(),
+        subProjectId: subId,
+        clientScope: editClientScope.trim() || "Bespoke Turnkey Fit-Out",
+        location: editLocation.trim() || "Delhi NCR",
+        caption: editCaption.trim(),
+        url: editImageUrl.trim(),
+      });
+
+      setEditingProject(null);
+      await refreshData();
+    } catch {
+      alert("Failed to update project. Please try again.");
+    } finally {
+      setIsSavingEdit(false);
+    }
+  };
+
+  // Delete Project
+  const handleDeleteProject = async (proj: AdminProjectItem) => {
+    const confirmMsg = `Delete project photo:\n"${proj.caption}"\nfrom "${proj.projectName}"?\n\nThis will remove it from the live website immediately.`;
+    if (confirm(confirmMsg)) {
+      await deleteProject(proj.id, proj.url);
+      await refreshData();
+    }
+  };
+
+  // Reset to original 38 studio projects
+  const handleResetToDefaults = () => {
+    if (
+      confirm(
+        "Are you sure you want to restore all original studio default projects? Any deleted default photos will be restored."
+      )
+    ) {
+      resetProjectsToDefault();
+      refreshData();
+    }
+  };
+
+  // Export Leads to CSV
   const exportLeadsToCsv = () => {
     if (leads.length === 0) {
       alert("No leads available to export.");
@@ -253,11 +352,20 @@ export default function AdminPortalView() {
     });
   }, [leads, leadFilter, leadSearch]);
 
-  // Filtered Custom Projects
+  // Filtered Projects (initial + custom)
   const filteredProjects = useMemo(() => {
-    if (projectCategoryFilter === "all") return customProjects;
-    return customProjects.filter((p) => p.category === projectCategoryFilter);
-  }, [customProjects, projectCategoryFilter]);
+    return projects.filter((p) => {
+      const matchesCategory = projectCategoryFilter === "all" || p.category === projectCategoryFilter;
+      const searchLower = projectSearch.toLowerCase();
+      const matchesSearch =
+        !projectSearch.trim() ||
+        p.projectName.toLowerCase().includes(searchLower) ||
+        p.caption.toLowerCase().includes(searchLower) ||
+        p.location.toLowerCase().includes(searchLower) ||
+        p.clientScope.toLowerCase().includes(searchLower);
+      return matchesCategory && matchesSearch;
+    });
+  }, [projects, projectCategoryFilter, projectSearch]);
 
   const newLeadsCount = leads.filter((l) => l.status === "New").length;
 
@@ -265,7 +373,6 @@ export default function AdminPortalView() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[#090a0f] text-white flex items-center justify-center p-6 relative overflow-hidden font-sans">
-        {/* Ambient background glows */}
         <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[#c5a059]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -283,7 +390,7 @@ export default function AdminPortalView() {
               </h1>
             </div>
             <p className="text-xs text-white/50 font-light leading-relaxed">
-              Standalone administrative portal for client CRM, MySQL leads sync, and portfolio curation.
+              Standalone administrative portal for client CRM, MySQL leads sync, and full portfolio project editing.
             </p>
           </div>
 
@@ -445,7 +552,7 @@ export default function AdminPortalView() {
           >
             <div className="flex items-center gap-2.5">
               <ImageIcon className="h-4 w-4" />
-              <span>Project Media</span>
+              <span>Project Works</span>
             </div>
             <span
               className={`text-[10px] px-2 py-0.5 rounded-full ${
@@ -454,7 +561,7 @@ export default function AdminPortalView() {
                   : "bg-white/10 text-white/70"
               }`}
             >
-              {customProjects.length}
+              {projects.length}
             </span>
           </button>
 
@@ -524,13 +631,13 @@ export default function AdminPortalView() {
             <h1 className="text-lg sm:text-xl font-serif text-white flex items-center gap-2">
               {activeTab === "dashboard" && "Dashboard Overview"}
               {activeTab === "leads" && "Client Leads Management"}
-              {activeTab === "projects" && "Project Showcase Media"}
+              {activeTab === "projects" && "Project Works Management (Edit, Delete, Add)"}
               {activeTab === "database" && "MySQL Database Configuration"}
             </h1>
             <p className="text-xs text-white/50">
               {activeTab === "dashboard" && "Live studio performance, inquiry volume, and content pipeline."}
               {activeTab === "leads" && "Incoming consultation inquiries from public contact touchpoints."}
-              {activeTab === "projects" && "Upload and curate high-resolution photos for portfolio domains."}
+              {activeTab === "projects" && "Edit existing initial photos, delete unwanted works, or publish new project images."}
               {activeTab === "database" && "Real-time sync between Next.js REST API and MySQL storage."}
             </p>
           </div>
@@ -602,11 +709,11 @@ export default function AdminPortalView() {
 
                 <div className="bg-[#12141d] border border-white/10 rounded-lg p-5 relative overflow-hidden">
                   <div className="flex items-center justify-between text-white/60 mb-2">
-                    <span className="text-xs uppercase tracking-wider font-medium">Custom Media</span>
+                    <span className="text-xs uppercase tracking-wider font-medium">Active Projects</span>
                     <ImageIcon className="h-4 w-4 text-[#c5a059]" />
                   </div>
-                  <div className="text-3xl font-light text-[#c5a059] font-serif">{customProjects.length}</div>
-                  <p className="text-[11px] text-white/40 mt-1">Uploaded project showcases</p>
+                  <div className="text-3xl font-light text-[#c5a059] font-serif">{projects.length}</div>
+                  <p className="text-[11px] text-white/40 mt-1">Fully editable &amp; manageable</p>
                 </div>
 
                 <div className="bg-[#12141d] border border-white/10 rounded-lg p-5 relative overflow-hidden">
@@ -705,9 +812,9 @@ export default function AdminPortalView() {
                     <div className="w-10 h-10 rounded-md bg-[#1c202d] border border-[#c5a059]/40 flex items-center justify-center text-[#c5a059]">
                       <Upload className="h-5 w-5" />
                     </div>
-                    <h3 className="text-base font-serif text-white">Publish Project Media</h3>
+                    <h3 className="text-base font-serif text-white">Full Project Curation</h3>
                     <p className="text-xs text-white/50 leading-relaxed">
-                      Add new site photography directly to Residential, DLF Towers, Farmhouses, Commercial or Hospitality sections.
+                      All {projects.length} project photos (including DLF Camellias, Magnolias, Aralias, Trump Tower) can now be edited, replaced, or deleted with real-time website updates.
                     </p>
                   </div>
 
@@ -715,8 +822,8 @@ export default function AdminPortalView() {
                     onClick={() => setActiveTab("projects")}
                     className="w-full bg-[#c5a059] hover:bg-[#d4b069] text-[#0e1017] font-semibold py-2.5 text-xs uppercase tracking-wider rounded-md transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <Plus className="h-4 w-4" />
-                    <span>Upload New Photo</span>
+                    <Pencil className="h-4 w-4" />
+                    <span>Manage &amp; Edit Projects</span>
                   </button>
                 </div>
               </div>
@@ -791,7 +898,6 @@ export default function AdminPortalView() {
                       <tbody className="divide-y divide-white/5">
                         {filteredLeads.map((lead) => (
                           <tr key={lead.id} className="hover:bg-white/[0.02] transition-colors">
-                            {/* Client */}
                             <td className="p-4 align-top">
                               <div className="font-semibold text-white">{lead.name}</div>
                               <div className="text-[11px] text-white/40 mt-0.5 flex items-center gap-1">
@@ -803,7 +909,6 @@ export default function AdminPortalView() {
                               </div>
                             </td>
 
-                            {/* Contact Details */}
                             <td className="p-4 align-top space-y-1">
                               <a
                                 href={`tel:${lead.phone}`}
@@ -827,21 +932,18 @@ export default function AdminPortalView() {
                               )}
                             </td>
 
-                            {/* Project Scope */}
                             <td className="p-4 align-top">
                               <span className="inline-block px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white/90 font-medium">
                                 {lead.category}
                               </span>
                             </td>
 
-                            {/* Message */}
                             <td className="p-4 align-top max-w-xs">
                               <p className="text-white/70 text-[11px] line-clamp-3 leading-relaxed">
                                 {lead.message}
                               </p>
                             </td>
 
-                            {/* Status Selector */}
                             <td className="p-4 align-top">
                               <select
                                 value={lead.status}
@@ -868,7 +970,6 @@ export default function AdminPortalView() {
                               </select>
                             </td>
 
-                            {/* Actions */}
                             <td className="p-4 align-top text-right">
                               <div className="flex items-center justify-end gap-1.5">
                                 <a
@@ -914,251 +1015,289 @@ export default function AdminPortalView() {
             </div>
           )}
 
-          {/* ================= SECTION 3: PROJECT IMAGES ================= */}
+          {/* ================= SECTION 3: PROJECT WORKS MANAGEMENT (EDIT, DELETE, ADD NEW) ================= */}
           {activeTab === "projects" && (
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Form: Upload new project */}
-              <div className="lg:col-span-5 bg-[#12141d] border border-white/10 rounded-lg p-6 space-y-5">
-                <div>
-                  <h2 className="text-base font-serif text-white flex items-center gap-2">
-                    <Upload className="h-4 w-4 text-[#c5a059]" />
-                    <span>Publish Project Photo</span>
-                  </h2>
-                  <p className="text-xs text-white/50 mt-0.5">
-                    Images will instantly appear in the public project slider and gallery.
-                  </p>
+            <div className="space-y-6">
+              {/* Top Controls: Search, Filter, Reset */}
+              <div className="bg-[#12141d] border border-white/10 rounded-lg p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+                {/* Search in Projects */}
+                <div className="relative flex-1 max-w-md">
+                  <Search className="absolute left-3.5 top-3 h-4 w-4 text-white/40" />
+                  <input
+                    type="text"
+                    value={projectSearch}
+                    onChange={(e) => setProjectSearch(e.target.value)}
+                    placeholder="Search by project name, caption, location, scope..."
+                    className="w-full bg-[#0b0c11] border border-white/10 focus:border-[#c5a059] pl-10 pr-4 py-2 text-xs text-white rounded-md outline-none transition-colors"
+                  />
                 </div>
 
-                {formSuccessMessage && (
-                  <div className="p-3 bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 text-xs rounded-md flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 shrink-0" />
-                    <span>{formSuccessMessage}</span>
-                  </div>
-                )}
-
-                <form onSubmit={handleAddProjectSubmit} className="space-y-4">
-                  {/* Category */}
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
-                      Project Category
-                    </label>
-                    <select
-                      value={formCategory}
-                      onChange={(e) =>
-                        setFormCategory(
-                          e.target.value as "Residential" | "Farmhouses" | "Commercial" | "Hospitality"
-                        )
-                      }
-                      className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
-                    >
-                      <option value="Residential">Residential Projects</option>
-                      <option value="Farmhouses">Expansive Farmhouses &amp; Estates</option>
-                      <option value="Commercial">Commercial &amp; Corporate Spaces</option>
-                      <option value="Hospitality">Hospitality &amp; Lounge Spaces</option>
-                    </select>
-                  </div>
-
-                  {/* Project Name */}
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
-                      Project / Sub-Project Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formProjectName}
-                      onChange={(e) => setFormProjectName(e.target.value)}
-                      placeholder="e.g. DLF Camellias, DLF Magnolias, Central Park Villa"
-                      className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* Client Scope */}
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
-                        Client Scope
-                      </label>
-                      <input
-                        type="text"
-                        value={formClientScope}
-                        onChange={(e) => setFormClientScope(e.target.value)}
-                        placeholder="e.g. Turnkey Interior"
-                        className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
-                      />
-                    </div>
-
-                    {/* Location */}
-                    <div>
-                      <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
-                        Location
-                      </label>
-                      <input
-                        type="text"
-                        value={formLocation}
-                        onChange={(e) => setFormLocation(e.target.value)}
-                        placeholder="e.g. Gurugram, Delhi NCR"
-                        className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Caption */}
-                  <div>
-                    <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
-                      Photo Caption / Description
-                    </label>
-                    <input
-                      type="text"
-                      value={formCaption}
-                      onChange={(e) => setFormCaption(e.target.value)}
-                      placeholder="e.g. Master Suite With Custom Fluted Paneling"
-                      className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
-                      required
-                    />
-                  </div>
-
-                  {/* Image Upload or URL */}
-                  <div className="space-y-2">
-                    <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
-                      Select Image File or Paste URL
-                    </label>
-
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        accept="image/*"
-                        onChange={handleFileUpload}
-                        className="hidden"
-                        id="admin-image-upload"
-                      />
-                      <label
-                        htmlFor="admin-image-upload"
-                        className="flex-1 bg-[#181b26] border border-dashed border-white/20 hover:border-[#c5a059] text-xs text-white/80 py-3 px-4 rounded-md text-center cursor-pointer transition-colors flex items-center justify-center gap-2"
-                      >
-                        <Upload className="h-4 w-4 text-[#c5a059]" />
-                        <span>Browse Photo from Device</span>
-                      </label>
-                    </div>
-
-                    <div className="text-center text-[10px] uppercase tracking-wider text-white/40">or paste web URL</div>
-
-                    <input
-                      type="url"
-                      value={formImageUrl}
-                      onChange={(e) => setFormImageUrl(e.target.value)}
-                      placeholder="https://images.unsplash.com/..."
-                      className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
-                    />
-
-                    {formImageUrl && (
-                      <div className="mt-3 relative rounded-md overflow-hidden border border-[#c5a059]/40 aspect-video bg-black/40">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={formImageUrl}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                        <span className="absolute bottom-2 left-2 bg-black/80 text-[10px] px-2 py-0.5 rounded text-white font-mono">
-                          Live Preview
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmittingProject}
-                    className="w-full bg-gradient-to-r from-[#c5a059] to-[#dfbf77] text-[#0e1017] font-semibold py-3 text-xs uppercase tracking-widest rounded-md hover:brightness-105 active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50"
-                  >
-                    {isSubmittingProject ? "Publishing..." : "Publish to Live Website"}
-                  </button>
-                </form>
-              </div>
-
-              {/* Published Custom Media Gallery */}
-              <div className="lg:col-span-7 bg-[#12141d] border border-white/10 rounded-lg p-6 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <h2 className="text-base font-serif text-white">
-                      Published Media ({filteredProjects.length})
-                    </h2>
-                    <p className="text-xs text-white/50">Custom photos rendered across website portfolios.</p>
-                  </div>
-
-                  {/* Category Filter */}
-                  <div className="flex items-center gap-1 bg-[#0b0c11] border border-white/10 rounded-md p-1">
+                {/* Category Filter & Reset */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex items-center bg-[#0b0c11] border border-white/10 rounded-md p-1">
                     {["all", "Residential", "Farmhouses", "Commercial", "Hospitality"].map((cat) => (
                       <button
                         key={cat}
                         onClick={() => setProjectCategoryFilter(cat)}
-                        className={`px-2.5 py-1 text-[11px] rounded transition-colors ${
+                        className={`px-3 py-1 text-xs rounded transition-colors ${
                           projectCategoryFilter === cat
                             ? "bg-[#c5a059] text-[#0e1017] font-semibold"
                             : "text-white/60 hover:text-white"
                         }`}
                       >
-                        {cat}
+                        {cat === "all" ? "All" : cat}
                       </button>
                     ))}
                   </div>
-                </div>
 
-                {filteredProjects.length === 0 ? (
-                  <div className="p-16 text-center text-white/40 text-xs border border-dashed border-white/10 rounded-md">
-                    No custom photos published in this category yet. Use the upload form on the left.
+                  <button
+                    onClick={handleResetToDefaults}
+                    className="px-3 py-2 rounded-md bg-[#1b1e2a] border border-white/10 hover:border-amber-500/50 text-xs text-white/80 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+                    title="Restore initial 38 studio projects"
+                  >
+                    <RotateCcw className="h-3.5 w-3.5 text-amber-400" />
+                    <span className="hidden sm:inline">Reset Defaults</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Split View: Left (Add New Project Form) & Right (All Projects Grid with Edit / Delete) */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Left Form: Add New Project Photo */}
+                <div className="lg:col-span-4 bg-[#12141d] border border-white/10 rounded-lg p-6 space-y-5 h-fit sticky top-24">
+                  <div>
+                    <h2 className="text-base font-serif text-white flex items-center gap-2">
+                      <Plus className="h-4 w-4 text-[#c5a059]" />
+                      <span>Add New Project Photo</span>
+                    </h2>
+                    <p className="text-xs text-white/50 mt-0.5">
+                      Publish new photography into any project category.
+                    </p>
                   </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[600px] overflow-y-auto pr-1">
-                    {filteredProjects.map((proj) => (
-                      <div
-                        key={proj.id}
-                        className="bg-[#0e1017] border border-white/10 rounded-md overflow-hidden group relative flex flex-col"
+
+                  {formSuccessMessage && (
+                    <div className="p-3 bg-emerald-950/50 border border-emerald-500/40 text-emerald-300 text-xs rounded-md flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 shrink-0" />
+                      <span>{formSuccessMessage}</span>
+                    </div>
+                  )}
+
+                  <form onSubmit={handleAddProjectSubmit} className="space-y-4">
+                    {/* Category */}
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                        Project Category
+                      </label>
+                      <select
+                        value={formCategory}
+                        onChange={(e) =>
+                          setFormCategory(
+                            e.target.value as "Residential" | "Farmhouses" | "Commercial" | "Hospitality"
+                          )
+                        }
+                        className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
                       >
-                        <div className="relative aspect-video overflow-hidden bg-black">
+                        <option value="Residential">Residential Projects</option>
+                        <option value="Farmhouses">Expansive Farmhouses &amp; Estates</option>
+                        <option value="Commercial">Commercial &amp; Corporate Spaces</option>
+                        <option value="Hospitality">Hospitality &amp; Lounge Spaces</option>
+                      </select>
+                    </div>
+
+                    {/* Project Name */}
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                        Project Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formProjectName}
+                        onChange={(e) => setFormProjectName(e.target.value)}
+                        placeholder="e.g. DLF Camellias, DLF Magnolias, Central Park"
+                        className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                        required
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                          Client Scope
+                        </label>
+                        <input
+                          type="text"
+                          value={formClientScope}
+                          onChange={(e) => setFormClientScope(e.target.value)}
+                          placeholder="e.g. Turnkey Fit-Out"
+                          className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                          Location
+                        </label>
+                        <input
+                          type="text"
+                          value={formLocation}
+                          onChange={(e) => setFormLocation(e.target.value)}
+                          placeholder="e.g. Gurugram, Delhi NCR"
+                          className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Caption */}
+                    <div>
+                      <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                        Photo Caption / Details
+                      </label>
+                      <input
+                        type="text"
+                        value={formCaption}
+                        onChange={(e) => setFormCaption(e.target.value)}
+                        placeholder="e.g. Grand Master Suite With Fluted Marble Paneling"
+                        className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                        required
+                      />
+                    </div>
+
+                    {/* Image Upload or URL */}
+                    <div className="space-y-2">
+                      <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                        Select Photo File or Paste URL
+                      </label>
+
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          accept="image/*"
+                          onChange={handleFileUpload}
+                          className="hidden"
+                          id="admin-new-image-upload"
+                        />
+                        <label
+                          htmlFor="admin-new-image-upload"
+                          className="flex-1 bg-[#181b26] border border-dashed border-white/20 hover:border-[#c5a059] text-xs text-white/80 py-2.5 px-4 rounded-md text-center cursor-pointer transition-colors flex items-center justify-center gap-2"
+                        >
+                          <Upload className="h-4 w-4 text-[#c5a059]" />
+                          <span>Browse from Device</span>
+                        </label>
+                      </div>
+
+                      <input
+                        type="text"
+                        value={formImageUrl}
+                        onChange={(e) => setFormImageUrl(e.target.value)}
+                        placeholder="Or paste /projects/photo.jpg or URL"
+                        className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                      />
+
+                      {formImageUrl && (
+                        <div className="mt-2 relative rounded-md overflow-hidden border border-[#c5a059]/40 aspect-video bg-black/40">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={proj.url}
-                            alt={proj.caption}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            src={formImageUrl}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
                           />
-                          <span className="absolute top-2 left-2 bg-black/80 backdrop-blur-xs text-[10px] text-[#c5a059] font-medium px-2 py-0.5 rounded border border-[#c5a059]/30">
-                            {proj.category}
-                          </span>
                         </div>
+                      )}
+                    </div>
 
-                        <div className="p-3 flex-1 flex flex-col justify-between space-y-2">
-                          <div>
-                            <h4 className="font-semibold text-white text-xs">{proj.projectName}</h4>
-                            <p className="text-white/60 text-[11px] line-clamp-1 mt-0.5">{proj.caption}</p>
-                            <p className="text-white/40 text-[10px] mt-1">
-                              {proj.location} • {proj.clientScope}
-                            </p>
-                          </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmittingProject}
+                      className="w-full bg-gradient-to-r from-[#c5a059] to-[#dfbf77] text-[#0e1017] font-semibold py-2.5 text-xs uppercase tracking-widest rounded-md hover:brightness-105 active:scale-[0.99] transition-all cursor-pointer disabled:opacity-50"
+                    >
+                      {isSubmittingProject ? "Publishing..." : "Add to Live Website"}
+                    </button>
+                  </form>
+                </div>
 
-                          <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                            <span className="text-[10px] text-emerald-400 flex items-center gap-1">
-                              <Check className="h-3 w-3" /> Live on Site
-                            </span>
-
-                            <button
-                              onClick={() => {
-                                if (confirm(`Remove this image from ${proj.projectName}?`)) {
-                                  deleteCustomProject(proj.url, proj.id);
-                                }
-                              }}
-                              className="text-xs text-rose-400 hover:text-rose-300 flex items-center gap-1 cursor-pointer"
-                            >
-                              <Trash2 className="h-3 w-3" />
-                              <span>Delete</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                {/* Right Gallery: All Projects List (with Edit and Delete) */}
+                <div className="lg:col-span-8 bg-[#12141d] border border-white/10 rounded-lg p-6 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-base font-serif text-white">
+                        Project Works ({filteredProjects.length})
+                      </h2>
+                      <p className="text-xs text-white/50">
+                        Click <span className="text-[#c5a059] font-medium">Edit</span> to change captions/photos, or <span className="text-rose-400 font-medium">Delete</span> to remove from website.
+                      </p>
+                    </div>
                   </div>
-                )}
+
+                  {filteredProjects.length === 0 ? (
+                    <div className="p-16 text-center text-white/40 text-xs border border-dashed border-white/10 rounded-md">
+                      No project photos found matching your search.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[800px] overflow-y-auto pr-1">
+                      {filteredProjects.map((proj) => (
+                        <div
+                          key={proj.id}
+                          className="bg-[#0e1017] border border-white/10 hover:border-[#c5a059]/40 rounded-md overflow-hidden group relative flex flex-col transition-colors"
+                        >
+                          <div className="relative aspect-video overflow-hidden bg-black">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={proj.url}
+                              alt={proj.caption}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            <div className="absolute top-2 left-2 flex items-center gap-1.5">
+                              <span className="bg-black/80 backdrop-blur-xs text-[10px] text-[#c5a059] font-medium px-2 py-0.5 rounded border border-[#c5a059]/30">
+                                {proj.category}
+                              </span>
+                              {proj.isCustom && (
+                                <span className="bg-sky-950/80 text-[9px] text-sky-300 px-1.5 py-0.5 rounded border border-sky-600/30">
+                                  Custom
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="p-3 flex-1 flex flex-col justify-between space-y-2">
+                            <div>
+                              <h4 className="font-semibold text-white text-xs">{proj.projectName}</h4>
+                              <p className="text-white/70 text-[11px] line-clamp-2 mt-0.5 leading-relaxed">
+                                {proj.caption}
+                              </p>
+                              <p className="text-white/40 text-[10px] mt-1">
+                                {proj.location} • {proj.clientScope}
+                              </p>
+                            </div>
+
+                            <div className="flex items-center justify-between pt-2.5 border-t border-white/5">
+                              <span className="text-[10px] text-emerald-400 flex items-center gap-1">
+                                <Check className="h-3 w-3" /> Live
+                              </span>
+
+                              <div className="flex items-center gap-2">
+                                <button
+                                  onClick={() => handleStartEdit(proj)}
+                                  className="px-2.5 py-1 rounded bg-[#181b26] border border-white/15 hover:border-[#c5a059] text-[11px] text-[#c5a059] flex items-center gap-1 transition-colors cursor-pointer"
+                                >
+                                  <Pencil className="h-3 w-3" />
+                                  <span>Edit</span>
+                                </button>
+
+                                <button
+                                  onClick={() => handleDeleteProject(proj)}
+                                  className="px-2.5 py-1 rounded bg-rose-950/30 border border-rose-800/30 hover:border-rose-600 text-[11px] text-rose-400 flex items-center gap-1 transition-colors cursor-pointer"
+                                >
+                                  <Trash2 className="h-3 w-3" />
+                                  <span>Delete</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -1190,7 +1329,7 @@ export default function AdminPortalView() {
                 </div>
 
                 <p className="text-xs text-white/70 leading-relaxed">
-                  SS Interiors uses a robust multi-layer data architecture: when your MySQL server is running, all consultation leads and custom portfolio photos are stored directly in SQL tables (<code className="text-[#c5a059] font-mono">leads</code> and <code className="text-[#c5a059] font-mono">projects</code>). If offline, high-speed local caching ensures zero downtime for public visitors.
+                  SS Interiors uses a robust multi-layer data architecture: when your MySQL server is running, all consultation leads and portfolio photo updates are stored directly in SQL tables (<code className="text-[#c5a059] font-mono">leads</code> and <code className="text-[#c5a059] font-mono">projects</code>). If offline, high-speed local caching ensures zero downtime for public visitors.
                 </p>
 
                 {/* DB Details Grid */}
@@ -1208,9 +1347,9 @@ export default function AdminPortalView() {
                   </div>
 
                   <div className="bg-[#0b0c11] border border-white/5 rounded p-3">
-                    <span className="text-[10px] uppercase text-white/40 block">Custom Photos In Store</span>
-                    <span className="text-sm font-semibold text-white mt-1 block">{customProjects.length} Photos</span>
-                    <span className="text-[10px] text-white/40 mt-1 block">Synced with showcases</span>
+                    <span className="text-[10px] uppercase text-white/40 block">Active Project Photos</span>
+                    <span className="text-sm font-semibold text-white mt-1 block">{projects.length} Works</span>
+                    <span className="text-[10px] text-white/40 mt-1 block">Fully editable &amp; synced</span>
                   </div>
                 </div>
 
@@ -1236,6 +1375,163 @@ DB_NAME=ss_interior_db`}
           )}
         </div>
       </main>
+
+      {/* ================= EDIT PROJECT MODAL ================= */}
+      {editingProject && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-lg bg-[#12141c] border border-[#c5a059]/40 rounded-lg shadow-2xl p-6 space-y-5 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center gap-2">
+                <Pencil className="h-4 w-4 text-[#c5a059]" />
+                <h3 className="font-serif text-lg text-white font-medium">Edit Project Photo</h3>
+              </div>
+              <button
+                onClick={() => setEditingProject(null)}
+                className="text-white/40 hover:text-white p-1 rounded"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditSubmit} className="space-y-4">
+              {/* Category */}
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                  Project Category
+                </label>
+                <select
+                  value={editCategory}
+                  onChange={(e) =>
+                    setEditCategory(
+                      e.target.value as "Residential" | "Farmhouses" | "Commercial" | "Hospitality"
+                    )
+                  }
+                  className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                >
+                  <option value="Residential">Residential Projects</option>
+                  <option value="Farmhouses">Expansive Farmhouses &amp; Estates</option>
+                  <option value="Commercial">Commercial &amp; Corporate Spaces</option>
+                  <option value="Hospitality">Hospitality &amp; Lounge Spaces</option>
+                </select>
+              </div>
+
+              {/* Project Name */}
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                  Project Name
+                </label>
+                <input
+                  type="text"
+                  value={editProjectName}
+                  onChange={(e) => setEditProjectName(e.target.value)}
+                  className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                    Client Scope
+                  </label>
+                  <input
+                    type="text"
+                    value={editClientScope}
+                    onChange={(e) => setEditClientScope(e.target.value)}
+                    className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    value={editLocation}
+                    onChange={(e) => setEditLocation(e.target.value)}
+                    className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Caption */}
+              <div>
+                <label className="block text-[11px] uppercase tracking-wider text-white/70 mb-1 font-medium">
+                  Photo Caption
+                </label>
+                <input
+                  type="text"
+                  value={editCaption}
+                  onChange={(e) => setEditCaption(e.target.value)}
+                  className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                  required
+                />
+              </div>
+
+              {/* Image URL or Replace Photo */}
+              <div className="space-y-2">
+                <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                  Image Source (URL or Replace from Device)
+                </label>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="file"
+                    ref={editFileInputRef}
+                    accept="image/*"
+                    onChange={handleEditFileUpload}
+                    className="hidden"
+                    id="admin-edit-image-upload"
+                  />
+                  <label
+                    htmlFor="admin-edit-image-upload"
+                    className="flex-1 bg-[#181b26] border border-dashed border-white/20 hover:border-[#c5a059] text-xs text-white/80 py-2 px-3 rounded-md text-center cursor-pointer transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Upload className="h-3.5 w-3.5 text-[#c5a059]" />
+                    <span>Upload Replacement Image</span>
+                  </label>
+                </div>
+
+                <input
+                  type="text"
+                  value={editImageUrl}
+                  onChange={(e) => setEditImageUrl(e.target.value)}
+                  className="w-full bg-[#0b0c11] border border-white/15 focus:border-[#c5a059] px-3 py-2 text-xs text-white rounded-md outline-none"
+                  required
+                />
+
+                {editImageUrl && (
+                  <div className="mt-2 relative rounded-md overflow-hidden border border-white/10 aspect-video bg-black/40 max-h-36">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={editImageUrl}
+                      alt="Edit Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setEditingProject(null)}
+                  className="px-4 py-2 rounded-md bg-[#181b26] border border-white/10 text-xs text-white/70 hover:text-white transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingEdit}
+                  className="px-5 py-2 rounded-md bg-[#c5a059] hover:bg-[#d4b069] text-[#0e1017] text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  {isSavingEdit ? "Saving..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

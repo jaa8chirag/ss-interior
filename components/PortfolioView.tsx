@@ -1,9 +1,8 @@
 "use client";
-
 import { useState, useMemo, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Expand, Home, Trees, Briefcase, Sparkles, Layers, MapPin, Building2, UserCheck } from "lucide-react";
 import ImageLightbox from "./ImageLightbox";
-import { getCustomProjects } from "@/lib/adminStore";
+import { getProjects } from "@/lib/adminStore";
 
 export interface DetailedProject {
   url: string;
@@ -658,21 +657,22 @@ export default function PortfolioView() {
     return MAIN_TABS.find((t) => t.id === selectedMainTabId) || MAIN_TABS[0];
   }, [selectedMainTabId]);
 
-  // Custom projects added via Admin Portal
-  const [customProjects, setCustomProjects] = useState<DetailedProject[]>([]);
+  // Active projects from unified admin store (including edited/deleted initial projects and newly added projects)
+  const [projectsList, setProjectsList] = useState<DetailedProject[]>(ALL_PROJECT_DATA);
 
   useEffect(() => {
-    const loadCustom = () => {
-      setCustomProjects(getCustomProjects());
+    const loadProjects = () => {
+      const active = getProjects();
+      if (active && active.length > 0) {
+        setProjectsList(active as DetailedProject[]);
+      }
     };
-    loadCustom();
-    window.addEventListener("ss_projects_updated", loadCustom);
-    return () => window.removeEventListener("ss_projects_updated", loadCustom);
+    loadProjects();
+    window.addEventListener("ss_projects_updated", loadProjects);
+    return () => window.removeEventListener("ss_projects_updated", loadProjects);
   }, []);
 
-  const allCombinedProjects = useMemo(() => {
-    return [...customProjects, ...ALL_PROJECT_DATA];
-  }, [customProjects]);
+  const allCombinedProjects = projectsList;
 
   // Projects filtered by the single selected category tab
   const categoryBaseProjects = useMemo(() => {

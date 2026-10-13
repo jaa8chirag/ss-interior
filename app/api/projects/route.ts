@@ -82,3 +82,42 @@ export async function DELETE(request: Request) {
     );
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const { id, url, category, projectName, subProjectId, clientScope, location, caption, newUrl } = body;
+
+    const targetUrl = newUrl || url;
+    const subId = subProjectId || (projectName ? projectName.toLowerCase().replace(/[^a-z0-9]+/g, "-") : undefined);
+
+    if (id && typeof id === "number") {
+      await query(
+        "UPDATE projects SET category = ?, project_name = ?, sub_project_id = ?, client_scope = ?, location = ?, caption = ?, image_url = ? WHERE id = ?",
+        [category, projectName, subId, clientScope || "Bespoke Turnkey Fit-Out", location || "Delhi NCR", caption, targetUrl, id]
+      );
+    } else if (url) {
+      // Try updating existing row or insert if not yet in MySQL
+      const rows: any = await query("SELECT id FROM projects WHERE image_url = ?", [url]);
+      if (rows && rows.length > 0) {
+        await query(
+          "UPDATE projects SET category = ?, project_name = ?, sub_project_id = ?, client_scope = ?, location = ?, caption = ?, image_url = ? WHERE image_url = ?",
+          [category, projectName, subId, clientScope || "Bespoke Turnkey Fit-Out", location || "Delhi NCR", caption, targetUrl, url]
+        );
+      } else {
+        await query(
+          "INSERT INTO projects (category, project_name, sub_project_id, client_scope, location, caption, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)",
+          [category, projectName, subId, clientScope || "Bespoke Turnkey Fit-Out", location || "Delhi NCR", caption, targetUrl]
+        );
+      }
+    }
+
+    return NextResponse.json({ success: true, message: "Project image updated successfully" });
+  } catch (error: any) {
+    return NextResponse.json(
+      { success: false, error: error.message || "Failed to update project image" },
+      { status: 500 }
+    );
+  }
+}
+
