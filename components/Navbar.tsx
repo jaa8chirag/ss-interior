@@ -11,9 +11,11 @@ import { NAV, SITE } from "@/lib/site";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -21,10 +23,11 @@ export default function Navbar() {
   }, []);
 
   const isHome = pathname === "/";
-  const showSolidHeader = !isHome || scrolled || open;
+  const showSolidHeader = !isHome || (mounted && (scrolled || open));
 
   return (
     <header
+      suppressHydrationWarning
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         showSolidHeader
           ? "border-b border-line/80 bg-[#faf8f5]/95 backdrop-blur-md shadow-sm"
@@ -71,8 +74,9 @@ export default function Navbar() {
         </ul>
 
         {/* Action button & direct phone */}
-        <div className="hidden items-center gap-6 lg:flex">
+        <div suppressHydrationWarning className="hidden items-center gap-6 lg:flex">
           <a
+            suppressHydrationWarning
             href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
             className={`flex items-center gap-2 text-xs uppercase tracking-widest transition-colors ${
               showSolidHeader
@@ -84,6 +88,7 @@ export default function Navbar() {
             <span className="hidden xl:inline font-medium">{SITE.phone}</span>
           </a>
           <Link
+            suppressHydrationWarning
             href="/contact"
             className="gold-bg px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-md shadow-gold/20 transition-all duration-300 hover:brightness-105"
           >
