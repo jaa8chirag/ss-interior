@@ -28,11 +28,8 @@ export default function ContactPageView() {
   return (
     <div className="pt-28 pb-20 bg-[#faf8f5] text-fg">
       {/* Header */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16 text-center">
-        <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
-          Get In Touch
-        </span>
-        <h1 className="mt-3 font-serif text-4xl sm:text-6xl font-light text-fg">
+      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-12 text-center">
+        <h1 className="font-serif text-4xl sm:text-6xl font-light text-fg">
           Contact Studio
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted font-light">
