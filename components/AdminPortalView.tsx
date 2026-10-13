@@ -27,9 +27,11 @@ import {
   LeadItem,
   AdminProjectItem,
   getLeads,
+  fetchLeadsFromDb,
   updateLeadStatus,
   deleteLead,
   getCustomProjects,
+  fetchProjectsFromDb,
   addCustomProject,
   deleteCustomProject,
 } from "@/lib/adminStore";
@@ -71,10 +73,17 @@ export default function AdminPortalView() {
     }
   }, []);
 
-  // Load data
-  const refreshData = () => {
+  // Load data from MySQL with cache
+  const refreshData = async () => {
     setLeads(getLeads());
     setCustomProjects(getCustomProjects());
+
+    // Fetch live from MySQL database
+    const dbLeads = await fetchLeadsFromDb();
+    if (dbLeads) setLeads(dbLeads);
+
+    const dbProjects = await fetchProjectsFromDb();
+    if (dbProjects) setCustomProjects(dbProjects);
   };
 
   useEffect(() => {
