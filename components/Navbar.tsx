@@ -84,7 +84,7 @@ export default function Navbar() {
             href="/contact"
             className="gold-bg px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-md shadow-gold/20 transition-all duration-300 hover:brightness-105"
           >
-            Consultation
+            Contact
           </Link>
         </div>
 
@@ -142,7 +142,7 @@ export default function Navbar() {
                   href="/contact"
                   className="block text-center gold-bg py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white rounded-xs shadow-md"
                 >
-                  Book Free Consultation
+                  Contact Us
                 </Link>
               </div>
             </div>
