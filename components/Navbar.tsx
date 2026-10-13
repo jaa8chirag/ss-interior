@@ -24,8 +24,8 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled || open
-          ? "border-b border-line/60 bg-[#22252a]/95 backdrop-blur-xl shadow-xl shadow-black/30"
-          : "bg-gradient-to-b from-[#1b1d22]/90 via-[#1b1d22]/40 to-transparent"
+          ? "border-b border-line/80 bg-[#faf8f5]/95 backdrop-blur-md shadow-sm"
+          : "bg-gradient-to-b from-black/60 via-black/20 to-transparent"
       }`}
     >
       <nav className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 lg:px-10">
@@ -43,16 +43,22 @@ export default function Navbar() {
                 <Link
                   href={n.href}
                   className={`relative text-xs uppercase tracking-[0.22em] transition-colors duration-300 ${
-                    isActive
-                      ? "text-white font-bold"
-                      : "text-white/90 hover:text-white"
+                    scrolled
+                      ? isActive
+                        ? "text-gold font-bold"
+                        : "text-fg/80 hover:text-gold"
+                      : isActive
+                        ? "text-white font-bold drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
+                        : "text-white/95 hover:text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
                   }`}
                 >
                   {n.label}
                   {isActive && (
                     <motion.span
                       layoutId="nav-indicator"
-                      className="absolute -bottom-2 inset-x-0 h-0.5 bg-white"
+                      className={`absolute -bottom-2 inset-x-0 h-0.5 ${
+                        scrolled ? "bg-gold" : "bg-white"
+                      }`}
                     />
                   )}
                 </Link>
@@ -65,14 +71,18 @@ export default function Navbar() {
         <div className="hidden items-center gap-6 lg:flex">
           <a
             href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
-            className="flex items-center gap-2 text-xs uppercase tracking-widest text-white hover:text-white/80 transition-colors"
+            className={`flex items-center gap-2 text-xs uppercase tracking-widest transition-colors ${
+              scrolled
+                ? "text-fg hover:text-gold"
+                : "text-white hover:text-white/80 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
+            }`}
           >
-            <Phone className="h-3.5 w-3.5 text-white" />
-            <span className="hidden xl:inline text-white font-medium">{SITE.phone}</span>
+            <Phone className={`h-3.5 w-3.5 ${scrolled ? "text-[#846326]" : "text-white drop-shadow-sm"}`} />
+            <span className="hidden xl:inline font-medium">{SITE.phone}</span>
           </a>
           <Link
             href="/contact"
-            className="gold-bg px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#22252a] shadow-lg shadow-gold/10 transition-all duration-300 hover:brightness-110 hover:shadow-gold/25"
+            className="gold-bg px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-md shadow-gold/20 transition-all duration-300 hover:brightness-105"
           >
             Consultation
           </Link>
@@ -82,7 +92,11 @@ export default function Navbar() {
         <button
           aria-label="Toggle Navigation Menu"
           onClick={() => setOpen((o) => !o)}
-          className="border border-line/60 bg-[#282c30] p-2.5 text-white lg:hidden rounded-sm hover:border-white transition-colors"
+          className={`border p-2.5 lg:hidden rounded-sm transition-colors ${
+            scrolled
+              ? "border-line bg-white text-fg hover:border-gold"
+              : "border-white/40 bg-black/40 text-white hover:border-white"
+          }`}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -96,7 +110,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden border-b border-line/60 bg-[#22252a] lg:hidden"
+            className="overflow-hidden border-b border-line bg-[#faf8f5] text-fg lg:hidden shadow-xl"
           >
             <div className="px-6 py-8 space-y-5">
               <ul className="space-y-3" onClick={() => setOpen(false)}>
@@ -107,7 +121,7 @@ export default function Navbar() {
                       <Link
                         href={n.href}
                         className={`block py-2 font-serif text-2xl tracking-wide transition-colors ${
-                          isActive ? "gold-text font-bold" : "text-fg/90 hover:text-gold"
+                          isActive ? "gold-text font-bold" : "text-fg/80 hover:text-gold"
                         }`}
                       >
                         {n.label}
@@ -117,7 +131,7 @@ export default function Navbar() {
                 })}
               </ul>
 
-              <div className="pt-6 border-t border-line/40 space-y-4" onClick={() => setOpen(false)}>
+              <div className="pt-6 border-t border-line space-y-4" onClick={() => setOpen(false)}>
                 <a
                   href={`tel:${SITE.phone.replace(/\s+/g, "")}`}
                   className="flex items-center gap-3 text-sm text-gold tracking-wider"
@@ -126,7 +140,7 @@ export default function Navbar() {
                 </a>
                 <Link
                   href="/contact"
-                  className="block text-center gold-bg py-3 text-xs font-semibold uppercase tracking-[0.25em] text-[#22252a]"
+                  className="block text-center gold-bg py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white rounded-xs shadow-md"
                 >
                   Book Free Consultation
                 </Link>

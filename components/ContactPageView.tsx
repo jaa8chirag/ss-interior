@@ -6,7 +6,7 @@ import Brand from "./Brand";
 import { SITE, VENDOR_NOTICE } from "@/lib/site";
 
 const fieldClasses =
-  "w-full border border-line/60 bg-[#25282f]/80 px-4 py-3.5 text-sm outline-none transition focus:border-gold placeholder:text-muted/60 text-fg";
+  "w-full border border-line bg-white px-4 py-3.5 text-sm outline-none transition focus:border-gold placeholder:text-muted/60 text-fg rounded-xs shadow-xs";
 
 export default function ContactPageView() {
   const [submitted, setSubmitted] = useState(false);
@@ -26,7 +26,7 @@ export default function ContactPageView() {
   }
 
   return (
-    <div className="pt-28 pb-20 bg-[#1e2025]">
+    <div className="pt-28 pb-20 bg-[#faf8f5] text-fg">
       {/* Header */}
       <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16 text-center">
         <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
@@ -45,10 +45,10 @@ export default function ContactPageView() {
         <div className="grid gap-16 lg:grid-cols-12 items-start">
           {/* Coordinates & Info */}
           <div className="lg:col-span-5 space-y-8">
-            <div className="border border-line/60 bg-[#25282f] p-8 space-y-6 shadow-xl">
-              <Brand size="lg" showText={true} />
+            <div className="border border-line bg-white p-8 space-y-6 shadow-sm rounded-sm">
+              <Brand size="md" showText={false} />
 
-              <div className="pt-4 border-t border-line/40 space-y-5">
+              <div className="pt-4 border-t border-line space-y-5">
                 <div className="flex items-start gap-4 text-sm text-muted">
                   <MapPin className="h-5 w-5 text-gold shrink-0 mt-1" />
                   <div>
@@ -92,7 +92,7 @@ export default function ContactPageView() {
             </div>
 
             {/* Vendor Callout Card */}
-            <div className="border border-gold/40 bg-[#282c32] p-6 space-y-2">
+            <div className="border border-gold/40 bg-[#f4efe6] p-6 space-y-2 rounded-sm shadow-xs">
               <span className="text-xs uppercase tracking-widest text-gold font-semibold block">
                 {VENDOR_NOTICE.title}
               </span>
@@ -107,10 +107,10 @@ export default function ContactPageView() {
             <div className="frame">
               <form
                 onSubmit={onSubmit}
-                className="relative space-y-5 border border-line/60 bg-[#25282f] p-8 md:p-12 shadow-2xl"
+                className="relative space-y-5 border border-line bg-white p-8 md:p-12 shadow-lg rounded-sm"
               >
                 <div>
-                  <h2 className="font-serif text-3xl font-light text-fg">
+                  <h2 className="font-serif text-3xl font-normal text-fg">
                     Project Consultation Brief
                   </h2>
                   <p className="text-xs text-muted mt-1 font-light">
@@ -145,12 +145,12 @@ export default function ContactPageView() {
                       Project Nature *
                     </label>
                     <select name="category" required defaultValue="" className={fieldClasses}>
-                      <option value="" disabled className="bg-[#25282f]">Select Project Nature</option>
-                      <option value="Apartments" className="bg-[#25282f]">Luxury Apartment / Penthouse</option>
-                      <option value="Farmhouses" className="bg-[#25282f]">Country Estate / Farmhouse</option>
-                      <option value="Office Interior" className="bg-[#25282f]">Corporate & Commercial Headquarters</option>
-                      <option value="Hospitality" className="bg-[#25282f]">Boutique Hotel / Restaurant</option>
-                      <option value="Product Sourcing" className="bg-[#25282f]">Bespoke Furniture & Global Sourcing</option>
+                      <option value="" disabled>Select Project Nature</option>
+                      <option value="Apartments">Luxury Apartment / Penthouse</option>
+                      <option value="Farmhouses">Country Estate / Farmhouse</option>
+                      <option value="Office Interior">Corporate & Commercial Headquarters</option>
+                      <option value="Hospitality">Boutique Hotel / Restaurant</option>
+                      <option value="Product Sourcing">Bespoke Furniture & Global Sourcing</option>
                     </select>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ export default function ContactPageView() {
 
                 <button
                   type="submit"
-                  className="gold-bg flex w-full items-center justify-center gap-3 py-4 text-xs font-bold uppercase tracking-[0.25em] text-[#22252a] transition duration-300 hover:brightness-110 shadow-lg shadow-gold/15"
+                  className="gold-bg flex w-full items-center justify-center gap-3 py-4 text-xs font-semibold uppercase tracking-[0.25em] text-white transition duration-300 hover:brightness-105 shadow-md shadow-gold/20 rounded-xs cursor-pointer"
                 >
                   {submitted ? (
                     <>

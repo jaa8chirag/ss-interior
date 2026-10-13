@@ -47,7 +47,7 @@ const SERVICE_CAPABILITIES = [
     tagline: "Corporate Headquarters That Inspire & Perform",
     description:
       "Sophisticated commercial environments that reflect brand prestige and ignite executive collaboration, such as DLF The Crest suites. We provide end-to-end turnkey delivery including HVAC, MEP, smart conferencing, and ergonomic acoustics.",
-    image: "/projects/thecrest_hero.jpg",
+    image: "/projects/corp_16.jpg",
     features: [
       "Full turnkey MEP, HVAC & fire safety integration",
       "Boardrooms with immersive audio-visual design",
@@ -116,9 +116,9 @@ export default function ServicesView() {
   }, []);
 
   return (
-    <div className="pt-28 pb-24 bg-[#1e2025]">
+    <div className="pt-24 pb-16 bg-[#faf8f5] text-fg">
       {/* Header */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-12 text-center">
+      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-8 text-center">
         <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
           Comprehensive Architectural Capabilities
         </span>
@@ -131,60 +131,56 @@ export default function ServicesView() {
       </section>
 
       {/* Services List */}
-      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-8 space-y-20">
+      <section className="mx-auto max-w-7xl px-6 lg:px-10 py-4 space-y-12 sm:space-y-16">
         {SERVICE_CAPABILITIES.map((service, index) => {
           const isReversed = index % 2 !== 0;
           return (
             <div
               key={service.id}
               id={service.id}
-              className={`scroll-mt-32 grid gap-12 lg:grid-cols-12 items-center rounded-sm border border-line/50 bg-[#25282e]/80 p-8 sm:p-12 transition-all hover:border-gold/50 hover:shadow-2xl hover:shadow-black/40`}
+              className="scroll-mt-32 grid gap-8 lg:gap-12 lg:grid-cols-12 items-center rounded-sm border border-line bg-white p-3 sm:p-5 lg:p-6 transition-all hover:border-gold hover:shadow-xl"
             >
-              <div
-                className={`lg:col-span-6 ${
-                  isReversed ? "lg:order-2" : "lg:order-1"
-                }`}
-              >
-                <div className="relative h-80 sm:h-96 w-full overflow-hidden border border-line/40">
+              {/* LEFT: Grand Big Showcase Image */}
+              <div className="lg:col-span-7 xl:col-span-8">
+                <div className="relative h-[420px] sm:h-[500px] lg:h-[580px] w-full overflow-hidden rounded-sm border border-line shadow-sm bg-[#ede8df]">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
                   />
-                  <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-md border border-gold/40 px-3 py-1 font-serif text-xs text-gold">
+                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm border border-gold/40 px-3.5 py-1 font-serif text-xs text-gold shadow-xs font-medium">
                     {service.number}
                   </div>
                 </div>
               </div>
 
-              <div
-                className={`lg:col-span-6 space-y-6 ${
-                  isReversed ? "lg:order-1" : "lg:order-2"
-                }`}
-              >
+              {/* RIGHT: Refined Minimal Details */}
+              <div className="lg:col-span-5 xl:col-span-4 space-y-5">
                 <div>
-                  <span className="text-xs uppercase tracking-[0.3em] text-gold font-sans font-medium">
+                  <span className="text-xs uppercase tracking-[0.3em] text-gold font-sans font-medium block">
                     {service.tagline}
                   </span>
-                  <h2 className="mt-2 font-serif text-3xl sm:text-4xl font-light text-fg">
+                  <h2 className="mt-2 font-serif text-3xl sm:text-4xl font-light text-fg leading-tight">
                     {service.title}
                   </h2>
                 </div>
 
-                <p className="text-sm sm:text-base leading-relaxed text-muted font-light">
+                <p className="text-sm leading-relaxed text-muted font-light line-clamp-4">
                   {service.description}
                 </p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  {service.features.map((feature, fIdx) => (
-                    <div key={fIdx} className="flex items-start gap-2.5 text-xs text-fg/80">
-                      <CheckCircle2 className="h-4 w-4 text-gold shrink-0 mt-0.5" />
-                      <span>{feature}</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                  {service.features.slice(0, 4).map((feature, fIdx) => (
+                    <div key={fIdx} className="flex items-start gap-2 text-xs text-fg/90">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-gold shrink-0 mt-0.5" />
+                      <span className="line-clamp-1">{feature}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-4 flex flex-wrap items-center gap-4">
+                <div className="pt-3 flex flex-wrap items-center gap-3">
                   <Button href="/contact">Book Consultation</Button>
                   <Button href={service.projectLink} variant="ghost">
                     View Projects <ArrowRight className="h-4 w-4 ml-1 inline" />
@@ -213,7 +209,7 @@ export default function ServicesView() {
           {PROCESS_STEPS.map((p) => (
             <div
               key={p.step}
-              className="relative p-6 border border-line/60 bg-[#25282f] flex flex-col justify-between hover:border-gold/50 transition-colors"
+              className="relative p-6 border border-line bg-white flex flex-col justify-between hover:border-gold transition-colors shadow-xs rounded-sm"
             >
               <div>
                 <span className="font-serif text-3xl text-gold font-light">
@@ -233,7 +229,7 @@ export default function ServicesView() {
 
       {/* Consultation Banner */}
       <section className="mx-auto max-w-5xl px-6 lg:px-10 mt-24 text-center">
-        <div className="border border-gold/40 bg-gradient-to-b from-[#25282e] to-[#1c1e22] p-10 sm:p-14">
+        <div className="border border-gold/40 bg-[#f4efe6] p-10 sm:p-14 shadow-sm rounded-sm">
           <span className="text-xs uppercase tracking-[0.35em] text-gold font-sans font-medium">
             Turnkey Excellence Since 2016
           </span>

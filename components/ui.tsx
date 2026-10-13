@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export function Reveal({
   children,
   delay = 0,
-  className,
+  className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
@@ -13,11 +13,11 @@ export function Reveal({
 }) {
   return (
     <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 28 }}
+      className={`transform-gpu ${className}`}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, margin: "0px 0px -40px 0px" }}
+      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
@@ -46,8 +46,8 @@ export function SectionHeading({
         {eyebrow}
         {center && <span className="h-px w-8 gold-bg" />}
       </p>
-      <h2 className="font-serif text-4xl font-semibold leading-tight md:text-5xl">{title}</h2>
-      {text && <p className="mt-5 text-lg text-muted">{text}</p>}
+      <h2 className="font-serif text-4xl font-light leading-tight text-fg md:text-5xl">{title}</h2>
+      {text && <p className="mt-5 text-base text-muted font-light leading-relaxed">{text}</p>}
     </Reveal>
   );
 }
@@ -61,11 +61,11 @@ export function Button({
   children: React.ReactNode;
   variant?: "gold" | "ghost";
 }) {
-  const base = "inline-flex items-center gap-2 px-8 py-3.5 text-sm font-medium uppercase tracking-[0.18em] transition-all duration-300";
+  const base = "inline-flex items-center gap-2 px-8 py-3.5 text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 rounded-xs";
   const styles =
     variant === "gold"
-      ? "gold-bg text-[#2a2a2c] hover:brightness-110"
-      : "border border-gold/60 text-gold-light hover:bg-gold/10";
+      ? "gold-bg text-white hover:brightness-105 shadow-md shadow-gold/25"
+      : "border border-gold text-gold hover:bg-gold/10";
   return (
     <a href={href} className={`${base} ${styles}`}>
       {children}

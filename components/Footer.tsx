@@ -39,16 +39,16 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-line/50 bg-[#1e2025] text-fg">
+    <footer className="border-t border-line bg-[#f0ece5] text-fg content-auto">
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-12">
           {/* Brand & Studio Info */}
           <div className="lg:col-span-4 space-y-6">
             <Link href="/" className="inline-block">
-              <Brand size="lg" showText={true} />
+              <Brand size="md" showText={false} />
             </Link>
-            <p className="text-sm leading-relaxed text-muted max-w-sm">
+            <p className="text-sm leading-relaxed text-muted max-w-sm font-light">
               {SITE.motto}
             </p>
             <div className="flex items-center gap-3 pt-2">
@@ -57,27 +57,27 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"
-                className="h-9 w-9 rounded-full border border-line/60 flex items-center justify-center text-muted hover:border-gold hover:text-gold transition-colors"
+                className="h-9 w-9 rounded-full border border-line bg-white flex items-center justify-center text-fg hover:border-gold hover:text-gold hover:bg-[#faf8f5] transition-all shadow-xs"
               >
-                <InstagramIcon className="h-4 w-4" />
+                <InstagramIcon className="h-4 w-4 text-fg" />
               </a>
               <a
                 href={SITE.facebook}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook"
-                className="h-9 w-9 rounded-full border border-line/60 flex items-center justify-center text-muted hover:border-gold hover:text-gold transition-colors"
+                className="h-9 w-9 rounded-full border border-line bg-white flex items-center justify-center text-fg hover:border-gold hover:text-gold hover:bg-[#faf8f5] transition-all shadow-xs"
               >
-                <FacebookIcon className="h-4 w-4" />
+                <FacebookIcon className="h-4 w-4 text-fg" />
               </a>
               <a
                 href={SITE.linkedin}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
-                className="h-9 w-9 rounded-full border border-line/60 flex items-center justify-center text-muted hover:border-gold hover:text-gold transition-colors"
+                className="h-9 w-9 rounded-full border border-line bg-white flex items-center justify-center text-fg hover:border-gold hover:text-gold hover:bg-[#faf8f5] transition-all shadow-xs"
               >
-                <LinkedinIcon className="h-4 w-4" />
+                <LinkedinIcon className="h-4 w-4 text-fg" />
               </a>
             </div>
           </div>
@@ -87,14 +87,14 @@ export default function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
               Company
             </h4>
-            <ul className="space-y-2.5 text-sm text-muted">
+            <ul className="space-y-2.5 text-sm text-muted font-light">
               {NAV.map((n) => (
                 <li key={n.href}>
                   <Link
                     href={n.href}
-                    className="hover:text-gold-light transition-colors flex items-center gap-2"
+                    className="hover:text-gold transition-colors flex items-center gap-2"
                   >
-                    <span className="text-gold/40">›</span> {n.label}
+                    <span className="text-gold">›</span> {n.label}
                   </Link>
                 </li>
               ))}
@@ -106,37 +106,37 @@ export default function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
               Explore
             </h4>
-            <ul className="space-y-2.5 text-sm text-muted">
+            <ul className="space-y-2.5 text-sm text-muted font-light">
               <li>
                 <Link
                   href="/services#residential"
-                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                  className="hover:text-gold transition-colors flex items-center gap-2"
                 >
-                  <span className="text-gold/40">›</span> Luxury Residential
+                  <span className="text-gold">›</span> Luxury Residential
                 </Link>
               </li>
               <li>
                 <Link
                   href="/services#farmhouses"
-                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                  className="hover:text-gold transition-colors flex items-center gap-2"
                 >
-                  <span className="text-gold/40">›</span> Country Estates
+                  <span className="text-gold">›</span> Country Estates
                 </Link>
               </li>
               <li>
                 <Link
                   href="/services#commercial"
-                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                  className="hover:text-gold transition-colors flex items-center gap-2"
                 >
-                  <span className="text-gold/40">›</span> Commercial &amp; Offices
+                  <span className="text-gold">›</span> Commercial &amp; Offices
                 </Link>
               </li>
               <li>
                 <Link
                   href="/services#hospitality"
-                  className="hover:text-gold-light transition-colors flex items-center gap-2"
+                  className="hover:text-gold transition-colors flex items-center gap-2"
                 >
-                  <span className="text-gold/40">›</span> Hospitality &amp; Turnkey
+                  <span className="text-gold">›</span> Hospitality &amp; Turnkey
                 </Link>
               </li>
             </ul>
@@ -147,21 +147,21 @@ export default function Footer() {
             <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
               Studio Location
             </h4>
-            <div className="space-y-3 text-sm text-muted">
+            <div className="space-y-3 text-sm text-muted font-light">
               <div className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 text-gold shrink-0 mt-1" />
+                <MapPin className="h-4 w-4 text-[#846326] shrink-0 mt-1" />
                 <p className="leading-relaxed">
                   {SITE.address}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-gold shrink-0" />
+                <Phone className="h-4 w-4 text-[#846326] shrink-0" />
                 <a href={`tel:${SITE.phone.replace(/\s+/g, "")}`} className="hover:text-gold transition-colors">
                   {SITE.phone}
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-gold shrink-0" />
+                <Mail className="h-4 w-4 text-[#846326] shrink-0" />
                 <a href={`mailto:${SITE.email}`} className="hover:text-gold transition-colors">
                   {SITE.email}
                 </a>
@@ -171,7 +171,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Credits & Back to Top */}
-        <div className="mt-16 pt-8 border-t border-line/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+        <div className="mt-16 pt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
           <p>© {new Date().getFullYear()} {SITE.name}. All Rights Reserved. Since {SITE.since}.</p>
           <div className="flex items-center gap-6">
             <Link href="/contact" className="hover:text-gold transition-colors">
@@ -179,9 +179,10 @@ export default function Footer() {
             </Link>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-2 hover:text-gold transition-colors uppercase tracking-widest text-[11px]"
+              suppressHydrationWarning
+              className="flex items-center gap-2 text-fg hover:text-gold transition-colors uppercase tracking-widest text-[11px] font-medium cursor-pointer"
             >
-              Back to Top <ArrowUp className="h-3.5 w-3.5 text-gold" />
+              Back to Top <ArrowUp className="h-3.5 w-3.5 text-[#846326]" />
             </button>
           </div>
         </div>

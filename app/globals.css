@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
-/* Palette sampled from the SS Interiors logo: luxury charcoal slate field, champagne-gold line work and typography. */
+/* Luxury Light Palette: Warm alabaster & soft ivory field, crisp white surfaces, architectural champagne gold accents, deep rich charcoal typography. */
 :root {
-  --bg: #22252a;
-  --bg-2: #1c1e22;
-  --surface: #2b2e35;
-  --line: rgba(215, 199, 150, 0.22);
-  --gold-1: #e4d5aa;
-  --gold-2: #d1b882;
-  --gold-3: #ba9f67;
-  --fg: #f5f2eb;
-  --muted: #aba89f;
+  --bg: #faf8f5;
+  --bg-2: #f2eee8;
+  --surface: #ffffff;
+  --line: #e4dfd5;
+  --gold-1: #c9ab6f;
+  --gold-2: #9e7b38;
+  --gold-3: #755922;
+  --fg: #17181c;
+  --muted: #585863;
 }
 
 @theme inline {
@@ -29,6 +29,7 @@
 
 html {
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -36,28 +37,36 @@ body {
   color: var(--fg);
   font-family: var(--font-outfit), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 ::selection {
-  background: var(--gold-2);
-  color: #1e2025;
+  background: #e9deb9;
+  color: #17181c;
 }
 
 .gold-text {
-  background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+  background: linear-gradient(135deg, #bfa063 0%, #9e7b38 55%, #755922 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .gold-bg {
-  background: linear-gradient(135deg, var(--gold-1), var(--gold-2) 55%, var(--gold-3));
+  background: linear-gradient(135deg, #c9ab6f, #9e7b38 55%, #755922);
+}
+
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 700px;
 }
 
 /* Frame with an offset second line, used behind images and cards. */
 .frame {
   position: relative;
 }
+
 .frame::before {
   content: "";
   position: absolute;
@@ -79,24 +88,29 @@ body {
     transform: translateX(-50%);
   }
 }
+
 @keyframes marquee-reverse {
   from {
     transform: translateX(-50%);
   }
+
   to {
     transform: translateX(0%);
   }
 }
+
 .marquee {
   animation: marquee 75s linear infinite;
   will-change: transform;
   transform: translateZ(0);
 }
+
 .marquee-reverse {
   animation: marquee-reverse 85s linear infinite;
   will-change: transform;
   transform: translateZ(0);
 }
+
 .marquee:hover,
 .marquee-reverse:hover {
   animation-play-state: paused;
@@ -106,6 +120,7 @@ body {
   .marquee {
     animation: none;
   }
+
   html {
     scroll-behavior: auto;
   }

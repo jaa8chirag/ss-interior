@@ -9,6 +9,7 @@ import Brand from "./Brand";
 import ClientSlider from "./ClientSlider";
 import ContactSection from "./ContactSection";
 import ImageLightbox from "./ImageLightbox";
+import SectionImageSlider from "./SectionImageSlider";
 import { Button, Reveal, SectionHeading } from "./ui";
 import {
   SITE,
@@ -19,36 +20,31 @@ import {
 
 const HERO_SLIDES = [
   {
+    image: "/hero_luxury.jpg",
+    subtitle: "Grand Estate Sanctuaries · Double-Height Architectural Living",
+  },
+  {
     image: "/projects/camellias_hero.jpg",
     subtitle: `DLF Camellias · Super-Penthouses & Residences · Est. ${SITE.since}`,
-    title: SITE.motto,
   },
   {
     image: "/projects/trumptower_hero.jpg",
     subtitle: "Trump Tower NCR · Presidential Duplex Penthouses",
-    title: "Timeless architectural aesthetics crafted with understated grandeur",
   },
   {
-    image: "/projects/itc_maurya_hero.jpg",
-    subtitle: "ITC Maurya · Grand Presidential Suite Turnkey Execution",
-    title: "Hospitality grandeur and presidential suites executed with peerless finesse",
+    image: "/projects/thecrest_2.jpg",
+    subtitle: "The Crest, DLF Phase 5 · Super-Luxury Master Suite & Private Sanctuary",
   },
   {
     image: "/projects/aralias_hero.jpg",
     subtitle: "DLF Aralias · Golf-Facing Architectural Sanctuaries",
-    title: "Where luxury meets lifestyle, room by room",
-  },
-  {
-    image: "/projects/thecrest_hero.jpg",
-    subtitle: "DLF The Crest · Contemporary Turnkey Architectural Living",
-    title: "Workspaces and residences that think, create, and inspire",
   },
 ];
 
 export default function HomeView() {
   const heroRef = useRef<HTMLElement>(null);
 
-  // Slider State (Auto-transitions every 3 seconds continuously)
+  // Hero Slider State (Smooth continuous 3-second auto-transition)
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -89,7 +85,7 @@ export default function HomeView() {
 
   return (
     <>
-      {/* ================= HERO SECTION (PURE PLAIN CINEMATIC SLIDER) ================= */}
+      {/* ================= HERO SECTION (ANIMATED CINEMATIC SLIDER) ================= */}
       <section
         ref={heroRef}
         id="top"
@@ -100,9 +96,8 @@ export default function HomeView() {
           {HERO_SLIDES.map((slide, idx) => (
             <div
               key={slide.image}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
-                idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
-              }`}
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                }`}
             >
               <img
                 src={slide.image}
@@ -115,8 +110,7 @@ export default function HomeView() {
           ))}
         </div>
 
-        {/* Soft, Transparent Gradient into Next Section */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1f2227]/90 via-transparent to-black/15 pointer-events-none z-10" />
+
 
         {/* Bottom Center: Single Refined Line (Not Too Big) */}
         <div className="absolute bottom-10 inset-x-0 z-20 mx-auto max-w-3xl px-6 text-center pointer-events-none">
@@ -126,87 +120,73 @@ export default function HomeView() {
         </div>
       </section>
 
-      {/* ================= 4 SERVICES SHOWCASE SECTIONS ================= */}
+      {/* ================= 4 SERVICES SHOWCASE SECTIONS (LEFT BIG IMAGE, RIGHT DETAILS) ================= */}
       {SHOWCASE_SECTIONS.map((section, sIndex) => {
-        const isReversed = sIndex % 2 !== 0;
         return (
           <section
             key={section.id}
             id={section.id}
-            className={`scroll-mt-20 py-28 border-b border-line/40 ${
-              sIndex % 2 === 0 ? "bg-[#1f2227]" : "bg-[#25282e]"
+            className={`scroll-mt-20 py-8 sm:py-10 border-b border-line content-auto ${
+              sIndex % 2 === 0 ? "bg-[#faf8f5]" : "bg-[#f4efe6]"
             }`}
           >
             <div className="mx-auto max-w-7xl px-6 lg:px-10">
-              {/* Section Header & Architectural Narrative */}
-              <div className="grid gap-12 lg:grid-cols-12 items-end mb-14">
-                <div className="lg:col-span-7">
-                  <span className="text-[11px] uppercase tracking-[0.35em] text-gold font-sans font-medium">
-                    Services · 0{sIndex + 1}
-                  </span>
-                  <h2 className="mt-3 font-serif text-4xl sm:text-5xl font-light text-fg">
-                    {section.title}
-                  </h2>
-                  <h3 className="mt-2 font-serif text-xl sm:text-2xl italic text-gold-light">
-                    {section.tagline}
-                  </h3>
+              <div className="grid gap-8 lg:gap-12 lg:grid-cols-12 items-center">
+                {/* LEFT: Grand Big Image Showcase Slider */}
+                <div className="lg:col-span-7 xl:col-span-8">
+                  <SectionImageSlider
+                    items={section.gallery}
+                    sectionCategory={section.category}
+                    onOpenLightbox={(imgIdx) => openLightbox(section.gallery, imgIdx)}
+                    autoplayDelay={3600 + sIndex * 500}
+                  />
                 </div>
-                <div className="lg:col-span-5">
-                  <p className="text-sm leading-relaxed text-muted font-light">
+
+                {/* RIGHT: Refined Minimal Details */}
+                <div className="lg:col-span-5 xl:col-span-4 space-y-6">
+                  <div>
+                    <span className="text-[11px] uppercase tracking-[0.38em] text-gold font-sans font-medium block">
+                      Services · 0{sIndex + 1}
+                    </span>
+                    <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-5xl font-light text-fg leading-[1.15]">
+                      {section.title}
+                    </h2>
+                    <p className="mt-2.5 font-serif text-base sm:text-lg italic text-gold">
+                      {section.tagline}
+                    </p>
+                  </div>
+
+                  <p className="text-sm leading-relaxed text-muted font-light line-clamp-4">
                     {section.description}
                   </p>
-                  <div className="mt-4 flex items-center gap-4">
+
+                  <div className="pt-2 flex items-center gap-4">
                     <Link
                       href={`/portfolio#${section.id}`}
-                      className="text-xs uppercase tracking-[0.25em] text-gold hover:text-gold-light flex items-center gap-2"
+                      className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#17181c] text-white hover:bg-gold transition-colors text-xs uppercase tracking-[0.22em] font-medium rounded-xs shadow-sm"
                     >
-                      View All {section.title} <ArrowRight className="h-3.5 w-3.5" />
+                      <span>View Projects</span>
+                      <ArrowRight className="h-3.5 w-3.5 text-gold hover:text-white" />
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="text-xs uppercase tracking-[0.22em] text-fg/80 hover:text-gold transition-colors font-medium border-b border-line hover:border-gold pb-0.5"
+                    >
+                      Inquire
                     </Link>
                   </div>
                 </div>
-              </div>
-
-              {/* Editorial Gallery Grid */}
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {section.gallery.slice(0, 6).map((imgItem, imgIdx) => (
-                  <Reveal key={imgItem.url} delay={imgIdx * 0.08}>
-                    <div
-                      onClick={() => openLightbox(section.gallery, imgIdx)}
-                      className="group relative h-80 w-full overflow-hidden border border-line/60 bg-[#2b2e35] cursor-pointer shadow-lg"
-                    >
-                      <img
-                        src={imgItem.url}
-                        alt={imgItem.caption}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1d1f24] via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-
-                      {/* Hover Info & View Fullsize Trigger */}
-                      <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between gap-4">
-                        <p className="font-serif text-sm text-fg/90 line-clamp-2 leading-relaxed">
-                          {imgItem.caption}
-                        </p>
-                        <span className="shrink-0 flex items-center gap-1.5 rounded-sm border border-gold/40 bg-[#22252a]/90 px-2.5 py-1 text-[10px] uppercase tracking-wider text-gold shadow">
-                          <Expand className="h-3 w-3" /> View fullsize
-                        </span>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
               </div>
             </div>
           </section>
         );
       })}
 
-
-
       {/* ================= CLIENTS & CORPORATE LEADERS SLIDER ================= */}
       <ClientSlider />
 
       {/* ================= TURNKEY ARCHITECTURAL PROCESS ================= */}
-      <section className="py-28 bg-[#22252a] border-b border-line/40">
+      <section className="py-24 bg-[#faf8f5] border-b border-line content-auto">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionHeading
             eyebrow="Turnkey Execution"
@@ -219,15 +199,16 @@ export default function HomeView() {
             center
           />
 
-          <div className="mt-16 grid gap-8 md:grid-cols-4">
+          <div className="mt-14 grid gap-8 md:grid-cols-4">
             {PROCESS.map((p, i) => (
-              <Reveal key={p.step} delay={i * 0.1}>
-                <div className="h-full border-t border-gold/60 pt-6 space-y-3 bg-[#282c32]/40 p-6">
-                  <span className="font-serif text-4xl text-gold font-light block">{p.step}</span>
-                  <h3 className="font-serif text-xl font-normal text-fg">{p.title}</h3>
-                  <p className="text-xs leading-relaxed text-muted font-light">{p.text}</p>
-                </div>
-              </Reveal>
+              <div
+                key={p.step}
+                className="h-full border-t-2 border-gold border-x border-b border-line pt-6 space-y-3 bg-white p-6 rounded-sm shadow-sm hover:shadow-md transition-shadow"
+              >
+                <span className="font-serif text-4xl text-gold font-light block">{p.step}</span>
+                <h3 className="font-serif text-xl font-normal text-fg">{p.title}</h3>
+                <p className="text-xs leading-relaxed text-muted font-light">{p.text}</p>
+              </div>
             ))}
           </div>
         </div>

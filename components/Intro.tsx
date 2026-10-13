@@ -36,12 +36,12 @@ export default function Intro() {
         <motion.div key="intro" className="fixed inset-0 z-[100]" exit={{ transition: { delay: 0.1 } }}>
           {/* two curtains that split apart on exit */}
           <motion.div
-            className="absolute inset-x-0 top-0 h-1/2 bg-[#22252a]"
+            className="absolute inset-x-0 top-0 h-1/2 bg-[#faf8f5]"
             exit={{ y: "-100%" }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           />
           <motion.div
-            className="absolute inset-x-0 bottom-0 h-1/2 bg-[#22252a]"
+            className="absolute inset-x-0 bottom-0 h-1/2 bg-[#faf8f5]"
             exit={{ y: "100%" }}
             transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
           />
@@ -54,15 +54,15 @@ export default function Intro() {
               initial={{ clipPath: "inset(40% 40% 40% 40%)", scale: 0.94, opacity: 0 }}
               animate={{ clipPath: "inset(0% 0% 0% 0%)", scale: 1, opacity: 1 }}
               transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-              className="w-[min(70vw,24rem)] border border-gold/40 shadow-2xl bg-[#282c30] p-1"
+              className="w-[min(70vw,22rem)] aspect-[220/182] shadow-2xl overflow-hidden rounded-[2px]"
             >
               <Image
-                src="/logo.jpg"
+                src="/ss-exact-logo.png"
                 alt="SS Interiors — Since 2016"
-                width={1000}
-                height={1000}
+                width={880}
+                height={728}
                 priority
-                className="h-auto w-full object-cover"
+                className="h-full w-full object-contain"
               />
             </motion.div>
           </motion.div>

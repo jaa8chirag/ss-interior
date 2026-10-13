@@ -20,7 +20,7 @@ export default function PressView() {
   };
 
   return (
-    <div className="pt-28 pb-20 bg-[#1e2025]">
+    <div className="pt-28 pb-20 bg-[#faf8f5] text-fg">
       {/* Header */}
       <section className="mx-auto max-w-7xl px-6 lg:px-10 py-16 text-center">
         <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
@@ -40,29 +40,30 @@ export default function PressView() {
           {PRESS_ITEMS.map((item, idx) => (
             <div
               key={item.title}
-              className="border border-line/60 bg-[#25282f] flex flex-col justify-between overflow-hidden shadow-xl"
+              className="border border-line bg-white flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl hover:border-gold rounded-sm transition-all duration-300"
             >
               <div
                 onClick={() => openLightbox(idx)}
-                className="relative h-96 w-full overflow-hidden bg-black/40 cursor-pointer group"
+                className="relative h-96 w-full overflow-hidden bg-[#ede8df] cursor-pointer group"
               >
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1d1f24] via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
-                <div className="absolute bottom-4 right-4 bg-[#202328]/90 border border-gold/40 px-3 py-1 text-[10px] uppercase tracking-wider text-gold flex items-center gap-1.5 shadow">
+                <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm border border-gold/40 px-3 py-1 text-[10px] uppercase tracking-wider text-gold flex items-center gap-1.5 shadow-xs font-sans font-medium">
                   <Expand className="h-3 w-3" /> View Reprint
                 </div>
               </div>
 
               <div className="p-8 space-y-4">
-                <div className="flex items-center justify-between text-xs text-gold uppercase tracking-widest pb-3 border-b border-line/40">
+                <div className="flex items-center justify-between text-xs text-gold uppercase tracking-widest pb-3 border-b border-line font-medium">
                   <span>{item.publication}</span>
                   <span>{item.date}</span>
                 </div>
-                <h3 className="font-serif text-2xl font-light text-fg leading-snug">
+                <h3 className="font-serif text-2xl font-normal text-fg leading-snug">
                   {item.title}
                 </h3>
                 <p className="text-xs text-muted italic leading-relaxed font-light">
@@ -76,7 +77,7 @@ export default function PressView() {
 
       {/* Vendor Notice Banner */}
       <section className="mx-auto max-w-7xl px-6 lg:px-10 mt-16">
-        <div className="border border-gold/30 bg-[#25282f] p-8 text-center space-y-3">
+        <div className="border border-gold/40 bg-[#f4efe6] p-8 text-center space-y-3 rounded-sm shadow-xs">
           <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold">
             {VENDOR_NOTICE.title}
           </span>
