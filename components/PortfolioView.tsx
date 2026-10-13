@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Expand, Home, Trees, Briefcase, Sparkles, Layers, MapPin, Building2, UserCheck } from "lucide-react";
 import ImageLightbox from "./ImageLightbox";
+import { getCustomProjects } from "@/lib/adminStore";
 
 export interface DetailedProject {
   url: string;
@@ -657,13 +658,29 @@ export default function PortfolioView() {
     return MAIN_TABS.find((t) => t.id === selectedMainTabId) || MAIN_TABS[0];
   }, [selectedMainTabId]);
 
+  // Custom projects added via Admin Portal
+  const [customProjects, setCustomProjects] = useState<DetailedProject[]>([]);
+
+  useEffect(() => {
+    const loadCustom = () => {
+      setCustomProjects(getCustomProjects());
+    };
+    loadCustom();
+    window.addEventListener("ss_projects_updated", loadCustom);
+    return () => window.removeEventListener("ss_projects_updated", loadCustom);
+  }, []);
+
+  const allCombinedProjects = useMemo(() => {
+    return [...customProjects, ...ALL_PROJECT_DATA];
+  }, [customProjects]);
+
   // Projects filtered by the single selected category tab
   const categoryBaseProjects = useMemo(() => {
     if (activeMainTab.id === "all") {
-      return ALL_PROJECT_DATA;
+      return allCombinedProjects;
     }
-    return ALL_PROJECT_DATA.filter((p) => p.category === activeMainTab.categoryKey);
-  }, [activeMainTab]);
+    return allCombinedProjects.filter((p) => p.category === activeMainTab.categoryKey);
+  }, [activeMainTab, allCombinedProjects]);
 
   // Sub-projects within the selected category that have >= 2 projects
   const availableSubProjects = useMemo(() => {
@@ -727,8 +744,8 @@ export default function PortfolioView() {
             const isActive = selectedMainTabId === tab.id;
             const count =
               tab.id === "all"
-                ? ALL_PROJECT_DATA.length
-                : ALL_PROJECT_DATA.filter((p) => p.category === tab.categoryKey).length;
+                ? allCombinedProjects.length
+                : allCombinedProjects.filter((p) => p.category === tab.categoryKey).length;
 
             return (
               <button
@@ -804,7 +821,7 @@ export default function PortfolioView() {
         {selectedMainTabId === "all" ? (
           <div className="space-y-16 sm:space-y-20 mt-2">
             {CORE_CATEGORIES.map((cat) => {
-              const catProjects = ALL_PROJECT_DATA.filter((p) => p.category === cat.categoryKey);
+              const catProjects = allCombinedProjects.filter((p) => p.category === cat.categoryKey);
               if (catProjects.length < 2) return null;
 
               return (

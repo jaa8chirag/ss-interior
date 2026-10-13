@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Mail, MapPin, Phone, Send, CheckCircle2, MessageSquare, Clock } from "lucide-react";
 import Brand from "./Brand";
 import { SITE, VENDOR_NOTICE } from "@/lib/site";
+import { saveLead } from "@/lib/adminStore";
 
 const fieldClasses =
   "w-full border border-line bg-white px-4 py-3.5 text-sm outline-none transition focus:border-gold placeholder:text-muted/60 text-fg rounded-xs shadow-xs";
@@ -14,11 +15,20 @@ export default function ContactPageView() {
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
-    const name = form.get("name");
-    const phone = form.get("phone");
-    const email = form.get("email");
-    const category = form.get("category");
-    const message = form.get("message");
+    const name = String(form.get("name") || "");
+    const phone = String(form.get("phone") || "");
+    const email = String(form.get("email") || "");
+    const category = String(form.get("category") || "");
+    const message = String(form.get("message") || "");
+
+    // Save lead to Admin Portal
+    saveLead({
+      name,
+      phone,
+      email,
+      category,
+      message,
+    });
 
     const text = `Hello SS Interiors,\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nProject Category: ${category}\nMessage: ${message}`;
     window.open(`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`, "_blank");
