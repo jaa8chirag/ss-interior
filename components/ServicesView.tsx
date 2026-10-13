@@ -138,11 +138,11 @@ export default function ServicesView() {
             <div
               key={service.id}
               id={service.id}
-              className="scroll-mt-32 grid gap-8 lg:gap-12 lg:grid-cols-12 items-center rounded-sm border border-line bg-white p-3 sm:p-5 lg:p-6 transition-all hover:border-gold hover:shadow-xl"
+              className="scroll-mt-32 grid gap-8 lg:gap-12 lg:grid-cols-12 items-center rounded-sm border border-gold/35 bg-white p-3 sm:p-5 lg:p-6 transition-all duration-300 hover:border-gold hover:shadow-2xl hover:shadow-gold/10"
             >
               {/* LEFT: Grand Big Showcase Image */}
               <div className="lg:col-span-7 xl:col-span-8">
-                <div className="relative h-[420px] sm:h-[500px] lg:h-[580px] w-full overflow-hidden rounded-sm border border-line shadow-sm bg-[#ede8df]">
+                <div className="relative h-[420px] sm:h-[500px] lg:h-[580px] w-full overflow-hidden rounded-sm border border-gold/30 shadow-sm bg-[#fdfcfb]">
                   <img
                     src={service.image}
                     alt={service.title}

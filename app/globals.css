@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
-/* Luxury Light Palette: Warm alabaster & soft ivory field, crisp white surfaces, architectural champagne gold accents, deep rich charcoal typography. */
+/* Luxury Light Palette: Luminous porcelain white, architectural champagne gold borders, deep rich charcoal typography. */
 :root {
-  --bg: #faf8f5;
-  --bg-2: #f2eee8;
+  --bg: #fcfbfa;
+  --bg-2: #f8f6f2;
   --surface: #ffffff;
-  --line: #e4dfd5;
-  --gold-1: #c9ab6f;
-  --gold-2: #9e7b38;
+  --line: rgba(197, 160, 89, 0.32);
+  --gold-1: #d4b87e;
+  --gold-2: #a6843e;
   --gold-3: #755922;
-  --fg: #17181c;
-  --muted: #585863;
+  --fg: #15161a;
+  --muted: #4e4f58;
 }
 
 @theme inline {

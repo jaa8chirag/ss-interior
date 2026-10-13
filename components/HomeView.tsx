@@ -127,7 +127,7 @@ export default function HomeView() {
             key={section.id}
             id={section.id}
             className={`scroll-mt-20 py-8 sm:py-10 border-b border-line content-auto ${
-              sIndex % 2 === 0 ? "bg-[#faf8f5]" : "bg-[#f4efe6]"
+              sIndex % 2 === 0 ? "bg-white" : "bg-[#fcfaf7]"
             }`}
           >
             <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -186,7 +186,7 @@ export default function HomeView() {
       <ClientSlider />
 
       {/* ================= TURNKEY ARCHITECTURAL PROCESS ================= */}
-      <section className="py-24 bg-[#faf8f5] border-b border-line content-auto">
+      <section className="py-20 bg-white border-b border-line content-auto">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionHeading
             eyebrow="Turnkey Execution"
@@ -203,7 +203,7 @@ export default function HomeView() {
             {PROCESS.map((p, i) => (
               <div
                 key={p.step}
-                className="h-full border-t-2 border-gold border-x border-b border-line pt-6 space-y-3 bg-white p-6 rounded-sm shadow-sm hover:shadow-md transition-shadow"
+                className="h-full border border-gold/35 hover:border-gold pt-6 space-y-3 bg-[#fdfcfb] p-6 rounded-sm shadow-xs hover:shadow-xl hover:shadow-gold/10 transition-all duration-300"
               >
                 <span className="font-serif text-4xl text-gold font-light block">{p.step}</span>
                 <h3 className="font-serif text-xl font-normal text-fg">{p.title}</h3>

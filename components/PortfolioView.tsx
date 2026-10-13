@@ -656,7 +656,7 @@ export default function PortfolioView() {
               onClick={() => openLightbox(currentSlide)}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
-              className="group relative h-[480px] sm:h-[600px] md:h-[660px] lg:h-[720px] w-full overflow-hidden rounded-md border border-line bg-[#ede8df] shadow-md cursor-pointer select-none"
+              className="group relative h-[480px] sm:h-[600px] md:h-[660px] lg:h-[720px] w-full overflow-hidden rounded-md border border-gold/40 hover:border-gold/70 bg-[#fdfcfb] shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer select-none"
             >
               {/* Image Slides with Smooth Crossfade */}
               {activeProjects.map((item, idx) => (

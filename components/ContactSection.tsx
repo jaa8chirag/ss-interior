@@ -26,7 +26,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="scroll-mt-20 py-24 bg-[#faf8f5] border-t border-line content-auto">
+    <section id="contact" className="scroll-mt-20 py-24 bg-[#fcfaf7] border-t border-line content-auto">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid gap-16 lg:grid-cols-12 items-start">
           {/* Left Details */}
@@ -75,7 +75,7 @@ export default function ContactSection() {
             </div>
 
             {/* Vendor Callout Card */}
-            <div className="p-5 border border-gold/40 bg-[#f4efe6] rounded-sm shadow-xs">
+            <div className="p-5 border border-gold/40 bg-[#fdfaf5] rounded-sm shadow-xs">
               <span className="text-xs uppercase tracking-widest text-gold font-semibold block mb-1">
                 {VENDOR_NOTICE.title}
               </span>
@@ -90,7 +90,7 @@ export default function ContactSection() {
             <div className="frame">
               <form
                 onSubmit={onSubmit}
-                className="relative space-y-4 border border-line bg-white p-8 md:p-10 shadow-lg rounded-sm"
+                className="relative space-y-4 border border-gold/35 bg-white p-8 md:p-10 shadow-xl rounded-sm"
               >
                 <div className="mb-2">
                   <h3 className="font-serif text-2xl font-normal text-fg">

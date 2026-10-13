@@ -39,7 +39,7 @@ export default function ContactPageView() {
         <div className="grid gap-16 lg:grid-cols-12 items-start">
           {/* Coordinates & Info */}
           <div className="lg:col-span-5 space-y-8">
-            <div className="border border-line bg-white p-8 space-y-6 shadow-sm rounded-sm">
+            <div className="border border-gold/35 bg-white p-8 space-y-6 shadow-sm hover:shadow-md transition-all rounded-sm">
               <Brand size="md" showText={false} />
 
               <div className="pt-4 border-t border-line space-y-5">
@@ -86,7 +86,7 @@ export default function ContactPageView() {
             </div>
 
             {/* Vendor Callout Card */}
-            <div className="border border-gold/40 bg-[#f4efe6] p-6 space-y-2 rounded-sm shadow-xs">
+            <div className="border border-gold/40 bg-[#fdfaf5] p-6 space-y-2 rounded-sm shadow-xs">
               <span className="text-xs uppercase tracking-widest text-gold font-semibold block">
                 {VENDOR_NOTICE.title}
               </span>
@@ -101,7 +101,7 @@ export default function ContactPageView() {
             <div className="frame">
               <form
                 onSubmit={onSubmit}
-                className="relative space-y-5 border border-line bg-white p-8 md:p-12 shadow-lg rounded-sm"
+                className="relative space-y-5 border border-gold/35 bg-white p-8 md:p-12 shadow-lg rounded-sm"
               >
                 <div>
                   <h2 className="font-serif text-3xl font-normal text-fg">
