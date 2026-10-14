@@ -216,24 +216,6 @@ const ALL_PROJECT_DATA: DetailedProject[] = [
     clientScope: "Corporate Headquarters & Leadership Suite",
     location: "Sector 54, Gurgaon",
   },
-  {
-    url: "/projects/thecrest_2.jpg",
-    caption: "Private Executive Lounge & Custom Fluted Bar Detailing",
-    category: "Commercial",
-    projectName: "DLF The Crest",
-    subProjectId: "the-crest",
-    clientScope: "Corporate Headquarters & Leadership Suite",
-    location: "Sector 54, Gurgaon",
-  },
-  {
-    url: "/projects/thecrest_3.jpg",
-    caption: "Managing Director Cabin & Custom Floor-to-Ceiling Library Shelving",
-    category: "Commercial",
-    projectName: "DLF The Crest",
-    subProjectId: "the-crest",
-    clientScope: "Corporate Headquarters & Leadership Suite",
-    location: "Sector 54, Gurgaon",
-  },
 
   // Corporate Leadership Suites (10 works)
   {
@@ -636,21 +618,42 @@ export default function PortfolioView() {
   const [lightboxImages, setLightboxImages] = useState<DetailedProject[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Handle hash from URL (e.g., /projects#farmhouses or /portfolio#residential)
+  // Handle category from query parameter (?category=farmhouses) or hash (#farmhouses)
   useEffect(() => {
-    const handleHash = () => {
-      if (typeof window !== "undefined" && window.location.hash) {
-        const hash = window.location.hash.replace("#", "");
-        const matched = MAIN_TABS.find((c) => c.id === hash);
+    const handleRouteCategory = () => {
+      if (typeof window === "undefined") return;
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryCat = urlParams.get("category") || urlParams.get("tab");
+      const hashCat = window.location.hash.replace("#", "");
+      const target = (queryCat || hashCat || "").toLowerCase();
+
+      if (target) {
+        const matched = MAIN_TABS.find(
+          (c) =>
+            c.id.toLowerCase() === target ||
+            c.categoryKey?.toLowerCase() === target
+        );
         if (matched) {
           setSelectedMainTabId(matched.id);
           setSelectedSubProjectId("all");
+
+          setTimeout(() => {
+            const el = document.getElementById("projects-header");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 150);
         }
       }
     };
-    handleHash();
-    window.addEventListener("hashchange", handleHash);
-    return () => window.removeEventListener("hashchange", handleHash);
+
+    handleRouteCategory();
+    window.addEventListener("hashchange", handleRouteCategory);
+    window.addEventListener("popstate", handleRouteCategory);
+    return () => {
+      window.removeEventListener("hashchange", handleRouteCategory);
+      window.removeEventListener("popstate", handleRouteCategory);
+    };
   }, []);
 
   const activeMainTab = useMemo(() => {
@@ -715,6 +718,13 @@ export default function PortfolioView() {
   const handleMainTabChange = (tabId: string) => {
     setSelectedMainTabId(tabId);
     setSelectedSubProjectId("all");
+    if (typeof window !== "undefined") {
+      const url =
+        tabId === "all"
+          ? window.location.pathname
+          : `${window.location.pathname}?category=${tabId}#${tabId}`;
+      window.history.replaceState(null, "", url);
+    }
   };
 
   const handleSubProjectChange = (subId: string) => {
@@ -731,7 +741,7 @@ export default function PortfolioView() {
     <div className="pt-24 pb-20 bg-[#fcfbfa] text-fg min-h-screen">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 pt-4">
         {/* ================= PAGE TITLE ================= */}
-        <div className="text-center pb-6">
+        <div id="projects-header" className="text-center pb-6 scroll-mt-28">
           <h1 className="font-serif text-3xl sm:text-5xl font-light text-fg">
             Architectural Projects
           </h1>

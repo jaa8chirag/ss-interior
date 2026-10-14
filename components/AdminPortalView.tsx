@@ -34,6 +34,8 @@ import {
   Check,
   Pencil,
   RotateCcw,
+  Share2,
+  Globe,
 } from "lucide-react";
 import {
   LeadItem,
@@ -48,11 +50,17 @@ import {
   updateProject,
   deleteProject,
   resetProjectsToDefault,
+  uploadImageFile,
+  getSiteSettings,
+  fetchSiteSettingsFromApi,
+  saveSiteSettings,
+  SiteSettings,
+  DEFAULT_SITE_SETTINGS,
 } from "@/lib/adminStore";
 
 const DEFAULT_ADMIN_PASSCODE = "admin123";
 
-type AdminTab = "dashboard" | "leads" | "projects" | "database";
+type AdminTab = "dashboard" | "leads" | "projects" | "settings" | "database";
 
 export default function AdminPortalView() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -94,6 +102,15 @@ export default function AdminPortalView() {
   const [isSavingEdit, setIsSavingEdit] = useState(false);
   const editFileInputRef = useRef<HTMLInputElement>(null);
 
+  // Settings State
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SITE_SETTINGS);
+  const [isSavingSettings, setIsSavingSettings] = useState(false);
+  const [settingsSuccessMessage, setSettingsSuccessMessage] = useState("");
+
+  // Upload progress states
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isUploadingEditImage, setIsUploadingEditImage] = useState(false);
+
   // Database status
   const [dbStatus, setDbStatus] = useState<"checking" | "connected" | "offline">("checking");
   const [dbLatency, setDbLatency] = useState<number | null>(null);
@@ -114,24 +131,35 @@ export default function AdminPortalView() {
     try {
       setLeads(getLeads());
       setProjects(getProjects());
+      setSettings(getSiteSettings());
 
-      const [dbLeads, dbProjects] = await Promise.all([
-        fetchLeadsFromDb(),
-        fetchProjectsFromDb(),
+      const [leadsRes, projectsRes, settingsRes] = await Promise.all([
+        fetch("/api/leads", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
+        fetch("/api/projects", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
+        fetch("/api/settings", { cache: "no-store" }).then((r) => r.json()).catch(() => null),
       ]);
 
       const endTime = performance.now();
       setDbLatency(Math.round(endTime - startTime));
 
-      if (dbLeads) {
-        setLeads(dbLeads);
+      if (leadsRes?.source === "mysql" || projectsRes?.source === "mysql" || settingsRes?.source === "mysql") {
         setDbStatus("connected");
       } else {
         setDbStatus("offline");
       }
 
-      if (dbProjects) {
-        setProjects(dbProjects);
+      if (leadsRes?.success && Array.isArray(leadsRes.leads)) {
+        setLeads(leadsRes.leads);
+      }
+      if (projectsRes?.success && Array.isArray(projectsRes.projects) && projectsRes.projects.length > 0) {
+        const current = getProjects();
+        const dbMap = new Map();
+        projectsRes.projects.forEach((p: any) => dbMap.set(p.url, p));
+        const merged = current.map((p) => dbMap.get(p.url) || p);
+        setProjects(merged);
+      }
+      if (settingsRes?.success && settingsRes.settings) {
+        setSettings(settingsRes.settings);
       }
     } catch {
       setDbStatus("offline");
@@ -145,9 +173,11 @@ export default function AdminPortalView() {
       refreshData();
       window.addEventListener("ss_leads_updated", refreshData);
       window.addEventListener("ss_projects_updated", refreshData);
+      window.addEventListener("ss_settings_updated", refreshData);
       return () => {
         window.removeEventListener("ss_leads_updated", refreshData);
         window.removeEventListener("ss_projects_updated", refreshData);
+        window.removeEventListener("ss_settings_updated", refreshData);
       };
     }
   }, [isAuthenticated]);
@@ -169,8 +199,8 @@ export default function AdminPortalView() {
     setPasscode("");
   };
 
-  // Image Upload handler for Add form
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Image Upload handler for Add form (Uploads to /api/upload with fallback to base64)
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -179,16 +209,24 @@ export default function AdminPortalView() {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target?.result as string;
-      setFormImageUrl(result);
-    };
-    reader.readAsDataURL(file);
+    setIsUploadingImage(true);
+    try {
+      const uploadedUrl = await uploadImageFile(file);
+      setFormImageUrl(uploadedUrl);
+    } catch {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        setFormImageUrl(result);
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setIsUploadingImage(false);
+    }
   };
 
   // Image Upload handler for Edit modal
-  const handleEditFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -197,12 +235,35 @@ export default function AdminPortalView() {
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target?.result as string;
-      setEditImageUrl(result);
-    };
-    reader.readAsDataURL(file);
+    setIsUploadingEditImage(true);
+    try {
+      const uploadedUrl = await uploadImageFile(file);
+      setEditImageUrl(uploadedUrl);
+    } catch {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        setEditImageUrl(result);
+      };
+      reader.readAsDataURL(file);
+    } finally {
+      setIsUploadingEditImage(false);
+    }
+  };
+
+  // Save Settings Submit
+  const handleSaveSettingsSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingSettings(true);
+    try {
+      await saveSiteSettings(settings);
+      setSettingsSuccessMessage("Social media links & studio info saved successfully! Changes are live across the site.");
+      setTimeout(() => setSettingsSuccessMessage(""), 5000);
+    } catch {
+      alert("Failed to save settings. Please try again.");
+    } finally {
+      setIsSavingSettings(false);
+    }
   };
 
   // Add Project Submit
@@ -562,6 +623,26 @@ export default function AdminPortalView() {
               }`}
             >
               {projects.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              setActiveTab("settings");
+              setMobileSidebarOpen(false);
+            }}
+            className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-md text-xs uppercase tracking-wider font-medium transition-colors ${
+              activeTab === "settings"
+                ? "bg-[#c5a059] text-[#0e1017] font-semibold shadow-md shadow-[#c5a059]/20"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Share2 className="h-4 w-4" />
+              <span>Social &amp; Settings</span>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/70">
+              Live
             </span>
           </button>
 
@@ -1302,6 +1383,269 @@ export default function AdminPortalView() {
             </div>
           )}
 
+          {/* ================= SECTION: SOCIAL MEDIA & SITE SETTINGS ================= */}
+          {activeTab === "settings" && (
+            <div className="space-y-6">
+              <div className="bg-[#12141d] border border-white/10 rounded-lg p-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-2">
+                  <div>
+                    <h2 className="text-lg font-serif text-white flex items-center gap-2.5">
+                      <Share2 className="h-5 w-5 text-[#c5a059]" />
+                      <span>Social Media &amp; Studio Settings</span>
+                    </h2>
+                    <p className="text-xs text-white/50 mt-1">
+                      Manage official social media profile links, WhatsApp numbers, and studio contact coordinates. Changes update live across the entire website instantly.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                    <span className="px-2.5 py-1 rounded bg-[#c5a059]/10 border border-[#c5a059]/30 text-[#c5a059] text-[11px] font-medium">
+                      Live Sync Active
+                    </span>
+                  </div>
+                </div>
+
+                {settingsSuccessMessage && (
+                  <div className="mt-4 p-3 bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 text-xs rounded-md flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 shrink-0" />
+                    <span>{settingsSuccessMessage}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveSettingsSubmit} className="mt-6 space-y-6">
+                  {/* Social Media Links Card */}
+                  <div className="bg-[#0b0c11] border border-white/10 rounded-lg p-5 space-y-4">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#c5a059] flex items-center gap-2">
+                        <Globe className="h-4 w-4" />
+                        <span>Social Media Channels</span>
+                      </h3>
+                      <span className="text-[11px] text-white/40">Visible in Footer &amp; Contact Pages</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Instagram */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          Instagram Profile URL
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="url"
+                            value={settings.instagram}
+                            onChange={(e) => setSettings({ ...settings, instagram: e.target.value })}
+                            placeholder="https://instagram.com/ssinteriors"
+                            className="flex-1 bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                          />
+                          {settings.instagram && (
+                            <a
+                              href={settings.instagram}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-2.5 py-2 rounded bg-white/5 border border-white/10 hover:border-[#c5a059] text-white/70 hover:text-white text-xs flex items-center gap-1 transition-colors"
+                              title="Test Instagram Link"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 text-[#c5a059]" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Facebook */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          Facebook Page URL
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="url"
+                            value={settings.facebook}
+                            onChange={(e) => setSettings({ ...settings, facebook: e.target.value })}
+                            placeholder="https://facebook.com/ssinteriors"
+                            className="flex-1 bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                          />
+                          {settings.facebook && (
+                            <a
+                              href={settings.facebook}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-2.5 py-2 rounded bg-white/5 border border-white/10 hover:border-[#c5a059] text-white/70 hover:text-white text-xs flex items-center gap-1 transition-colors"
+                              title="Test Facebook Link"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 text-[#c5a059]" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* LinkedIn */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          LinkedIn Company Profile URL
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="url"
+                            value={settings.linkedin}
+                            onChange={(e) => setSettings({ ...settings, linkedin: e.target.value })}
+                            placeholder="https://linkedin.com/company/ss-interiors"
+                            className="flex-1 bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                          />
+                          {settings.linkedin && (
+                            <a
+                              href={settings.linkedin}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-2.5 py-2 rounded bg-white/5 border border-white/10 hover:border-[#c5a059] text-white/70 hover:text-white text-xs flex items-center gap-1 transition-colors"
+                              title="Test LinkedIn Link"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 text-[#c5a059]" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* YouTube */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          YouTube Channel URL
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="url"
+                            value={settings.youtube}
+                            onChange={(e) => setSettings({ ...settings, youtube: e.target.value })}
+                            placeholder="https://youtube.com/@ssinteriors"
+                            className="flex-1 bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                          />
+                          {settings.youtube && (
+                            <a
+                              href={settings.youtube}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-2.5 py-2 rounded bg-white/5 border border-white/10 hover:border-[#c5a059] text-white/70 hover:text-white text-xs flex items-center gap-1 transition-colors"
+                              title="Test YouTube Link"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5 text-[#c5a059]" />
+                            </a>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* WhatsApp */}
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          WhatsApp Business Number (with country code, e.g. 919205784061)
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            value={settings.whatsapp}
+                            onChange={(e) => setSettings({ ...settings, whatsapp: e.target.value })}
+                            placeholder="+91 9205784061"
+                            className="flex-1 bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                          />
+                          {settings.whatsapp && (
+                            <a
+                              href={`https://wa.me/${settings.whatsapp.replace(/[^0-9]/g, "")}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-3 py-2 rounded bg-emerald-950/50 border border-emerald-600/40 hover:bg-emerald-900/50 text-emerald-300 text-xs flex items-center gap-1.5 transition-colors"
+                              title="Test WhatsApp Chat Link"
+                            >
+                              <MessageCircle className="h-3.5 w-3.5 text-emerald-400" />
+                              <span className="text-[11px] font-medium">Test Chat</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Studio Contact Information */}
+                  <div className="bg-[#0b0c11] border border-white/10 rounded-lg p-5 space-y-4">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-[#c5a059] flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        <span>Studio Contact &amp; Coordinates</span>
+                      </h3>
+                      <span className="text-[11px] text-white/40">Synced with Navbar &amp; Contact Page</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Primary Phone */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          Primary Studio Hotline Phone
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.phone}
+                          onChange={(e) => setSettings({ ...settings, phone: e.target.value })}
+                          placeholder="+91 9205784061"
+                          className="w-full bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                        />
+                      </div>
+
+                      {/* Alt Phone */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          Secondary / Alternate Phone
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.altPhone || ""}
+                          onChange={(e) => setSettings({ ...settings, altPhone: e.target.value })}
+                          placeholder="+91 9891800510"
+                          className="w-full bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                        />
+                      </div>
+
+                      {/* Email */}
+                      <div className="space-y-1.5">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          Official Inquiries Email
+                        </label>
+                        <input
+                          type="email"
+                          value={settings.email}
+                          onChange={(e) => setSettings({ ...settings, email: e.target.value })}
+                          placeholder="info@ssinteriors.in"
+                          className="w-full bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                        />
+                      </div>
+
+                      {/* Studio Address */}
+                      <div className="space-y-1.5 md:col-span-2">
+                        <label className="block text-[11px] uppercase tracking-wider text-white/70 font-medium">
+                          Physical Studio Address
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={settings.address}
+                          onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+                          placeholder="Studio full address..."
+                          className="w-full bg-[#12141d] border border-white/15 focus:border-[#c5a059] px-3.5 py-2 text-xs text-white rounded-md outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="flex items-center justify-end gap-3 pt-2">
+                    <button
+                      type="submit"
+                      disabled={isSavingSettings}
+                      className="px-6 py-2.5 rounded-md bg-[#c5a059] hover:bg-[#d4b069] text-[#0e1017] text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer disabled:opacity-50 flex items-center gap-2 shadow-md shadow-[#c5a059]/20"
+                    >
+                      <Check className="h-4 w-4" />
+                      <span>{isSavingSettings ? "Saving Settings..." : "Save & Publish Social Media Links"}</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
           {/* ================= SECTION 4: DATABASE & SQL ================= */}
           {activeTab === "database" && (
             <div className="space-y-6 max-w-4xl">
@@ -1335,9 +1679,9 @@ export default function AdminPortalView() {
                 {/* DB Details Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                   <div className="bg-[#0b0c11] border border-white/5 rounded p-3">
-                    <span className="text-[10px] uppercase text-white/40 block">SQL Tables</span>
-                    <span className="text-sm font-semibold text-white mt-1 block">leads, projects</span>
-                    <span className="text-[10px] text-emerald-400 mt-1 block">Auto-migrated on start</span>
+                    <span className="text-[10px] uppercase text-white/40 block">SQL Tables &amp; File Store</span>
+                    <span className="text-sm font-semibold text-white mt-1 block">leads, projects, site_settings</span>
+                    <span className="text-[10px] text-emerald-400 mt-1 block">Dual server &amp; SQL sync</span>
                   </div>
 
                   <div className="bg-[#0b0c11] border border-white/5 rounded p-3">

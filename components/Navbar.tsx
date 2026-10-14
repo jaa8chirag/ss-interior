@@ -34,10 +34,10 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 lg:px-10">
+      <nav className="mx-auto flex h-24 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10 py-[2px]">
         {/* Brand logo & tagline */}
-        <Link href="/" aria-label="SS Interiors Home" className="flex items-center">
-          <Brand size="md" showText={false} />
+        <Link href="/" aria-label="SS Interiors Home" className="flex items-center py-[2px]">
+          <Brand size="xl" showText={false} />
         </Link>
 
         {/* Desktop Navigation Links */}

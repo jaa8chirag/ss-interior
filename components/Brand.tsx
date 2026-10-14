@@ -16,7 +16,7 @@ export default function Brand({
     sm: { w: 58, h: 48, cls: "h-12 w-[58px]" },
     md: { w: 82, h: 68, cls: "h-[68px] w-[82px]" },
     lg: { w: 97, h: 80, cls: "h-20 w-[97px]" },
-    xl: { w: 121, h: 100, cls: "h-24 w-[121px]" },
+    xl: { w: 112, h: 92, cls: "h-[92px] w-[112px]" },
   }[size];
 
   return (

@@ -33,6 +33,15 @@ const DISTINGUISHED_LEADERS: ClientLeader[] = [
     badge: "DLF Camellias Residence",
   },
   {
+    name: "Mr. Tarun Mathur",
+    company: "Policybazaar",
+    role: "Co-Founder & Chief Business Officer",
+    location: "Pioneer Araya Penthouse (3302 A)",
+    photo: "/clients/tarun_mathur.jpg",
+    logo: "/clients/policybazaar_logo.png",
+    badge: "High-Rise Sky Penthouse",
+  },
+  {
     name: "Mr. Raghav Chandra",
     company: "Urban Company",
     role: "Co-Founder & Director",
@@ -103,15 +112,6 @@ const DISTINGUISHED_LEADERS: ClientLeader[] = [
     photo: "/clients/shreekant_somany.jpg",
     logo: "/clients/somany_logo.png",
     badge: "Triplex Luxury Bungalow",
-  },
-  {
-    name: "Mr. Tarun Mathur",
-    company: "Policybazaar",
-    role: "Co-Founder & Chief Business Officer",
-    location: "Pioneer Araya Penthouse (3302 A)",
-    photo: "/clients/tarun_mathur.jpg",
-    logo: "/clients/policybazaar_logo.png",
-    badge: "High-Rise Sky Penthouse",
   },
   {
     name: "Mr. Jeetender Sharma",
@@ -195,22 +195,22 @@ export default function ClientSlider() {
         </p>
 
         {/* Prestigious Metric Highlights */}
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto border-y border-line py-6 text-center">
-          <div>
-            <span className="font-serif text-2xl sm:text-3xl text-gold font-medium block">36+</span>
-            <span className="text-[11px] text-muted uppercase tracking-wider">DLF Camellias Residences</span>
+        <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto border-y border-line py-8 sm:py-10 text-center px-4">
+          <div className="flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-2">45+</span>
+            <span className="text-sm sm:text-base md:text-lg text-gold font-semibold uppercase tracking-wider block">DLF Camellias Residences</span>
           </div>
-          <div>
-            <span className="font-serif text-2xl sm:text-3xl text-gold font-medium block">10+</span>
-            <span className="text-[11px] text-muted uppercase tracking-wider">DLF Magnolias Suites</span>
+          <div className="flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-2">50+</span>
+            <span className="text-sm sm:text-base md:text-lg text-gold font-semibold uppercase tracking-wider block">DLF Magnolias Suites</span>
           </div>
-          <div>
-            <span className="font-serif text-2xl sm:text-3xl text-gold font-medium block">Trump Tower</span>
-            <span className="text-[11px] text-muted uppercase tracking-wider">Duplex Penthouses (42nd Fl.)</span>
+          <div className="flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-2xl sm:text-3xl md:text-4xl text-fg font-semibold block mb-2">Trump Tower</span>
+            <span className="text-sm sm:text-base md:text-lg text-gold font-semibold uppercase tracking-wider block">Duplex Penthouses (42nd Fl.)</span>
           </div>
-          <div>
-            <span className="font-serif text-2xl sm:text-3xl text-gold font-medium block">100%</span>
-            <span className="text-[11px] text-muted uppercase tracking-wider">Turnkey In-House Execution</span>
+          <div className="flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-2">100%</span>
+            <span className="text-sm sm:text-base md:text-lg text-gold font-semibold uppercase tracking-wider block">Turnkey In-House Execution</span>
           </div>
         </div>
       </div>

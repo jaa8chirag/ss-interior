@@ -22,7 +22,7 @@ const SERVICE_CAPABILITIES = [
       "Bespoke walk-in wardrobes & master ensuites",
       "Smart-home automation & acoustic zoning",
     ],
-    projectLink: "/projects",
+    projectLink: "/projects?category=residential#residential",
   },
   {
     id: "farmhouses",
@@ -38,7 +38,7 @@ const SERVICE_CAPABILITIES = [
       "Vastu-compliant estate spatial planning",
       "Private swimming pool & pavilion lounges",
     ],
-    projectLink: "/projects",
+    projectLink: "/projects?category=farmhouses#farmhouses",
   },
   {
     id: "commercial",
@@ -54,7 +54,7 @@ const SERVICE_CAPABILITIES = [
       "Managing Director & C-Suite executive suites",
       "Biophilic elements & agile breakout lounges",
     ],
-    projectLink: "/projects",
+    projectLink: "/projects?category=commercial#commercial",
   },
   {
     id: "hospitality",
@@ -70,7 +70,7 @@ const SERVICE_CAPABILITIES = [
       "Atmospheric architectural landscape lighting",
       "Durable commercial-grade luxury specifications",
     ],
-    projectLink: "/projects",
+    projectLink: "/projects?category=hospitality#hospitality",
   },
 ];
 

@@ -193,10 +193,6 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
         caption: "Illuminated Translucent Honey Onyx Floating Staircase — Five-Star Architectural Grandeur",
       },
       {
-        url: "/projects/luxury_bar.jpg",
-        caption: "Signature Hospitality Bar Counter — Fluted Panelling & Arched Backlit Display",
-      },
-      {
         url: "/projects/trumptower_3.jpg",
         caption: "Grand Master Suite — Bookmatched Italian Marble & Bespoke Dressing",
       },
@@ -282,20 +278,6 @@ export const ADDITIONAL_PROJECTS = [
   {
     url: "/projects/thecrest_hero.jpg",
     caption: "DLF The Crest — Executive Headquarters Formal Reception",
-    category: "Commercial",
-    sectionId: "commercial",
-    sectionTitle: "Commercial & Corporate Interiors",
-  },
-  {
-    url: "/projects/thecrest_2.jpg",
-    caption: "DLF The Crest — Private Executive Lounge & Custom Fluted Bar",
-    category: "Commercial",
-    sectionId: "commercial",
-    sectionTitle: "Commercial & Corporate Interiors",
-  },
-  {
-    url: "/projects/thecrest_3.jpg",
-    caption: "DLF The Crest — Managing Director Cabin & Custom Library Shelving",
     category: "Commercial",
     sectionId: "commercial",
     sectionTitle: "Commercial & Corporate Interiors",

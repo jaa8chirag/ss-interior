@@ -26,7 +26,7 @@ export interface AdminProjectItem {
 }
 
 const LEADS_STORAGE_KEY = "ss_interiors_leads_v1";
-const ALL_PROJECTS_STORAGE_KEY = "ss_interiors_all_projects_v2";
+const ALL_PROJECTS_STORAGE_KEY = "ss_interiors_all_projects_v3";
 
 const INITIAL_SAMPLE_LEADS: LeadItem[] = [
   {
@@ -279,26 +279,6 @@ export const INITIAL_PROJECTS: AdminProjectItem[] = [
     id: "proj-21",
     url: "/projects/thecrest_hero.jpg",
     caption: "Executive Headquarters Formal Reception — Bookmatched Marble & Brass Inlay",
-    category: "Commercial",
-    projectName: "DLF The Crest",
-    subProjectId: "the-crest",
-    clientScope: "Corporate Headquarters & Leadership Suite",
-    location: "Sector 54, Gurgaon",
-  },
-  {
-    id: "proj-22",
-    url: "/projects/thecrest_2.jpg",
-    caption: "Private Executive Lounge & Custom Fluted Bar Detailing",
-    category: "Commercial",
-    projectName: "DLF The Crest",
-    subProjectId: "the-crest",
-    clientScope: "Corporate Headquarters & Leadership Suite",
-    location: "Sector 54, Gurgaon",
-  },
-  {
-    id: "proj-23",
-    url: "/projects/thecrest_3.jpg",
-    caption: "Managing Director Cabin & Custom Floor-to-Ceiling Library Shelving",
     category: "Commercial",
     projectName: "DLF The Crest",
     subProjectId: "the-crest",
@@ -753,3 +733,121 @@ export function resetProjectsToDefault(): AdminProjectItem[] {
 export const getCustomProjects = getProjects;
 export const addCustomProject = addProject;
 export const deleteCustomProject = (url: string, id?: string | number) => deleteProject(id || url, url);
+
+/* ================= SOCIAL MEDIA & STUDIO SETTINGS ================= */
+
+export interface SiteSettings {
+  instagram: string;
+  facebook: string;
+  linkedin: string;
+  youtube: string;
+  whatsapp: string;
+  pinterest?: string;
+  phone: string;
+  altPhone?: string;
+  email: string;
+  address: string;
+}
+
+export const SETTINGS_STORAGE_KEY = "ss_interiors_settings_v1";
+
+export const DEFAULT_SITE_SETTINGS: SiteSettings = {
+  instagram: "https://instagram.com/ssinteriors",
+  facebook: "https://facebook.com/ssinteriors",
+  linkedin: "https://linkedin.com/company/ss-interiors",
+  youtube: "https://youtube.com/@ssinteriors",
+  whatsapp: "+91 9205784061",
+  pinterest: "https://pinterest.com/ssinteriors",
+  phone: "+91 9205784061",
+  altPhone: "+91 9891800510",
+  email: "info@ssinteriors.in",
+  address: "DLF Cross Point, 5th Floor, DLF City Phase IV, Sector 28, Gurgaon, Delhi NCR, 122002 India",
+};
+
+export function getSiteSettings(): SiteSettings {
+  if (typeof window === "undefined") return DEFAULT_SITE_SETTINGS;
+  try {
+    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(DEFAULT_SITE_SETTINGS));
+      return DEFAULT_SITE_SETTINGS;
+    }
+    return { ...DEFAULT_SITE_SETTINGS, ...JSON.parse(raw) };
+  } catch (err) {
+    console.error("Error reading site settings:", err);
+    return DEFAULT_SITE_SETTINGS;
+  }
+}
+
+export async function fetchSiteSettingsFromApi(): Promise<SiteSettings> {
+  try {
+    const res = await fetch("/api/settings", { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && data.settings) {
+        if (typeof window !== "undefined") {
+          localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(data.settings));
+          window.dispatchEvent(new Event("ss_settings_updated"));
+        }
+        return data.settings;
+      }
+    }
+  } catch (err) {
+    console.warn("Could not fetch settings from API, using cached fallback:", err);
+  }
+  return getSiteSettings();
+}
+
+export async function saveSiteSettings(settings: Partial<SiteSettings>): Promise<SiteSettings> {
+  const current = getSiteSettings();
+  const updated: SiteSettings = {
+    ...current,
+    ...settings,
+  };
+
+  if (typeof window !== "undefined") {
+    try {
+      localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(updated));
+      window.dispatchEvent(new Event("ss_settings_updated"));
+    } catch (err) {
+      console.error("Error saving settings to storage:", err);
+    }
+  }
+
+  try {
+    const res = await fetch("/api/settings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.settings) return data.settings;
+    }
+  } catch (err) {
+    console.warn("API settings update sync warning:", err);
+  }
+
+  return updated;
+}
+
+export async function uploadImageFile(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to upload image file to server");
+  }
+
+  const data = await res.json();
+  if (!data.success || !data.url) {
+    throw new Error(data.error || "Image upload failed");
+  }
+
+  return data.url;
+}

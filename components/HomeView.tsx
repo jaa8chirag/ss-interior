@@ -36,8 +36,8 @@ const HERO_SLIDES = [
     subtitle: "The Crest, DLF Phase 5 · Super-Luxury Master Suite & Private Sanctuary",
   },
   {
-    image: "/projects/aralias_hero.jpg",
-    subtitle: "DLF Aralias · Golf-Facing Architectural Sanctuaries",
+    image: "/projects/corp_17.jpg",
+    subtitle: "Commercial & Corporate Interiors · Contemporary Architectural Workspaces",
   },
 ];
 

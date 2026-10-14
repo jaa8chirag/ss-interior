@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Vikram Malhotra",
+    "phone": "+91 98112 34567",
+    "email": "vikram.m@corporatemail.com",
+    "category": "Luxury Apartment / Penthouse",
+    "message": "Looking for complete turnkey interior fit-out for a 7,500 sq.ft duplex penthouse at DLF Camellias, Golf Course Road.",
+    "createdAt": "2026-10-12T11:30:00.000Z",
+    "status": "New"
+  },
+  {
+    "id": 2,
+    "name": "Col. Rajesh & Sunita Ahluwalia",
+    "phone": "+91 98710 98765",
+    "email": "rajesh.ahluwalia@gmail.com",
+    "category": "Country Estate / Farmhouse",
+    "message": "Planning a 2.5 acre private farmhouse retreat in Chhatarpur. Interested in double-height living hall and natural stone architecture.",
+    "createdAt": "2026-10-10T15:45:00.000Z",
+    "status": "In Discussion"
+  },
+  {
+    "id": 3,
+    "name": "Sunil Singhania (MD)",
+    "phone": "+91 99990 12345",
+    "email": "singhania@apexcapital.in",
+    "category": "Corporate & Commercial Headquarters",
+    "message": "14,000 sq.ft corporate headquarters turnkey fitout at DLF Cyber City. Need boardrooms, agile zones and executive suites.",
+    "createdAt": "2026-10-08T09:15:00.000Z",
+    "status": "Contacted"
+  }
+]
