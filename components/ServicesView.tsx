@@ -63,7 +63,7 @@ const SERVICE_CAPABILITIES = [
     tagline: "Experiential Destinations That Leave Lasting Impressions",
     description:
       "From five-star presidential suites like ITC Maurya to the Trump Tower NCR sky lounge, our hospitality and experiential designs weave mood, tactile textures, and statement architecture into cohesive luxury journeys.",
-    image: "/projects/itc_maurya_hero.jpg",
+    image: "/projects/trumptower_hero.jpg",
     features: [
       "Fine dining atmosphere & signature bar design",
       "Presidential suites & bespoke guestroom pods",
