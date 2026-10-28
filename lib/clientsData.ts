@@ -301,7 +301,7 @@ export const ALL_CLIENTS: ClientItem[] = [
     category: "penthouses",
     categoryLabel: "DLF Crest",
     photo: "/clients/vivek_mathur.jpg",
-    logo: "/clients/paytm_logo.svg",
+    logo: "/clients/elevation_capital_logo.svg",
     badge: "The Crest Penthouse",
     isFeatured: true,
   },
