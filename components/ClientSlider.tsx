@@ -102,7 +102,7 @@ export default function ClientSlider() {
         </p>
 
         {/* Prestigious Metric Highlights */}
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto border-y border-line py-8 sm:py-10 text-center px-4">
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 max-w-7xl mx-auto border-y border-line py-8 sm:py-10 text-center px-4">
           <div className="flex flex-col items-center justify-center p-2">
             <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">100+</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Camellias Residences</span>
@@ -112,8 +112,16 @@ export default function ClientSlider() {
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Magnolias Suites</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">60+</span>
+            <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Aralias & The Crest</span>
+          </div>
+          <div className="flex flex-col items-center justify-center p-2">
             <span className="font-serif text-2xl sm:text-3xl md:text-4xl text-fg font-semibold block mb-1">Trump Tower</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">Sky Duplex (42nd Fl.)</span>
+          </div>
+          <div className="flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">45+</span>
+            <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">Bespoke Country Farmhouses</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
             <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">100%</span>
