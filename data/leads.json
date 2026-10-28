@@ -1,5 +1,35 @@
 [
   {
+    "id": 1792743786901,
+    "name": "Kabir Singhania",
+    "phone": "9810012345",
+    "email": "kabir@singhania.com",
+    "category": "Chatbot Guided Inquiry",
+    "message": "Property / Project Details: DLF Magnolias 5BHK Duplex",
+    "status": "New",
+    "createdAt": "2026-10-23T08:23:06.901Z"
+  },
+  {
+    "id": 1792743786852,
+    "name": "Kabir Singhania",
+    "phone": "9810012345",
+    "email": "kabir@singhania.com",
+    "category": "Chatbot Guided Inquiry",
+    "message": "Property / Project Details: DLF Magnolias 5BHK Duplex",
+    "status": "New",
+    "createdAt": "2026-10-23T08:23:06.852Z"
+  },
+  {
+    "id": 1792743600908,
+    "name": "Aarav Mehta",
+    "phone": "+91 98111 22334",
+    "email": "aarav.mehta@gmail.com",
+    "category": "Chatbot Guided Inquiry",
+    "message": "Property Location: DLF Camellias 4BHK interior fit-out",
+    "status": "New",
+    "createdAt": "2026-10-23T08:20:00.908Z"
+  },
+  {
     "id": 1,
     "name": "Vikram Malhotra",
     "phone": "+91 98112 34567",

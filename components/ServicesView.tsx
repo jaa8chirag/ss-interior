@@ -14,40 +14,24 @@ const SERVICE_CAPABILITIES = [
     title: "Luxury Residential Interiors",
     tagline: "Bespoke Apartments, Penthouses & Duplexes",
     description:
-      "From high-rise luxury penthouses in DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Every concept balances custom millwork, ambient architectural illumination, and imported European materials.",
-    image: "/projects/camellias_hero.jpg",
+      "From high-rise luxury penthouses in DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Every concept balances custom millwork, ambient architectural illumination, sacred mandir shrines, and imported European materials.",
+    image: "/projects/real/camellias/DSCF1000.JPG",
     features: [
       "Custom Italian & European furniture sourcing",
       "Integrated architectural lighting design",
       "Bespoke walk-in wardrobes & master ensuites",
-      "Smart-home automation & acoustic zoning",
+      "Hand-carved marble mandir sanctuaries & Vastu planning",
     ],
     projectLink: "/projects?category=residential#residential",
   },
   {
-    id: "farmhouses",
-    number: "02",
-    title: "Country Estates & Farmhouses",
-    tagline: "Expansive Sanctuaries in Harmony with Nature",
-    description:
-      "Specialising in sprawling countryside retreats, private villas, and estate architecture like DLF Aralias. We integrate double-height vaulted spaces, hand-chiseled stone masonry, lush transitional verandas, and Vastu-aligned spatial flows.",
-    image: "/projects/aralias_hero.jpg",
-    features: [
-      "Landscape & architectural interior harmony",
-      "Sustainable natural stone & solid teak joinery",
-      "Vastu-compliant estate spatial planning",
-      "Private swimming pool & pavilion lounges",
-    ],
-    projectLink: "/projects?category=farmhouses#farmhouses",
-  },
-  {
     id: "commercial",
-    number: "03",
+    number: "02",
     title: "Executive Workspaces & Offices",
     tagline: "Corporate Headquarters That Inspire & Perform",
     description:
-      "Sophisticated commercial environments that reflect brand prestige and ignite executive collaboration, such as DLF The Crest suites. We provide end-to-end turnkey delivery including HVAC, MEP, smart conferencing, and ergonomic acoustics.",
-    image: "/projects/corp_16.jpg",
+      "Sophisticated commercial environments that reflect brand prestige and ignite executive collaboration, such as DLF Cyber City suites. We provide end-to-end turnkey delivery including HVAC, MEP, smart conferencing, and ergonomic acoustics.",
+    image: "/projects/real/commercial/15.jpg",
     features: [
       "Full turnkey MEP, HVAC & fire safety integration",
       "Boardrooms with immersive audio-visual design",
@@ -58,12 +42,12 @@ const SERVICE_CAPABILITIES = [
   },
   {
     id: "hospitality",
-    number: "04",
+    number: "03",
     title: "Luxury Hospitality & Resorts",
     tagline: "Experiential Destinations That Leave Lasting Impressions",
     description:
-      "From five-star presidential suites like ITC Maurya to the Trump Tower NCR sky lounge, our hospitality and experiential designs weave mood, tactile textures, and statement architecture into cohesive luxury journeys.",
-    image: "/projects/trumptower_hero.jpg",
+      "From boutique retreats to private entertainment lounges and presidential suites, our hospitality and experiential designs weave mood, tactile textures, and statement architecture into cohesive luxury journeys.",
+    image: "/projects/gallery/luxury_apartment_522/img_003.jpg",
     features: [
       "Fine dining atmosphere & signature bar design",
       "Presidential suites & bespoke guestroom pods",
@@ -126,7 +110,7 @@ export default function ServicesView() {
           Our Services
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-muted font-light">
-          Delivering end-to-end turnkey architectural and interior design services across residences, country farmhouses, corporate offices, and hospitality destinations.
+          Delivering end-to-end turnkey architectural and interior design services across luxury residences, corporate offices, and hospitality destinations.
         </p>
       </section>
 
@@ -237,7 +221,7 @@ export default function ServicesView() {
             Ready to Transform Your Space?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-muted font-light">
-            Connect with our principal design team for an exclusive consultation on your upcoming residence, farmhouse, or corporate project.
+            Connect with our principal design team for an exclusive consultation on your upcoming luxury residence or corporate project.
           </p>
           <div className="mt-8 flex justify-center gap-4">
             <Button href="/contact">Book Consultation</Button>

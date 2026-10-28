@@ -17,6 +17,9 @@ export function getDbPool(): mysql.Pool {
       enableKeepAlive: true,
       keepAliveInitialDelay: 0,
     });
+    (pool as any).on("error", (err: any) => {
+      console.warn("MySQL pool background error (handled):", err?.message || err);
+    });
   }
   return pool;
 }
@@ -53,6 +56,15 @@ export async function initDatabaseTables(): Promise<boolean> {
         caption TEXT,
         image_url LONGTEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    // 3. Create site_settings table
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS site_settings (
+        setting_key VARCHAR(100) PRIMARY KEY,
+        setting_value TEXT NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 

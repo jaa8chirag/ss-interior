@@ -16,19 +16,21 @@ export interface SiteSettingsData {
   altPhone?: string;
   email: string;
   address: string;
+  mapUrl?: string;
 }
 
 const DEFAULT_SETTINGS: SiteSettingsData = {
-  instagram: SITE.instagram || "https://instagram.com/ssinteriors",
-  facebook: SITE.facebook || "https://facebook.com/ssinteriors",
-  linkedin: SITE.linkedin || "https://linkedin.com/company/ss-interiors",
-  youtube: SITE.youtube || "https://youtube.com/@ssinteriors",
+  instagram: SITE.instagram || "https://www.instagram.com/ssinteriorsbyvishan?xtok=Nm9ybTgxbnoxNWp0",
+  facebook: SITE.facebook || "https://www.facebook.com/ssinteriorss",
+  linkedin: "",
+  youtube: "",
   whatsapp: SITE.whatsapp || "+91 9205784061",
-  pinterest: SITE.pinterest || "https://pinterest.com/ssinteriors",
+  pinterest: "",
   phone: SITE.phone || "+91 9205784061",
   altPhone: SITE.altPhone || "+91 9891800510",
   email: SITE.email || "info@ssinteriors.in",
-  address: SITE.address || "DLF Cross Point, 5th Floor, DLF City Phase IV, Sector 28, Gurgaon, Delhi NCR, 122002 India",
+  address: SITE.address || "Building CL-2, Huda market, 3rd Floor - JMV tower, Sector 28, Gurugram, Haryana 122009",
+  mapUrl: (SITE as any).mapUrl || "https://www.google.com/maps/place/SS+Interiors+By+Vishan+Gautam/@28.4724778,77.0870977,17z/data=!4m10!1m2!2m1!1sBuilding+CL-2,+Huda+Market,+Sector+28,+Chakkarpur,+Gurugram,+Haryana+122009!3m6!1s0x390d192fc53b6915:0x8548f8a7c6a7ca35!8m2!3d28.4692894!4d77.0905569!15sCktCdWlsZGluZyBDTC0yLCBIdWRhIE1hcmtldCwgU2VjdG9yIDI4LCBDaGFra2FycHVyLCBHdXJ1Z3JhbSwgSGFyeWFuYSAxMjIwMDmSASBpbnRlcmlvcl9jb25zdHJ1Y3Rpb25fY29udHJhY3RvcuABAA!16s%2Fg%2F11z38zx3x6?entry=ttu&g_ep=EgoyMDI2MTAxOS4wIKXMDSoASAFQAw%3D%3D",
 };
 
 export async function GET() {

@@ -58,6 +58,8 @@ export default function Footer() {
     linkedin: SITE.linkedin,
     youtube: SITE.youtube,
     whatsapp: SITE.whatsapp,
+    address: SITE.address,
+    mapUrl: SITE.mapUrl,
   });
 
   useEffect(() => {
@@ -69,6 +71,8 @@ export default function Footer() {
         linkedin: current.linkedin || SITE.linkedin,
         youtube: current.youtube || SITE.youtube,
         whatsapp: current.whatsapp || SITE.whatsapp,
+        address: current.address || SITE.address,
+        mapUrl: current.mapUrl || SITE.mapUrl,
       });
     };
     syncSettings();
@@ -80,6 +84,8 @@ export default function Footer() {
           linkedin: s.linkedin || SITE.linkedin,
           youtube: s.youtube || SITE.youtube,
           whatsapp: s.whatsapp || SITE.whatsapp,
+          address: s.address || SITE.address,
+          mapUrl: (s as any).mapUrl || SITE.mapUrl,
         });
       }
     });
@@ -198,14 +204,6 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services#farmhouses"
-                  className="hover:text-gold transition-colors flex items-center gap-2"
-                >
-                  <span className="text-gold">›</span> Country Estates
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/services#commercial"
                   className="hover:text-gold transition-colors flex items-center gap-2"
                 >
@@ -231,9 +229,15 @@ export default function Footer() {
             <div className="space-y-3 text-sm text-muted font-light">
               <div className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 text-[#846326] shrink-0 mt-1" />
-                <p className="leading-relaxed">
-                  {SITE.address}
-                </p>
+                <a
+                  href={settings.mapUrl || SITE.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="leading-relaxed hover:text-gold transition-colors"
+                  title="Open location in Google Maps"
+                >
+                  {settings.address || SITE.address}
+                </a>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-[#846326] shrink-0" />

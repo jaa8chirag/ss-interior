@@ -19,6 +19,22 @@ export default function SectionImageSlider({
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
+  // Progressive Just-In-Time Preloading (Zero Quality Loss)
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(new Set([0]));
+
+  useEffect(() => {
+    setLoadedIndices((prev) => {
+      const nextIdx = (current + 1) % items.length;
+      const prevIdx = (current - 1 + items.length) % items.length;
+      if (prev.has(current) && prev.has(nextIdx) && prev.has(prevIdx)) return prev;
+      const updated = new Set(prev);
+      updated.add(current);
+      updated.add(nextIdx);
+      updated.add(prevIdx);
+      return updated;
+    });
+  }, [current, items.length]);
+
   // Auto-advance slider
   useEffect(() => {
     if (isPaused || items.length <= 1) return;
@@ -66,22 +82,29 @@ export default function SectionImageSlider({
         onTouchEnd={handleTouchEnd}
         className="group relative h-[460px] sm:h-[560px] md:h-[640px] lg:h-[700px] xl:h-[740px] w-full overflow-hidden rounded-md border border-gold/30 hover:border-gold/60 bg-[#ede8df] shadow-md cursor-pointer select-none transition-colors"
       >
-        {items.map((item, idx) => (
-          <div
-            key={item.url + idx}
-            className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
-              idx === current ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
-            }`}
-          >
-            <img
-              src={item.url}
-              alt={item.caption}
-              loading={idx === 0 ? "eager" : "lazy"}
-              decoding="async"
-              className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
-            />
-          </div>
-        ))}
+        {items.map((item, idx) => {
+          const isLoaded = loadedIndices.has(idx) || idx === current;
+          return (
+            <div
+              key={item.url + idx}
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
+                idx === current ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+              }`}
+            >
+              {isLoaded ? (
+                <img
+                  src={item.url}
+                  alt={item.caption}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
+                />
+              ) : (
+                <div className="h-full w-full bg-[#ede8df]" />
+              )}
+            </div>
+          );
+        })}
 
         {/* Previous Slide Button */}
         <button

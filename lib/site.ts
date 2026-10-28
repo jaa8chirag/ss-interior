@@ -12,12 +12,13 @@ export const SITE = {
   phone: "+91 9205784061",
   altPhone: "+91 9891800510",
   whatsapp: "91 9205784061",
-  address: "DLF Cross Point, 5th Floor, DLF City Phase IV, Sector 28, Gurgaon, Delhi NCR, 122002 India",
-  instagram: "https://instagram.com/ssinteriors",
-  facebook: "https://facebook.com/ssinteriors",
-  linkedin: "https://linkedin.com/company/ss-interiors",
-  pinterest: "https://pinterest.com/ssinteriors",
-  youtube: "https://youtube.com/@ssinteriors",
+  address: "Building CL-2, Huda market, 3rd Floor - JMV tower, Sector 28, Gurugram, Haryana 122009",
+  mapUrl: "https://www.google.com/maps/place/SS+Interiors+By+Vishan+Gautam/@28.4724778,77.0870977,17z/data=!4m10!1m2!2m1!1sBuilding+CL-2,+Huda+Market,+Sector+28,+Chakkarpur,+Gurugram,+Haryana+122009!3m6!1s0x390d192fc53b6915:0x8548f8a7c6a7ca35!8m2!3d28.4692894!4d77.0905569!15sCktCdWlsZGluZyBDTC0yLCBIdWRhIE1hcmtldCwgU2VjdG9yIDI4LCBDaGFra2FycHVyLCBHdXJ1Z3JhbSwgSGFyeWFuYSAxMjIwMDmSASBpbnRlcmlvcl9jb25zdHJ1Y3Rpb25fY29udHJhY3RvcuABAA!16s%2Fg%2F11z38zx3x6?entry=ttu&g_ep=EgoyMDI2MTAxOS4wIKXMDSoASAFQAw%3D%3D",
+  instagram: "https://www.instagram.com/ssinteriorsbyvishan?xtok=Nm9ybTgxbnoxNWp0",
+  facebook: "https://www.facebook.com/ssinteriorss",
+  linkedin: "",
+  pinterest: "",
+  youtube: "",
 };
 
 export const NAV = [
@@ -32,25 +33,25 @@ export const THREE_PILLARS = [
   {
     title: "Residential",
     slug: "residential",
-    image: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4f61695c-d90a-4bde-9b12-f866c6cee6e4/Luxury%2BApartment%2BLiving%2BRoom%2Bmonica%2Bkhanna%2Bdesigns.webp?format=1500w",
+    image: "/projects/real/camellias/DSCF1000.JPG",
     description:
       "Our client’s needs and sensibilities are pivotal to our dream home creations. We combine a uniqueness in style with the nitty-gritties of the practical and functional to make our creations hugely distinctive. They are truly signatures of timeless appeal, with a stamp of minimalism and beautiful functionalism.",
-    link: "/services#apartments",
+    link: "/services#residential",
   },
   {
     title: "Office Interiors",
     slug: "offices",
-    image: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/4228d866-d3c2-43e5-af0e-f20179c8d3f3/Office%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
+    image: "/projects/real/commercial/15.jpg",
     description:
       "High-end office spaces that strike the perfect balance between sophistication and functionality. Each project is thoughtfully tailored to reflect the client’s brand identity while creating an environment that inspires productivity and comfort. With a refined aesthetic and meticulous attention to detail, the designs incorporate premium materials, smart spatial planning, and custom furnishings.",
-    link: "/services#offices",
+    link: "/services#commercial",
   },
   {
-    title: "Hospitality",
+    title: "Hospitality & Turnkey Execution",
     slug: "hospitality",
-    image: "https://images.squarespace-cdn.com/content/v1/557a860ae4b0017a8adb0dba/ca77bf20-d673-4e06-a306-d480f9f45715/Hotel%2BPool%2BMonica%2BKhanna%2BDesigns.webp?format=1500w",
+    image: "/projects/gallery/luxury_apartment_522/img_003.jpg",
     description:
-      "Spaces That Welcome, Experiences That Stay. Our hospitality projects are a fusion of luxury, experience, and storytelling. From boutique hotels to upscale resorts, we design immersive spaces that leave a lasting impression. Every element is thoughtfully curated - from mood lighting to custom furniture - to enhance guest comfort and brand identity.",
+      "Spaces That Welcome, Experiences That Stay. Our hospitality projects are a fusion of luxury, experience, and storytelling. From boutique retreats to private entertainment lounges, we design immersive spaces with natural stone, ambient lighting, and custom furniture.",
     link: "/services#hospitality",
   },
 ];
@@ -72,67 +73,40 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     category: "Residential",
     tagline: "Bespoke Apartments, Penthouses & Duplexes",
     description:
-      "From super-penthouses at DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Balancing custom millwork, ambient architectural lighting, and imported European materials.",
-    featuredImage: "/projects/camellias_real_1.jpg",
+      "From super-penthouses at DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Balancing custom millwork, ambient architectural lighting, sacred marble mandirs, and imported European materials.",
+    featuredImage: "/projects/real/camellias/DSCF1000.JPG",
     gallery: [
       {
-        url: "/projects/camellias_real_1.jpg",
-        caption: "DLF Camellias — Grand Formal Dining & Japanese Mural Architecture",
+        url: "/projects/real/camellias/DSCF1000.JPG",
+        caption: "DLF Camellias — Grand Formal Living Salon & Bookmatched Statuary Marble",
       },
       {
-        url: "/projects/camellias_real_2.jpg",
-        caption: "DLF Camellias — Private Bar & Wood-Paneled Foyer",
+        url: "/projects/real/camellias/DSCF1023.JPG",
+        caption: "DLF Camellias — Private Bar & Wood-Paneled Architectural Foyer",
       },
       {
-        url: "/projects/camellias_real_3.jpg",
-        caption: "DLF Camellias — Master Presidential Suite & Marble Fireplace",
+        url: "/projects/real/camellias/DSCF1042.jpg",
+        caption: "DLF Camellias — Hand-Carved Marble Mandir Sanctuary & Backlit Sacred Jali",
       },
       {
-        url: "/projects/magnolias_real_1.jpg",
-        caption: "DLF Magnolias — Bookmatched White Marble Foyer & Floral Backlit Art",
+        url: "/projects/real/camellias/DSCF1031.JPG",
+        caption: "DLF Camellias — Master Presidential Suite & Curved Architectural Headboard",
       },
       {
-        url: "/projects/magnolias_real_2.jpg",
-        caption: "DLF Magnolias — Grand Living Salon & Backlit Onyx Wall",
+        url: "/projects/real/magnolias/DSCF1292.jpg",
+        caption: "DLF Magnolias — Rose Quartz Semi-Precious Monolithic Ensuite Basin",
       },
       {
-        url: "/projects/magnolias_real_3.jpg",
-        caption: "DLF Magnolias — Intimate Family TV Lounge & Fluted Brass Accents",
-      },
-    ],
-  },
-  {
-    id: "farmhouses",
-    title: "Country Estates & Farmhouses",
-    category: "Farmhouses",
-    tagline: "Expansive Sanctuaries in Harmony with Nature",
-    description:
-      "Specialising in sprawling countryside retreats, private villas, and estate architecture. We integrate double-height vaulted spaces, hand-chiseled natural stone, transitional verandas, and Vastu-aligned spatial planning.",
-    featuredImage: "/projects/aralias_hero.jpg",
-    gallery: [
-      {
-        url: "/projects/aralias_hero.jpg",
-        caption: "Country Estate Great Hall — Double-Height Glazing & Hand-Chiseled Stone",
+        url: "/projects/real/camellias/DSCF3037.JPG",
+        caption: "DLF Camellias — Bookmatched Marble Master Ensuite with Frameless Glass",
       },
       {
-        url: "/projects/aralias_1.jpg",
-        caption: "Private Estate Veranda & Terrace — Harmonizing Architecture with Nature",
+        url: "/projects/real/magnolias/DSCF1307.jpg",
+        caption: "DLF Magnolias — Italian Marble Architectural Entry Gallery & Niches",
       },
       {
-        url: "/projects/estate_real_1.jpg",
-        caption: "Grand Dining Salon & Crystal Chandelier — Solid Seasoned Hardwoods",
-      },
-      {
-        url: "/projects/estate_real_2.jpg",
-        caption: "Master Ensuite — Green Onyx Double Vanity & Architectural Frameless Glazing",
-      },
-      {
-        url: "/projects/estate_real_3.jpg",
-        caption: "Double-Height Estate Drawing Hall — Coffered Ceilings & Bespoke Silk Carpets",
-      },
-      {
-        url: "/projects/aralias_4.jpg",
-        caption: "Dining Sanctuary & Courtyard Views — Hand-Poured Terrazzo & Brass Hardware",
+        url: "/projects/real/camellias/DSCF6729.JPG",
+        caption: "DLF Camellias — Formal Salon with Direct Panoramic Golf Course Vistas",
       },
     ],
   },
@@ -143,31 +117,47 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Executive Workspaces & Corporate Headquarters",
     description:
       "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
-    featuredImage: "/projects/corp_15.jpg",
+    featuredImage: "/projects/real/commercial/15.jpg",
     gallery: [
       {
-        url: "/projects/corp_15.jpg",
+        url: "/projects/real/commercial/15.jpg",
         caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
       },
       {
-        url: "/projects/corp_16.jpg",
+        url: "/projects/real/commercial/20.jpg",
+        caption: "Managing Director Leadership Suite — Sleek Minimalist Desk & Custom Credenza",
+      },
+      {
+        url: "/projects/real/commercial/27.jpg",
+        caption: "Corporate Reception Lounge & Fluted Architectural Feature Wall",
+      },
+      {
+        url: "/projects/real/commercial/16.jpg",
         caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Ambient Linears",
       },
       {
-        url: "/projects/corp_18.jpg",
-        caption: "Acoustic Glass Partition Executive Desks & Precision LED Layouts",
+        url: "/projects/real/commercial/26.jpg",
+        caption: "Executive Conference Room — Marble Table Setting & Presentation Display",
       },
       {
-        url: "/projects/corp_20.jpg",
-        caption: "Director Executive Cabin — Sleek Minimalist Desk & Custom Credenza",
+        url: "/projects/real/commercial/29.jpg",
+        caption: "Corporate Sacred Mandir & Prayer Sanctum — Backlit Pristine Marble Shrine",
       },
       {
-        url: "/projects/corp_26.jpg",
-        caption: "Managing Director Leadership Suite — Marble Conference Setting",
+        url: "/projects/real/commercial/25.jpg",
+        caption: "Corporate Breakout & Collaboration Hub — Modern Scandinavian High Stools",
       },
       {
-        url: "/projects/corp_27.jpg",
-        caption: "Corporate Reception Lounge & Acoustic Feature Wall Detailing",
+        url: "/projects/gallery/corporate_workspaces/img_016_aralias_study.jpg",
+        caption: "Executive Study & Leadership Worksuite — Bespoke Library & Ambient Lighting",
+      },
+      {
+        url: "/projects/real/commercial/32.jpg",
+        caption: "Executive Leadership Suite & Bespoke Wall Storage Architecture — Modern Minimalist Office",
+      },
+      {
+        url: "/projects/real/commercial/33.jpg",
+        caption: "Director Executive Cabin & Modern Linear Chandelier Detailing — Fluted Desk Front",
       },
     ],
   },
@@ -175,30 +165,42 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     id: "hospitality",
     title: "Hospitality & Turnkey Execution",
     category: "Hospitality",
-    tagline: "Presidential Suites, Experiential Dining & Resorts",
+    tagline: "Boutique Lounges, Private Bars & Signature Venues",
     description:
-      "From five-star presidential suites like ITC Maurya to the Trump Tower NCR duplex sky lounge, our hospitality and turnkey execution weaves mood, tactile textures, and statement architecture into cohesive luxury journeys.",
-    featuredImage: "/projects/trumptower_hero.jpg",
+      "Our hospitality and turnkey execution weaves mood, tactile textures, and statement architecture into cohesive luxury journeys from boutique retreats to private entertainment lounges.",
+    featuredImage: "/projects/gallery/luxury_apartment_522/img_003.jpg",
     gallery: [
       {
-        url: "/projects/trumptower_hero.jpg",
-        caption: "Presidential Duplex Penthouse Great Hall — Architectural Double-Height Living",
+        url: "/projects/gallery/luxury_apartment_522/img_003.jpg",
+        caption: "DLF Camellias — Luxury Executive Foyer & Curved Sculptural Staircase",
       },
       {
-        url: "/projects/trumptower_1.jpg",
-        caption: "Presidential Sky Lounge — Panoramic City Views & Ambient Lighting",
+        url: "/projects/gallery/luxury_apartment_522/img_001.jpg",
+        caption: "DLF Camellias — Double-Height Grand Architectural Salon",
       },
       {
-        url: "/projects/onyx_staircase.jpg",
-        caption: "Illuminated Translucent Honey Onyx Floating Staircase — Five-Star Architectural Grandeur",
+        url: "/projects/gallery/luxury_apartment_522/img_004.jpg",
+        caption: "DLF Camellias — Statement Floating Spiral Staircase & Ambient Cove",
       },
       {
-        url: "/projects/trumptower_3.jpg",
-        caption: "Grand Master Suite — Bookmatched Italian Marble & Bespoke Dressing",
+        url: "/projects/gallery/luxury_apartment_522/img_005.jpg",
+        caption: "DLF Camellias — Curated Executive Lounge & Backlit Brass Console",
       },
       {
-        url: "/projects/itc_maurya.jpg",
-        caption: "ITC Maurya — Grand Presidential Suite Luxury Turnkey Renovation",
+        url: "/projects/gallery/luxury_apartment_522/img_007.jpg",
+        caption: "DLF Camellias — Master Bedroom Suite with Custom Acoustic Paneling",
+      },
+      {
+        url: "/projects/gallery/luxury_apartment_522/img_009.jpg",
+        caption: "DLF Camellias — Luxury Ensuite & Backlit Marble Vanity",
+      },
+      {
+        url: "/projects/gallery/luxury_apartment_522/img_010.jpg",
+        caption: "DLF Camellias — Walk-in Dressing Suite & Tinted Glass Wardrobes",
+      },
+      {
+        url: "/projects/gallery/luxury_apartment_522/img_006.jpg",
+        caption: "DLF Camellias — Architectural Living & Dining Gallery",
       },
     ],
   },
@@ -283,8 +285,8 @@ export const ADDITIONAL_PROJECTS = [
     sectionTitle: "Commercial & Corporate Interiors",
   },
   {
-    url: "/projects/trumptower_2.jpg",
-    caption: "Trump Tower NCR — Luxury Floating Cantilever Staircase & Double-Height Glazing",
+    url: "/projects/gallery/luxury_apartment_522/img_003.jpg",
+    caption: "DLF Camellias — Luxury Curved Architectural Foyer & Statement Spiral Staircase",
     category: "Hospitality",
     sectionId: "hospitality",
     sectionTitle: "Hospitality & Turnkey Execution",

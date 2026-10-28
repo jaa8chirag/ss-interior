@@ -852,8 +852,14 @@ export default function AdminPortalView() {
                                 {lead.status}
                               </span>
                             </div>
-                            <div className="flex items-center gap-3 text-xs text-white/50">
-                              <span>{lead.phone}</span>
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-white/50">
+                              {lead.email && <span className="text-[#c5a059] font-medium">{lead.email}</span>}
+                              {lead.phone && lead.phone !== "-" && (
+                                <>
+                                  <span>•</span>
+                                  <span>{lead.phone}</span>
+                                </>
+                              )}
                               <span>•</span>
                               <span>{lead.category}</span>
                               <span>•</span>
@@ -862,24 +868,38 @@ export default function AdminPortalView() {
                           </div>
 
                           <div className="flex items-center gap-2">
-                            <a
-                              href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=Hello%20${encodeURIComponent(
-                                lead.name
-                              )},%20thank%20you%20for%20contacting%20SS%20Interiors.`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="px-2.5 py-1.5 rounded bg-emerald-950/60 border border-emerald-600/40 text-emerald-300 text-xs flex items-center gap-1 hover:bg-emerald-900/60 transition-colors"
-                            >
-                              <MessageCircle className="h-3 w-3" />
-                              <span>WhatsApp</span>
-                            </a>
-                            <a
-                              href={`tel:${lead.phone}`}
-                              className="px-2.5 py-1.5 rounded bg-white/5 border border-white/10 text-white/80 text-xs flex items-center gap-1 hover:bg-white/10 transition-colors"
-                            >
-                              <Phone className="h-3 w-3" />
-                              <span>Call</span>
-                            </a>
+                            {lead.email && (
+                              <a
+                                href={`mailto:${lead.email}?subject=Regarding%20Your%20Interior%20Inquiry%20-%20SS%20Interiors`}
+                                className="px-2.5 py-1.5 rounded bg-blue-950/60 border border-blue-600/40 text-blue-300 text-xs flex items-center gap-1 hover:bg-blue-900/60 transition-colors"
+                                title="Reply via Email"
+                              >
+                                <Mail className="h-3 w-3" />
+                                <span>Email</span>
+                              </a>
+                            )}
+                            {lead.phone && lead.phone !== "-" && (
+                              <>
+                                <a
+                                  href={`https://wa.me/${lead.phone.replace(/[^0-9]/g, "")}?text=Hello%20${encodeURIComponent(
+                                    lead.name
+                                  )},%20thank%20you%20for%20contacting%20SS%20Interiors.`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="px-2.5 py-1.5 rounded bg-emerald-950/60 border border-emerald-600/40 text-emerald-300 text-xs flex items-center gap-1 hover:bg-emerald-900/60 transition-colors"
+                                >
+                                  <MessageCircle className="h-3 w-3" />
+                                  <span>WhatsApp</span>
+                                </a>
+                                <a
+                                  href={`tel:${lead.phone}`}
+                                  className="px-2.5 py-1.5 rounded bg-white/5 border border-white/10 text-white/80 text-xs flex items-center gap-1 hover:bg-white/10 transition-colors"
+                                >
+                                  <Phone className="h-3 w-3" />
+                                  <span>Call</span>
+                                </a>
+                              </>
+                            )}
                           </div>
                         </div>
                       ))}

@@ -386,6 +386,26 @@ export const INITIAL_PROJECTS: AdminProjectItem[] = [
     clientScope: "Corporate Headquarters & Boardrooms",
     location: "Cyber City & Gurgaon NCR",
   },
+  {
+    id: "proj-33b",
+    url: "/projects/gallery/corporate_workspaces/img_014.jpg",
+    caption: "Executive Leadership Suite & Bespoke Wall Storage Architecture — Modern Minimalist Office",
+    category: "Commercial",
+    projectName: "Corporate C-Suite",
+    subProjectId: "corporate-c-suite",
+    clientScope: "Corporate Headquarters & Boardrooms",
+    location: "Cyber City & Gurgaon NCR",
+  },
+  {
+    id: "proj-33c",
+    url: "/projects/gallery/corporate_workspaces/img_015.jpg",
+    caption: "Director Executive Cabin & Modern Linear Chandelier Detailing — Fluted Desk Front",
+    category: "Commercial",
+    projectName: "Corporate C-Suite",
+    subProjectId: "corporate-c-suite",
+    clientScope: "Corporate Headquarters & Boardrooms",
+    location: "Cyber City & Gurgaon NCR",
+  },
 
   // ================= 04. HOSPITALITY =================
   // Trump Tower NCR
@@ -747,21 +767,23 @@ export interface SiteSettings {
   altPhone?: string;
   email: string;
   address: string;
+  mapUrl?: string;
 }
 
-export const SETTINGS_STORAGE_KEY = "ss_interiors_settings_v1";
+export const SETTINGS_STORAGE_KEY = "ss_interiors_settings_v2";
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  instagram: "https://instagram.com/ssinteriors",
-  facebook: "https://facebook.com/ssinteriors",
-  linkedin: "https://linkedin.com/company/ss-interiors",
-  youtube: "https://youtube.com/@ssinteriors",
+  instagram: "https://www.instagram.com/ssinteriorsbyvishan?xtok=Nm9ybTgxbnoxNWp0",
+  facebook: "https://www.facebook.com/ssinteriorss",
+  linkedin: "",
+  youtube: "",
   whatsapp: "+91 9205784061",
-  pinterest: "https://pinterest.com/ssinteriors",
+  pinterest: "",
   phone: "+91 9205784061",
   altPhone: "+91 9891800510",
   email: "info@ssinteriors.in",
-  address: "DLF Cross Point, 5th Floor, DLF City Phase IV, Sector 28, Gurgaon, Delhi NCR, 122002 India",
+  address: "Building CL-2, Huda market, 3rd Floor - JMV tower, Sector 28, Gurugram, Haryana 122009",
+  mapUrl: "https://www.google.com/maps/place/SS+Interiors+By+Vishan+Gautam/@28.4724778,77.0870977,17z/data=!4m10!1m2!2m1!1sBuilding+CL-2,+Huda+Market,+Sector+28,+Chakkarpur,+Gurugram,+Haryana+122009!3m6!1s0x390d192fc53b6915:0x8548f8a7c6a7ca35!8m2!3d28.4692894!4d77.0905569!15sCktCdWlsZGluZyBDTC0yLCBIdWRhIE1hcmtldCwgU2VjdG9yIDI4LCBDaGFra2FycHVyLCBHdXJ1Z3JhbSwgSGFyeWFuYSAxMjIwMDmSASBpbnRlcmlvcl9jb25zdHJ1Y3Rpb25fY29udHJhY3RvcuABAA!16s%2Fg%2F11z38zx3x6?entry=ttu&g_ep=EgoyMDI2MTAxOS4wIKXMDSoASAFQAw%3D%3D",
 };
 
 export function getSiteSettings(): SiteSettings {

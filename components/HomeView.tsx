@@ -20,24 +20,41 @@ import {
 
 const HERO_SLIDES = [
   {
-    image: "/hero_luxury.jpg",
-    subtitle: "Grand Estate Sanctuaries · Double-Height Architectural Living",
+    image: "/hero/grand_penthouse_salon.jpg",
+    subtitle: "DLF Camellias Grand Duplex · Double-Height Architectural Salon & Crystal Chandelier",
   },
   {
-    image: "/projects/camellias_hero.jpg",
-    subtitle: `DLF Camellias · Super-Penthouses & Residences · Est. ${SITE.since}`,
+    image: "/hero/luxury_duplex_living.jpg",
+    subtitle: "Super-Luxury Duplex Penthouse · Mezzanine Gallery & Bespoke Italian Seating",
   },
   {
-    image: "/projects/trumptower_hero.jpg",
-    subtitle: "Trump Tower NCR · Presidential Duplex Penthouses",
+    image: "/hero/sky_penthouse_piano_lounge.jpg",
+    subtitle: "Panoramic Sky Penthouse · Grand Piano Salon & Floor-to-Ceiling Skyline Views",
   },
   {
-    image: "/projects/thecrest_2.jpg",
-    subtitle: "The Crest, DLF Phase 5 · Super-Luxury Master Suite & Private Sanctuary",
+    image: "/hero/presidential_master_bedroom.jpg",
+    subtitle: "Presidential Master Suite · Champagne Gold Curved Accent Wall & Luxury Chaise",
+  },
+  // --- Ultra High-Resolution 4K UHD Renders (DLF Aralias) ---
+  {
+    image: "/hero/aralias_entrance_gallery.jpg",
+    subtitle: "DLF Aralias · Grand Entrance Hallway Gallery & Architectural Fluting",
   },
   {
-    image: "/projects/corp_17.jpg",
-    subtitle: "Commercial & Corporate Interiors · Contemporary Architectural Workspaces",
+    image: "/hero/aralias_living_dining.jpg",
+    subtitle: "DLF Aralias · Double-Height Formal Living Salon & Curvilinear Architectural Lounge",
+  },
+  {
+    image: "/hero/aralias_grand_salon_p20.jpg",
+    subtitle: "DLF Aralias · Grand Living & Dining Salon with Floor-to-Ceiling Panoramic Windows",
+  },
+  {
+    image: "/hero/aralias_family_lounge_p35.jpg",
+    subtitle: "DLF Aralias · Contemporary Family Lounge & Black Forest Marble Architectural Wall",
+  },
+  {
+    image: "/hero/aralias_master_suite_p45.jpg",
+    subtitle: "DLF Aralias · Master Suite with Fluted Architectural Paneling & Ambient Cove Lighting",
   },
 ];
 
@@ -46,6 +63,21 @@ export default function HomeView() {
 
   // Hero Slider State (Smooth continuous 3-second auto-transition)
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Progressive Just-In-Time Preloading (Zero Quality Loss, Instant Initial Load)
+  const [loadedSlides, setLoadedSlides] = useState<Set<number>>(new Set([0]));
+
+  useEffect(() => {
+    // Keep current slide and next slide preloaded in browser cache
+    setLoadedSlides((prev) => {
+      const nextSlide = (currentSlide + 1) % HERO_SLIDES.length;
+      if (prev.has(currentSlide) && prev.has(nextSlide)) return prev;
+      const updated = new Set(prev);
+      updated.add(currentSlide);
+      updated.add(nextSlide);
+      return updated;
+    });
+  }, [currentSlide]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -93,21 +125,30 @@ export default function HomeView() {
       >
         {/* Multi-Image Background Carousel with GPU-Accelerated Pure CSS Crossfade */}
         <div className="absolute inset-0 h-full w-full overflow-hidden">
-          {HERO_SLIDES.map((slide, idx) => (
-            <div
-              key={slide.image}
-              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+          {HERO_SLIDES.map((slide, idx) => {
+            const isLoaded = loadedSlides.has(idx) || idx === currentSlide;
+            return (
+              <div
+                key={slide.image}
+                className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
+                  idx === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
                 }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.subtitle}
-                loading={idx === 0 ? "eager" : "lazy"}
-                decoding="async"
-                className="h-full w-full object-cover object-center transform-gpu"
-              />
-            </div>
-          ))}
+              >
+                {isLoaded ? (
+                  <img
+                    src={slide.image}
+                    alt={slide.subtitle}
+                    loading={idx === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={idx === 0 ? "high" : "auto"}
+                    className="h-full w-full object-cover object-center transform-gpu"
+                  />
+                ) : (
+                  <div className="h-full w-full bg-[#181614]" />
+                )}
+              </div>
+            );
+          })}
         </div>
 
 
@@ -126,9 +167,8 @@ export default function HomeView() {
           <section
             key={section.id}
             id={section.id}
-            className={`scroll-mt-20 py-12 sm:py-16 border-b border-line content-auto ${
-              sIndex % 2 === 0 ? "bg-white" : "bg-[#fcfaf7]"
-            }`}
+            className={`scroll-mt-20 py-12 sm:py-16 border-b border-line content-auto ${sIndex % 2 === 0 ? "bg-white" : "bg-[#fcfaf7]"
+              }`}
           >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
               {/* Title on TOP (Clean, normal & elegant — no right-side text clutter) */}

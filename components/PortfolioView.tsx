@@ -1,441 +1,90 @@
 "use client";
+
 import { useState, useMemo, useEffect, useRef } from "react";
-import { ChevronLeft, ChevronRight, Expand, Home, Trees, Briefcase, Sparkles, Layers, MapPin, Building2, UserCheck } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Expand,
+  Building2,
+  Sparkles,
+  Layers,
+  MapPin,
+  Briefcase,
+  Home,
+  CheckCircle2,
+} from "lucide-react";
 import ImageLightbox from "./ImageLightbox";
-import { getProjects } from "@/lib/adminStore";
+import {
+  REAL_PROJECTS,
+  PROJECT_CATEGORIES,
+  RealProject,
+  ProjectImage,
+} from "@/lib/realProjectsData";
 
-export interface DetailedProject {
-  url: string;
-  caption: string;
-  category: "Residential" | "Farmhouses" | "Commercial" | "Hospitality";
-  projectName: string;
-  subProjectId: string;
-  clientScope: string;
-  location: string;
-}
-
-const ALL_PROJECT_DATA: DetailedProject[] = [
-  // ================= 01. RESIDENTIAL =================
-  // DLF Camellias (6 works)
-  {
-    url: "/projects/camellias_real_1.jpg",
-    caption: "Grand Formal Dining & Japanese Mural Architecture — Bookmatched Statuary Marble",
-    category: "Residential",
-    projectName: "DLF Camellias",
-    subProjectId: "dlf-camellias",
-    clientScope: "Ultra-Luxury Private Sky Penthouse",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/camellias_real_2.jpg",
-    caption: "Private Bar Lounge & Wood-Paneled Foyer with Ambient Concealed Linears",
-    category: "Residential",
-    projectName: "DLF Camellias",
-    subProjectId: "dlf-camellias",
-    clientScope: "Ultra-Luxury Private Sky Penthouse",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/camellias_real_3.jpg",
-    caption: "Master Presidential Suite & Marble Fireplace Detail with Architectural Coves",
-    category: "Residential",
-    projectName: "DLF Camellias",
-    subProjectId: "dlf-camellias",
-    clientScope: "Ultra-Luxury Private Sky Penthouse",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/camellias_real_4.jpg",
-    caption: "Backlit Honey Onyx Entry Console & Vertical Architectural Partition",
-    category: "Residential",
-    projectName: "DLF Camellias",
-    subProjectId: "dlf-camellias",
-    clientScope: "Ultra-Luxury Private Sky Penthouse",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/camellias_real_5.jpg",
-    caption: "Fluted Seasoned Timber Corridor & Concealed Flush Wardrobes",
-    category: "Residential",
-    projectName: "DLF Camellias",
-    subProjectId: "dlf-camellias",
-    clientScope: "Ultra-Luxury Private Sky Penthouse",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/camellias_real_6.jpg",
-    caption: "Contemporary Living Fireplace Feature Wall & Sculptural Mirror Styling",
-    category: "Residential",
-    projectName: "DLF Camellias",
-    subProjectId: "dlf-camellias",
-    clientScope: "Ultra-Luxury Private Sky Penthouse",
-    location: "Golf Course Road, Gurgaon",
-  },
-
-  // DLF Magnolias (5 works)
-  {
-    url: "/projects/magnolias_real_1.jpg",
-    caption: "Bookmatched White Marble Foyer & Floral Backlit Statement Art",
-    category: "Residential",
-    projectName: "DLF Magnolias",
-    subProjectId: "dlf-magnolias",
-    clientScope: "Bespoke Luxury Family Residence",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/magnolias_real_2.jpg",
-    caption: "Grand Living Salon & Backlit Onyx Wall with Custom European Furniture",
-    category: "Residential",
-    projectName: "DLF Magnolias",
-    subProjectId: "dlf-magnolias",
-    clientScope: "Bespoke Luxury Family Residence",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/magnolias_real_3.jpg",
-    caption: "Intimate Family TV Lounge & Fluted Brass Accent Panelling",
-    category: "Residential",
-    projectName: "DLF Magnolias",
-    subProjectId: "dlf-magnolias",
-    clientScope: "Bespoke Luxury Family Residence",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/magnolias_real_4.jpg",
-    caption: "Sculptural Birds Foyer Wall & Floating Italian Stone Console",
-    category: "Residential",
-    projectName: "DLF Magnolias",
-    subProjectId: "dlf-magnolias",
-    clientScope: "Bespoke Luxury Family Residence",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/magnolias_real_5.jpg",
-    caption: "Powder Room Hand-Carved Rose Onyx Basin & Precision Downlighting",
-    category: "Residential",
-    projectName: "DLF Magnolias",
-    subProjectId: "dlf-magnolias",
-    clientScope: "Bespoke Luxury Family Residence",
-    location: "Golf Course Road, Gurgaon",
-  },
-  {
-    url: "/projects/curved_master_suite.jpg",
-    caption: "Curved Velvet Headboard & Floating Cove Lighting Master Suite",
-    category: "Residential",
-    projectName: "Private Suite",
-    subProjectId: "private-suite",
-    clientScope: "Master Bedroom Suite",
-    location: "Delhi NCR",
-  },
-
-  // ================= 02. FARMHOUSES =================
-  // DLF Aralias Country Estate (5 works)
-  {
-    url: "/projects/aralias_hero.jpg",
-    caption: "Country Estate Great Hall — Double-Height Glazing & Hand-Chiseled Stone",
-    category: "Farmhouses",
-    projectName: "DLF Aralias Estate",
-    subProjectId: "dlf-aralias",
-    clientScope: "Private Sprawling Country Estate",
-    location: "Golf Course Road / NCR Countryside",
-  },
-  {
-    url: "/projects/aralias_1.jpg",
-    caption: "Private Estate Veranda & Terrace — Harmonizing Architecture with Nature",
-    category: "Farmhouses",
-    projectName: "DLF Aralias Estate",
-    subProjectId: "dlf-aralias",
-    clientScope: "Private Sprawling Country Estate",
-    location: "Golf Course Road / NCR Countryside",
-  },
-  {
-    url: "/projects/aralias_2.jpg",
-    caption: "Drawing Room & Formal Lounge with Earthy Stone Textures and Teak Joists",
-    category: "Farmhouses",
-    projectName: "DLF Aralias Estate",
-    subProjectId: "dlf-aralias",
-    clientScope: "Private Sprawling Country Estate",
-    location: "Golf Course Road / NCR Countryside",
-  },
-  {
-    url: "/projects/aralias_3.jpg",
-    caption: "Countryside Villa Bedroom & Panoramic Courtyard Garden Views",
-    category: "Farmhouses",
-    projectName: "DLF Aralias Estate",
-    subProjectId: "dlf-aralias",
-    clientScope: "Private Sprawling Country Estate",
-    location: "Golf Course Road / NCR Countryside",
-  },
-  {
-    url: "/projects/aralias_4.jpg",
-    caption: "Dining Sanctuary & Courtyard Views — Hand-Poured Terrazzo & Brass Hardware",
-    category: "Farmhouses",
-    projectName: "DLF Aralias Estate",
-    subProjectId: "dlf-aralias",
-    clientScope: "Private Sprawling Country Estate",
-    location: "Golf Course Road / NCR Countryside",
-  },
-
-  // Chhatarpur Country Villa (3 works)
-  {
-    url: "/projects/estate_real_1.jpg",
-    caption: "Grand Dining Salon & Crystal Chandelier — Solid Seasoned Hardwood Joinery",
-    category: "Farmhouses",
-    projectName: "Chhatarpur Villa",
-    subProjectId: "chhatarpur-villa",
-    clientScope: "Private Luxury Acreage Farmhouse",
-    location: "Chhatarpur, Delhi NCR",
-  },
-  {
-    url: "/projects/estate_real_2.jpg",
-    caption: "Master Ensuite — Green Onyx Double Vanity & Frameless Architectural Glazing",
-    category: "Farmhouses",
-    projectName: "Chhatarpur Villa",
-    subProjectId: "chhatarpur-villa",
-    clientScope: "Private Luxury Acreage Farmhouse",
-    location: "Chhatarpur, Delhi NCR",
-  },
-  {
-    url: "/projects/estate_real_3.jpg",
-    caption: "Double-Height Estate Drawing Hall — Coffered Ceilings & Silk Carpets",
-    category: "Farmhouses",
-    projectName: "Chhatarpur Villa",
-    subProjectId: "chhatarpur-villa",
-    clientScope: "Private Luxury Acreage Farmhouse",
-    location: "Chhatarpur, Delhi NCR",
-  },
-
-  // ================= 03. COMMERCIAL =================
-  // DLF The Crest Executive HQ (3 works)
-  {
-    url: "/projects/thecrest_hero.jpg",
-    caption: "Executive Headquarters Formal Reception — Bookmatched Marble & Brass Inlay",
-    category: "Commercial",
-    projectName: "DLF The Crest",
-    subProjectId: "the-crest",
-    clientScope: "Corporate Headquarters & Leadership Suite",
-    location: "Sector 54, Gurgaon",
-  },
-
-  // Corporate Leadership Suites (10 works)
-  {
-    url: "/projects/corp_15.jpg",
-    caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustics",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_16.jpg",
-    caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Linears",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_18.jpg",
-    caption: "Acoustic Glass Partition Executive Desks & Precision LED Layouts",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_20.jpg",
-    caption: "Director Executive Cabin — Sleek Minimalist Desk & Custom Credenza",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_26.jpg",
-    caption: "Managing Director Leadership Suite — Marble Conference Setting",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_27.jpg",
-    caption: "Corporate Reception Lounge & Acoustic Feature Wall Detailing",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_25.jpg",
-    caption: "Corporate Breakout & Collaboration Hub — Modern Scandinavian High Stools",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_17.jpg",
-    caption: "Agile Team Workspace — Glass Partitions & Acoustic Ceiling Clouds",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_21.jpg",
-    caption: "Senior Executive Cabin — Panoramic Skyline Views & Ergonomic Mesh Seating",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-  {
-    url: "/projects/corp_19.jpg",
-    caption: "Executive Corridor & Gallery — Architectural Strip Lighting & Soundproofing",
-    category: "Commercial",
-    projectName: "Corporate C-Suite",
-    subProjectId: "corporate-c-suite",
-    clientScope: "Corporate Headquarters & Boardrooms",
-    location: "Cyber City & Gurgaon NCR",
-  },
-
-  // ================= 04. HOSPITALITY =================
-  // Trump Tower NCR (4 works)
-  {
-    url: "/projects/trumptower_hero.jpg",
-    caption: "Presidential Duplex Penthouse Great Hall — Architectural Double-Height Living",
-    category: "Hospitality",
-    projectName: "Trump Tower NCR",
-    subProjectId: "trump-tower",
-    clientScope: "Presidential Sky Penthouse & Lounge",
-    location: "Sector 65, Gurgaon",
-  },
-  {
-    url: "/projects/trumptower_1.jpg",
-    caption: "Presidential Sky Lounge — Panoramic City Views & Ambient Cove Lighting",
-    category: "Hospitality",
-    projectName: "Trump Tower NCR",
-    subProjectId: "trump-tower",
-    clientScope: "Presidential Sky Penthouse & Lounge",
-    location: "Sector 65, Gurgaon",
-  },
-  {
-    url: "/projects/trumptower_2.jpg",
-    caption: "Luxury Floating Cantilever Staircase & Frameless Double-Height Glazing",
-    category: "Hospitality",
-    projectName: "Trump Tower NCR",
-    subProjectId: "trump-tower",
-    clientScope: "Presidential Sky Penthouse & Lounge",
-    location: "Sector 65, Gurgaon",
-  },
-  {
-    url: "/projects/trumptower_3.jpg",
-    caption: "Grand Master Suite — Bookmatched Italian Marble & Bespoke Dressing",
-    category: "Hospitality",
-    projectName: "Trump Tower NCR",
-    subProjectId: "trump-tower",
-    clientScope: "Presidential Sky Penthouse & Lounge",
-    location: "Sector 65, Gurgaon",
-  },
-
-  // Five-Star Venues & ITC Maurya (3 works)
-  {
-    url: "/projects/itc_maurya.jpg",
-    caption: "ITC Maurya — Grand Presidential Suite Luxury Turnkey Renovation",
-    category: "Hospitality",
-    projectName: "ITC Maurya Suite",
-    subProjectId: "itc-maurya",
-    clientScope: "Five-Star Presidential Suite",
-    location: "Diplomatic Enclave, New Delhi",
-  },
-  {
-    url: "/projects/onyx_staircase.jpg",
-    caption: "Illuminated Translucent Honey Onyx Floating Staircase — Five-Star Grandeur",
-    category: "Hospitality",
-    projectName: "Onyx Architectural Feature",
-    subProjectId: "itc-maurya",
-    clientScope: "Five-Star Hotel Architectural Fit-out",
-    location: "New Delhi NCR",
-  },
-  {
-    url: "/projects/luxury_bar.jpg",
-    caption: "Signature Hospitality Bar Counter — Fluted Panelling & Arched Backlit Display",
-    category: "Hospitality",
-    projectName: "Signature Bar Lounge",
-    subProjectId: "itc-maurya",
-    clientScope: "Luxury Hospitality Dining Venue",
-    location: "Delhi NCR",
-  },
-];
-
-interface MainTab {
-  id: string;
-  name: string;
-  categoryKey?: "Residential" | "Farmhouses" | "Commercial" | "Hospitality";
-  icon: typeof Home;
-}
-
-const MAIN_TABS: MainTab[] = [
-  { id: "all", name: "All", icon: Layers },
-  { id: "residential", name: "Residential", categoryKey: "Residential", icon: Home },
-  { id: "farmhouses", name: "Farmhouses", categoryKey: "Farmhouses", icon: Trees },
-  { id: "commercial", name: "Commercial", categoryKey: "Commercial", icon: Briefcase },
-  { id: "hospitality", name: "Hospitality", categoryKey: "Hospitality", icon: Sparkles },
-];
-
-const CORE_CATEGORIES: {
-  id: string;
-  name: string;
-  categoryKey: "Residential" | "Farmhouses" | "Commercial" | "Hospitality";
-  icon: typeof Home;
-}[] = [
-  { id: "residential", name: "Residential Interiors", categoryKey: "Residential", icon: Home },
-  { id: "farmhouses", name: "Farmhouses & Country Estates", categoryKey: "Farmhouses", icon: Trees },
-  { id: "commercial", name: "Commercial & Corporate Interiors", categoryKey: "Commercial", icon: Briefcase },
-  { id: "hospitality", name: "Hospitality & Turnkey Execution", categoryKey: "Hospitality", icon: Sparkles },
-];
-
-/* Reusable Grand Category Slider Component */
-function CategoryProjectSlider({
-  categoryTitle,
-  projects,
+/* Reusable Project Folder Slider with Grand Cinema Stage & Thumbnails */
+function ProjectFolderSlider({
+  project,
+  index,
   onOpenLightbox,
 }: {
-  categoryTitle: string;
-  projects: DetailedProject[];
-  onOpenLightbox: (images: DetailedProject[], index: number) => void;
+  project: RealProject;
+  index: number;
+  onOpenLightbox: (images: ProjectImage[], index: number) => void;
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
+  const thumbsContainerRef = useRef<HTMLDivElement>(null);
 
-  // Auto advance
+  const images = project.images;
+  const total = images.length;
+
+  // Progressive Just-In-Time Preloading (Zero Quality Loss)
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(new Set([0]));
+
   useEffect(() => {
-    if (isPaused || projects.length <= 1) return;
+    if (total === 0) return;
+    setLoadedIndices((prev) => {
+      const nextIdx = (currentSlide + 1) % total;
+      const prevIdx = (currentSlide - 1 + total) % total;
+      if (prev.has(currentSlide) && prev.has(nextIdx) && prev.has(prevIdx)) return prev;
+      const updated = new Set(prev);
+      updated.add(currentSlide);
+      updated.add(nextIdx);
+      updated.add(prevIdx);
+      return updated;
+    });
+  }, [currentSlide, total]);
+
+  // Auto-advance slide every 4.8s (pauses on hover)
+  useEffect(() => {
+    if (isPaused || total <= 1) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % projects.length);
-    }, 4500);
+      setCurrentSlide((prev) => (prev + 1) % total);
+    }, 4800);
     return () => clearInterval(timer);
-  }, [isPaused, projects.length]);
+  }, [isPaused, total]);
+
+  // Keep active thumbnail centered in view
+  useEffect(() => {
+    const container = thumbsContainerRef.current;
+    if (!container) return;
+    const activeThumb = container.children[currentSlide] as HTMLElement;
+    if (activeThumb) {
+      const targetScroll =
+        activeThumb.offsetLeft - container.offsetWidth / 2 + activeThumb.offsetWidth / 2;
+      container.scrollTo({ left: targetScroll, behavior: "smooth" });
+    }
+  }, [currentSlide]);
 
   const prevSlide = () => {
-    if (projects.length === 0) return;
-    setCurrentSlide((prev) => (prev - 1 + projects.length) % projects.length);
+    if (total === 0) return;
+    setCurrentSlide((prev) => (prev - 1 + total) % total);
   };
 
   const nextSlide = () => {
-    if (projects.length === 0) return;
-    setCurrentSlide((prev) => (prev + 1) % projects.length);
+    if (total === 0) return;
+    setCurrentSlide((prev) => (prev + 1) % total);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -452,173 +101,178 @@ function CategoryProjectSlider({
     touchStartX.current = null;
   };
 
-  const currentProject = projects[currentSlide];
-
-  if (!projects || projects.length < 2) return null;
+  if (total === 0) return null;
 
   return (
-    <div
-      className="space-y-4"
+    <article
+      id={project.id}
+      className="scroll-mt-28 space-y-5 p-4 sm:p-6 lg:p-8 rounded-2xl bg-white border border-gold/30 shadow-lg hover:shadow-2xl transition-all duration-300"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Category Section Header */}
-      <div className="flex items-center justify-between pb-1 border-b border-gold/30">
-        <h2 className="font-serif text-2xl sm:text-3xl text-fg font-normal">
-          {categoryTitle}
-        </h2>
-        <span className="text-xs uppercase tracking-widest text-gold font-medium">
-          {projects.length} Works
-        </span>
+      {/* Project Meta Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-line/70">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="text-[11px] uppercase tracking-[0.25em] text-gold font-sans font-semibold bg-gold/10 px-2.5 py-1 rounded-full border border-gold/30">
+              {project.badge}
+            </span>
+            <span className="text-xs text-muted flex items-center gap-1 font-light">
+              <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
+              {project.location}
+            </span>
+          </div>
+
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl text-fg font-normal leading-tight">
+            {project.title}
+          </h2>
+
+          <p className="text-xs sm:text-sm text-muted font-light max-w-3xl leading-relaxed">
+            {project.description}
+          </p>
+        </div>
+
+        {/* Slide Counter */}
+        <div className="flex items-center gap-2.5 shrink-0 self-start md:self-end flex-wrap">
+          <span className="text-xs font-mono font-medium text-fg/80 bg-[#faf8f5] px-3 py-1.5 rounded-full border border-line">
+            Photo <span className="text-gold font-bold">{currentSlide + 1}</span> of {total}
+          </span>
+        </div>
       </div>
 
       {/* Grand Big Image Stage */}
       <div
-        onClick={() => onOpenLightbox(projects, currentSlide)}
+        onClick={() => onOpenLightbox(images, currentSlide)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        className="group relative h-[480px] sm:h-[580px] lg:h-[660px] w-full overflow-hidden rounded-md border border-gold/40 hover:border-gold/70 bg-[#fdfcfb] shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer select-none"
+        className="group relative h-[420px] sm:h-[540px] lg:h-[660px] w-full overflow-hidden rounded-xl border border-gold/40 hover:border-gold/80 bg-[#111] shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer select-none"
       >
         {/* Slides with Crossfade */}
-        {projects.map((item, idx) => (
-          <div
-            key={`${item.url}-${idx}`}
-            className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
-              idx === currentSlide ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
-            }`}
-          >
-            <img
-              src={item.url}
-              alt={item.caption}
-              loading={idx === 0 ? "eager" : "lazy"}
-              decoding="async"
-              className="h-full w-full object-cover object-center transition-transform duration-1000 group-hover:scale-[1.02]"
-            />
-          </div>
-        ))}
+        {images.map((item, idx) => {
+          const isLoaded = loadedIndices.has(idx) || idx === currentSlide;
+          return (
+            <div
+              key={item.id}
+              className={`absolute inset-0 h-full w-full transition-opacity duration-700 ease-in-out ${
+                idx === currentSlide ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
+              }`}
+            >
+              {isLoaded ? (
+                <img
+                  src={item.url}
+                  alt={item.title}
+                  loading={idx === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-full w-full object-cover object-center transition-transform duration-1000 group-hover:scale-[1.02]"
+                />
+              ) : (
+                <div className="h-full w-full bg-[#111]" />
+              )}
+              {/* Bottom Dark Gradient for Caption Readability */}
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none" />
+            </div>
+          );
+        })}
 
-        {/* Top Bar: Category Pill & Project Name & Counter */}
-        <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20 flex flex-wrap items-center gap-2">
-          <span className="bg-white/95 backdrop-blur-md border border-gold/40 px-3.5 py-1 text-xs uppercase tracking-wider text-gold font-sans font-medium shadow-sm">
-            {currentProject?.category}
-          </span>
-
-          <span className="bg-[#17181c]/90 backdrop-blur-md border border-gold/50 text-white px-3.5 py-1 text-xs font-serif tracking-wider shadow-sm flex items-center gap-1.5">
-            <Building2 className="h-3.5 w-3.5 text-gold" />
-            <span>{currentProject?.projectName}</span>
-          </span>
-
-          <span className="bg-black/60 backdrop-blur-md border border-white/20 text-white/90 px-3 py-1 text-xs font-mono tracking-wider shadow-sm">
-            {currentSlide + 1 < 10 ? `0${currentSlide + 1}` : currentSlide + 1} /{" "}
-            {projects.length < 10 ? `0${projects.length}` : projects.length}
-          </span>
+        {/* Slide Bottom Caption Bar with Original Filename */}
+        <div className="absolute bottom-4 left-4 right-16 z-20 pointer-events-none">
+          <p className="text-xs sm:text-sm text-white/95 font-medium drop-shadow-md truncate">
+            {images[currentSlide]?.title}
+          </p>
+          <p className="text-[11px] text-gold/90 font-light drop-shadow-sm truncate">
+            {project.specs}
+          </p>
         </div>
 
-        {/* Fullscreen Expand Icon Button */}
+        {/* Fullscreen Expand / Zoom Button */}
         <button
           type="button"
-          aria-label="Expand Fullscreen"
+          aria-label="Expand Fullscreen Zoom"
           onClick={(e) => {
             e.stopPropagation();
-            onOpenLightbox(projects, currentSlide);
+            onOpenLightbox(images, currentSlide);
           }}
-          className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 bg-white/90 backdrop-blur-md border border-line p-2.5 text-fg/80 group-hover:bg-gold group-hover:text-white group-hover:border-gold transition-all shadow-md rounded-xs cursor-pointer"
+          className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white hover:bg-gold transition-all shadow-md backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
         >
           <Expand className="h-4 w-4" />
         </button>
 
         {/* Previous Arrow Button */}
-        <button
-          type="button"
-          aria-label="Previous Slide"
-          onClick={(e) => {
-            e.stopPropagation();
-            prevSlide();
-          }}
-          className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/90 text-fg shadow-lg backdrop-blur-md border border-line transition-all hover:bg-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
-        >
-          <ChevronLeft className="h-6 w-6" />
-        </button>
+        {total > 1 && (
+          <button
+            type="button"
+            aria-label="Previous Slide"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevSlide();
+            }}
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/90 text-fg shadow-lg backdrop-blur-md border border-line transition-all hover:bg-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+          </button>
+        )}
 
         {/* Next Arrow Button */}
-        <button
-          type="button"
-          aria-label="Next Slide"
-          onClick={(e) => {
-            e.stopPropagation();
-            nextSlide();
-          }}
-          className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/90 text-fg shadow-lg backdrop-blur-md border border-line transition-all hover:bg-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
-        >
-          <ChevronRight className="h-6 w-6" />
-        </button>
-
-        {/* Gradient Shade for Crisp Caption Legibility */}
-        <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
-
-        {/* Bottom Caption Overlay: Shows Who It Was Built For + Location + Caption */}
-        {currentProject && (
-          <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 z-20 pointer-events-none space-y-1.5">
-            <div className="flex flex-wrap items-center gap-3 text-xs text-white/90">
-              <span className="inline-flex items-center gap-1.5 text-gold font-sans font-medium tracking-wide">
-                <UserCheck className="h-3.5 w-3.5 text-gold" />
-                Built For: {currentProject.clientScope}
-              </span>
-              <span className="text-white/40">•</span>
-              <span className="inline-flex items-center gap-1.5 text-white/80 font-sans">
-                <MapPin className="h-3.5 w-3.5 text-gold/80" />
-                {currentProject.location}
-              </span>
-            </div>
-
-            <p className="font-serif text-lg sm:text-2xl text-white font-light leading-snug drop-shadow-md">
-              {currentProject.caption}
-            </p>
-          </div>
+        {total > 1 && (
+          <button
+            type="button"
+            aria-label="Next Slide"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextSlide();
+            }}
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-white/90 text-fg shadow-lg backdrop-blur-md border border-line transition-all hover:bg-gold hover:text-white hover:scale-105 active:scale-95 cursor-pointer"
+          >
+            <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
+          </button>
         )}
       </div>
 
-      {/* Thumbnails Carousel Strip */}
-      <div className="flex items-center gap-2.5 overflow-x-auto py-2 px-1 scrollbar-thin scrollbar-thumb-gold/40">
-        {projects.map((item, idx) => (
-          <button
-            key={`thumb-${item.url}-${idx}`}
-            type="button"
-            onClick={() => setCurrentSlide(idx)}
-            className={`relative shrink-0 h-20 w-28 sm:h-24 sm:w-36 overflow-hidden rounded border transition-all cursor-pointer ${
-              idx === currentSlide
-                ? "border-gold ring-2 ring-gold/40 scale-100 opacity-100 shadow-md"
-                : "border-line opacity-60 hover:opacity-100 hover:border-gold/60"
-            }`}
-          >
-            <img
-              src={item.url}
-              alt={item.caption}
-              className="h-full w-full object-cover object-center"
-            />
-            <div className="absolute bottom-1 right-1 bg-black/70 text-white font-mono text-[9px] px-1 rounded">
-              {idx + 1}
-            </div>
-            <div className="absolute top-1 left-1 bg-black/70 text-gold text-[9px] px-1 rounded truncate max-w-[80px]">
-              {item.projectName.split(" ")[0]}
-            </div>
-          </button>
-        ))}
+      {/* Thumbnails Carousel Strip (All Images from this Desktop Folder) */}
+      <div className="space-y-1.5 pt-1">
+        <div className="flex items-center justify-between px-1 text-[11px] text-muted">
+          <span>Browse all {total} photographs:</span>
+          <span className="text-gold font-medium">Click thumbnail to view</span>
+        </div>
+        <div
+          ref={thumbsContainerRef}
+          className="flex items-center gap-2 overflow-x-auto py-2 px-1 scrollbar-thin scrollbar-thumb-gold/40 scrollbar-track-transparent"
+        >
+          {images.map((item, idx) => (
+            <button
+              key={`thumb-${item.id}`}
+              type="button"
+              onClick={() => setCurrentSlide(idx)}
+              className={`relative shrink-0 h-16 w-24 sm:h-20 sm:w-32 overflow-hidden rounded-md border transition-all cursor-pointer ${idx === currentSlide
+                ? "border-gold ring-2 ring-gold/50 scale-100 opacity-100 shadow-md"
+                : "border-line opacity-55 hover:opacity-100 hover:border-gold/60"
+                }`}
+            >
+              <img
+                src={item.url}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover object-center"
+              />
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </article>
   );
 }
 
 export default function PortfolioView() {
-  const [selectedMainTabId, setSelectedMainTabId] = useState<string>("all");
-  const [selectedSubProjectId, setSelectedSubProjectId] = useState<string>("all");
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("all");
+  const [projectsList, setProjectsList] = useState<RealProject[]>(REAL_PROJECTS);
 
   // Lightbox State
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxImages, setLightboxImages] = useState<DetailedProject[]>([]);
+  const [lightboxImages, setLightboxImages] = useState<{ url: string; caption: string }[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Handle category from query parameter (?category=farmhouses) or hash (#farmhouses)
+  // Sync category from URL parameter or hash
   useEffect(() => {
     const handleRouteCategory = () => {
       if (typeof window === "undefined") return;
@@ -628,21 +282,11 @@ export default function PortfolioView() {
       const target = (queryCat || hashCat || "").toLowerCase();
 
       if (target) {
-        const matched = MAIN_TABS.find(
-          (c) =>
-            c.id.toLowerCase() === target ||
-            c.categoryKey?.toLowerCase() === target
+        const matched = PROJECT_CATEGORIES.find(
+          (c) => c.id.toLowerCase() === target
         );
         if (matched) {
-          setSelectedMainTabId(matched.id);
-          setSelectedSubProjectId("all");
-
-          setTimeout(() => {
-            const el = document.getElementById("projects-header");
-            if (el) {
-              el.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }, 150);
+          setSelectedCategoryId(matched.id);
         }
       }
     };
@@ -656,207 +300,125 @@ export default function PortfolioView() {
     };
   }, []);
 
-  const activeMainTab = useMemo(() => {
-    return MAIN_TABS.find((t) => t.id === selectedMainTabId) || MAIN_TABS[0];
-  }, [selectedMainTabId]);
-
-  // Active projects from unified admin store (including edited/deleted initial projects and newly added projects)
-  const [projectsList, setProjectsList] = useState<DetailedProject[]>(ALL_PROJECT_DATA);
-
-  useEffect(() => {
-    const loadProjects = () => {
-      const active = getProjects();
-      if (active && active.length > 0) {
-        setProjectsList(active as DetailedProject[]);
-      }
-    };
-    loadProjects();
-    window.addEventListener("ss_projects_updated", loadProjects);
-    return () => window.removeEventListener("ss_projects_updated", loadProjects);
-  }, []);
-
-  const allCombinedProjects = projectsList;
-
-  // Projects filtered by the single selected category tab
-  const categoryBaseProjects = useMemo(() => {
-    if (activeMainTab.id === "all") {
-      return allCombinedProjects;
-    }
-    return allCombinedProjects.filter((p) => p.category === activeMainTab.categoryKey);
-  }, [activeMainTab, allCombinedProjects]);
-
-  // Sub-projects within the selected category that have >= 2 projects
-  const availableSubProjects = useMemo(() => {
-    if (activeMainTab.id === "all") return [];
-
-    const map = new Map<string, { id: string; name: string; clientScope: string; count: number }>();
-    categoryBaseProjects.forEach((p) => {
-      const existing = map.get(p.subProjectId);
-      if (existing) {
-        existing.count += 1;
-      } else {
-        map.set(p.subProjectId, {
-          id: p.subProjectId,
-          name: p.projectName,
-          clientScope: p.clientScope,
-          count: 1,
-        });
-      }
-    });
-
-    return Array.from(map.values()).filter((item) => item.count >= 2);
-  }, [activeMainTab, categoryBaseProjects]);
-
-  // Filter single category projects by active sub-project
-  const singleCategoryProjects = useMemo(() => {
-    if (selectedSubProjectId === "all" || activeMainTab.id === "all") {
-      return categoryBaseProjects;
-    }
-    return categoryBaseProjects.filter((p) => p.subProjectId === selectedSubProjectId);
-  }, [categoryBaseProjects, selectedSubProjectId, activeMainTab]);
-
-  const handleMainTabChange = (tabId: string) => {
-    setSelectedMainTabId(tabId);
-    setSelectedSubProjectId("all");
+  const handleCategoryChange = (catId: string) => {
+    setSelectedCategoryId(catId);
     if (typeof window !== "undefined") {
       const url =
-        tabId === "all"
+        catId === "all"
           ? window.location.pathname
-          : `${window.location.pathname}?category=${tabId}#${tabId}`;
+          : `${window.location.pathname}?category=${catId}#${catId}`;
       window.history.replaceState(null, "", url);
     }
   };
 
-  const handleSubProjectChange = (subId: string) => {
-    setSelectedSubProjectId(subId);
-  };
+  // Filter projects according to tab
+  const visibleProjects = useMemo(() => {
+    if (selectedCategoryId === "all") {
+      return projectsList;
+    }
+    return projectsList.filter((p) => p.category_id === selectedCategoryId);
+  }, [selectedCategoryId, projectsList]);
 
-  const openLightbox = (images: DetailedProject[], index: number) => {
-    setLightboxImages(images);
+  // Dynamic category tabs with real live counts
+  const dynamicCategories = useMemo(() => {
+    return [
+      {
+        id: "all",
+        name: "All Works",
+        photoCount: projectsList.reduce((sum, p) => sum + p.images_count, 0),
+      },
+      {
+        id: "penthouse",
+        name: "Penthouses",
+        photoCount: projectsList
+          .filter((p) => p.category_id === "penthouse")
+          .reduce((sum, p) => sum + p.images_count, 0),
+      },
+      {
+        id: "luxury_apartments",
+        name: "Luxury Apartments",
+        photoCount: projectsList
+          .filter((p) => p.category_id === "luxury_apartments")
+          .reduce((sum, p) => sum + p.images_count, 0),
+      },
+      {
+        id: "corporate",
+        name: "Corporate & Commercial",
+        photoCount: projectsList
+          .filter((p) => p.category_id === "corporate")
+          .reduce((sum, p) => sum + p.images_count, 0),
+      },
+    ];
+  }, [projectsList]);
+
+  const openLightbox = (images: ProjectImage[], index: number) => {
+    const formatted = images.map((img) => ({
+      url: img.url,
+      caption: `${img.title} · ${img.caption}`,
+    }));
+    setLightboxImages(formatted);
     setLightboxIndex(index);
     setLightboxOpen(true);
   };
 
   return (
-    <div className="pt-24 pb-20 bg-[#fcfbfa] text-fg min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 pt-4">
+    <div className="pt-24 pb-24 bg-[#faf8f5] text-fg min-h-screen">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 pt-4 space-y-10">
         {/* ================= PAGE TITLE ================= */}
-        <div id="projects-header" className="text-center pb-6 scroll-mt-28">
+        <div id="projects-header" className="text-center space-y-3 scroll-mt-28 max-w-3xl mx-auto">
+          <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
+            Architectural Projects & Interiors
+          </span>
           <h1 className="font-serif text-3xl sm:text-5xl font-light text-fg">
-            Architectural Projects
+            Turnkey <span className="gold-text italic">Living Sanctuaries</span>
           </h1>
+          <p className="text-xs sm:text-sm text-muted font-light leading-relaxed">
+            Explore authentic completed turnkey installations across DLF Camellias Sky Penthouses, super-luxury residences, and executive commercial headquarters.
+          </p>
         </div>
 
-        {/* ================= 5 MAIN TABS (ALL + 4 CORE CATEGORIES) ================= */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-6">
-          {MAIN_TABS.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = selectedMainTabId === tab.id;
-            const count =
-              tab.id === "all"
-                ? allCombinedProjects.length
-                : allCombinedProjects.filter((p) => p.category === tab.categoryKey).length;
+        {/* ================= CATEGORY TABS ================= */}
+        <div className="border-b border-gold/30 pb-4">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+            {dynamicCategories.map((cat) => {
+              const isSelected = selectedCategoryId === cat.id;
 
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => handleMainTabChange(tab.id)}
-                className={`rounded-full px-5 sm:px-6 py-2.5 text-xs uppercase tracking-widest transition-all cursor-pointer font-medium flex items-center gap-2 ${
-                  isActive
-                    ? "gold-bg text-white shadow-md shadow-gold/25"
-                    : "bg-white text-muted hover:text-fg hover:border-gold border border-gold/30 shadow-xs"
-                }`}
-              >
-                <Icon className="h-4 w-4" />
-                <span>{tab.name}</span>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] ${
-                    isActive ? "bg-white/20 text-white" : "bg-line/60 text-muted"
-                  }`}
-                >
-                  {count}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* ================= SUB-PROJECTS BREAKDOWN (Only when a specific category is selected, e.g. Residential DLF Camellias vs DLF Magnolias) ================= */}
-        {selectedMainTabId !== "all" && availableSubProjects.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-8">
-            <button
-              type="button"
-              onClick={() => handleSubProjectChange("all")}
-              className={`rounded-full px-4 py-1.5 text-xs tracking-wider transition-all cursor-pointer font-medium border ${
-                selectedSubProjectId === "all"
-                  ? "bg-[#17181c] text-white border-gold shadow-sm"
-                  : "bg-white text-muted hover:text-fg hover:border-gold border-gold/30 shadow-2xs"
-              }`}
-            >
-              All {activeMainTab.name} ({categoryBaseProjects.length})
-            </button>
-
-            {availableSubProjects.map((sp) => {
-              const isSelected = selectedSubProjectId === sp.id;
               return (
                 <button
-                  key={sp.id}
-                  type="button"
-                  onClick={() => handleSubProjectChange(sp.id)}
-                  className={`rounded-full px-4 py-1.5 text-xs tracking-wider transition-all cursor-pointer font-medium flex items-center gap-2 border ${
-                    isSelected
-                      ? "bg-[#17181c] text-white border-gold shadow-sm"
-                      : "bg-white text-muted hover:text-fg hover:border-gold border-gold/30 shadow-2xs"
-                  }`}
-                >
-                  <Building2 className="h-3.5 w-3.5 text-gold" />
-                  <span>
-                    {sp.name} · <span className="opacity-80 italic font-light">{sp.clientScope}</span>
-                  </span>
-                  <span
-                    className={`rounded-full px-1.5 py-0.2 text-[10px] ${
-                      isSelected ? "bg-white/20 text-white" : "bg-line/60 text-muted"
+                  key={cat.id}
+                  onClick={() => handleCategoryChange(cat.id)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium transition-all duration-300 cursor-pointer shadow-xs ${isSelected
+                    ? "gold-bg text-white shadow-gold/25 scale-105"
+                    : "bg-white text-fg/80 border border-line hover:border-gold/60 hover:text-gold"
                     }`}
+                >
+                  <span>{cat.name}</span>
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-mono ${isSelected ? "bg-black/25 text-white" : "bg-[#faf8f5] text-muted border border-line/60"
+                      }`}
                   >
-                    {sp.count}
+                    {cat.photoCount} Photos
                   </span>
                 </button>
               );
             })}
           </div>
-        )}
+        </div>
 
-        {/* ================= IF 'ALL' IS SELECTED: SHOW ALL 4 CATEGORIES ONE BELOW THE OTHER ================= */}
-        {selectedMainTabId === "all" ? (
-          <div className="space-y-16 sm:space-y-20 mt-2">
-            {CORE_CATEGORIES.map((cat) => {
-              const catProjects = allCombinedProjects.filter((p) => p.category === cat.categoryKey);
-              if (catProjects.length < 2) return null;
-
-              return (
-                <CategoryProjectSlider
-                  key={cat.id}
-                  categoryTitle={cat.name}
-                  projects={catProjects}
-                  onOpenLightbox={openLightbox}
-                />
-              );
-            })}
-          </div>
-        ) : (
-          /* ================= SINGLE CATEGORY VIEW ================= */
-          <div className="mt-2">
-            <CategoryProjectSlider
-              categoryTitle={activeMainTab.name}
-              projects={singleCategoryProjects}
+        {/* ================= PROJECTS LIST (EACH FOLDER HAS ITS OWN SLIDER) ================= */}
+        <div className="space-y-16 sm:space-y-20">
+          {visibleProjects.map((project, idx) => (
+            <ProjectFolderSlider
+              key={project.id}
+              project={project}
+              index={idx}
               onOpenLightbox={openLightbox}
             />
-          </div>
-        )}
+          ))}
+        </div>
       </div>
 
-      {/* ================= FULLSCREEN LIGHTBOX MODAL ================= */}
+      {/* ================= FULLSCREEN ZOOM LIGHTBOX MODAL ================= */}
       <ImageLightbox
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}

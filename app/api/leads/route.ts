@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { readServerData, writeServerData } from "@/lib/serverStorage";
+import { sendInquiryNotification } from "@/lib/mailer";
 
 export const dynamic = "force-dynamic";
 
@@ -68,22 +69,22 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, phone, email, category, message } = body;
+    const { name, phone, email, category, message, location } = body;
 
-    if (!name || !phone) {
+    if (!name && !email && !phone) {
       return NextResponse.json(
-        { success: false, error: "Name and Phone are required fields" },
+        { success: false, error: "Contact details are required" },
         { status: 400 }
       );
     }
 
     const newLead: LeadRecord = {
       id: Date.now(),
-      name,
-      phone,
+      name: name || "Website Visitor",
+      phone: phone || "-",
       email: email || "",
-      category: category || "General",
-      message: message || "",
+      category: category || "General Inquiry",
+      message: message || (location ? `Property Location: ${location}` : ""),
       status: "New",
       createdAt: new Date().toISOString(),
     };
@@ -97,7 +98,7 @@ export async function POST(request: Request) {
     try {
       const result: any = await query(
         "INSERT INTO leads (name, phone, email, category, message, status) VALUES (?, ?, ?, ?, ?, 'New')",
-        [name, phone, email || "", category || "General", message || ""]
+        [newLead.name, newLead.phone, newLead.email, newLead.category, newLead.message]
       );
       if (result?.insertId) {
         newLead.id = result.insertId;
@@ -106,10 +107,20 @@ export async function POST(request: Request) {
       console.warn("MySQL lead sync warning (saved to server file):", dbErr);
     }
 
+    // 3. Dispatch notification email to info@ssinteriors.in (async)
+    sendInquiryNotification({
+      name: newLead.name,
+      email: newLead.email,
+      phone: newLead.phone,
+      location: location || "Not specified",
+      category: newLead.category,
+      message: newLead.message,
+    }).catch((err: any) => console.warn("Inquiry email notification error:", err));
+
     return NextResponse.json({
       success: true,
       lead: newLead,
-      message: "Client inquiry recorded successfully",
+      message: "Client inquiry recorded and forwarded to design leadership successfully",
     });
   } catch (error: any) {
     return NextResponse.json(

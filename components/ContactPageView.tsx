@@ -1,16 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { Mail, MapPin, Phone, Send, CheckCircle2, MessageSquare, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Mail, MapPin, Phone, Send, CheckCircle2, MessageSquare, Clock, ExternalLink } from "lucide-react";
 import Brand from "./Brand";
 import { SITE, VENDOR_NOTICE } from "@/lib/site";
-import { saveLead } from "@/lib/adminStore";
+import { saveLead, getSiteSettings, fetchSiteSettingsFromApi } from "@/lib/adminStore";
 
 const fieldClasses =
   "w-full border border-line bg-white px-4 py-3.5 text-sm outline-none transition focus:border-gold placeholder:text-muted/60 text-fg rounded-xs shadow-xs";
 
 export default function ContactPageView() {
   const [submitted, setSubmitted] = useState(false);
+  const [address, setAddress] = useState(SITE.address);
+  const [mapUrl, setMapUrl] = useState(SITE.mapUrl);
+
+  useEffect(() => {
+    const sync = () => {
+      const s = getSiteSettings();
+      if (s.address) setAddress(s.address);
+      if (s.mapUrl) setMapUrl(s.mapUrl);
+    };
+    sync();
+    fetchSiteSettingsFromApi().then((s) => {
+      if (s?.address) setAddress(s.address);
+      if ((s as any)?.mapUrl) setMapUrl((s as any).mapUrl);
+    });
+    window.addEventListener("ss_settings_updated", sync);
+    return () => window.removeEventListener("ss_settings_updated", sync);
+  }, []);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,7 +74,23 @@ export default function ContactPageView() {
                   <MapPin className="h-5 w-5 text-gold shrink-0 mt-1" />
                   <div>
                     <h3 className="text-fg font-medium">Studio Coordinates</h3>
-                    <p className="leading-relaxed mt-0.5 font-light">{SITE.address}</p>
+                    <a
+                      href={mapUrl || SITE.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="leading-relaxed mt-0.5 font-light hover:text-gold transition-colors block"
+                      title="Open in Google Maps"
+                    >
+                      {address}
+                    </a>
+                    <a
+                      href={mapUrl || SITE.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs text-gold hover:underline mt-2 font-medium"
+                    >
+                      Open in Google Maps <ExternalLink className="h-3 w-3" />
+                    </a>
                   </div>
                 </div>
 
