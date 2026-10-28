@@ -17,32 +17,50 @@ export default function SectionImageSlider({
 }: SectionImageSliderProps) {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
+
+  // Viewport visibility observer: Only activate slider & prefetching when section is visible
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: "300px 0px" } // Preload 300px before user scrolls into view
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Progressive Just-In-Time Preloading (Zero Quality Loss)
   const [loadedIndices, setLoadedIndices] = useState<Set<number>>(new Set([0]));
 
   useEffect(() => {
+    if (!isVisible) return;
     setLoadedIndices((prev) => {
       const nextIdx = (current + 1) % items.length;
-      const prevIdx = (current - 1 + items.length) % items.length;
-      if (prev.has(current) && prev.has(nextIdx) && prev.has(prevIdx)) return prev;
+      if (prev.has(current) && prev.has(nextIdx)) return prev;
       const updated = new Set(prev);
       updated.add(current);
       updated.add(nextIdx);
-      updated.add(prevIdx);
       return updated;
     });
-  }, [current, items.length]);
+  }, [current, items.length, isVisible]);
 
-  // Auto-advance slider
+  // Auto-advance slider (Only when visible on screen to save CPU & Network)
   useEffect(() => {
-    if (isPaused || items.length <= 1) return;
+    if (isPaused || !isVisible || items.length <= 1) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % items.length);
     }, autoplayDelay);
     return () => clearInterval(timer);
-  }, [isPaused, items.length, autoplayDelay]);
+  }, [isPaused, isVisible, items.length, autoplayDelay]);
 
   const prevSlide = () => {
     setCurrent((prev) => (prev - 1 + items.length) % items.length);
@@ -71,6 +89,7 @@ export default function SectionImageSlider({
 
   return (
     <div
+      ref={containerRef}
       className="relative w-full"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
