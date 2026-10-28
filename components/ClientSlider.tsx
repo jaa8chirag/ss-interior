@@ -7,13 +7,8 @@ import { ALL_CLIENTS, ClientItem } from "@/lib/clientsData";
 export default function ClientSlider() {
   const [startIndex, setStartIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Viewport Intersection Observer: Only run carousel & load heavy photos when near view
   useEffect(() => {
@@ -41,7 +36,7 @@ export default function ClientSlider() {
 
   // Smart Background Preloader: Always pre-fetch the next batch into browser memory
   useEffect(() => {
-    if (!mounted || total === 0) return;
+    if (total === 0) return;
     const nextBatch = [
       leaders[startIndex % total],
       leaders[(startIndex + 1) % total],
@@ -60,7 +55,7 @@ export default function ClientSlider() {
         img.src = item.logo;
       }
     });
-  }, [startIndex, leaders, total, mounted]);
+  }, [startIndex, leaders, total]);
 
   const handleNext = () => {
     if (total === 0) return;
@@ -137,7 +132,7 @@ export default function ClientSlider() {
           <span className="text-xs uppercase tracking-widest text-muted font-mono">
             Distinguished Executive Portfolio · Showing {startIndex + 1}–{Math.min(startIndex + 3, total)} of {total} Leaders
           </span>
-          {mounted && total > 3 && (
+          {total > 3 && (
             <div className="flex items-center gap-2">
               <button
                 suppressHydrationWarning
@@ -172,7 +167,6 @@ export default function ClientSlider() {
                   src={leader.photo}
                   alt={`${leader.name} — ${leader.role}`}
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  loading="eager"
                   decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "/clients/deepinder_goyal.jpg";
@@ -193,7 +187,6 @@ export default function ClientSlider() {
                     src={leader.logo}
                     alt={`${leader.company} Official Logo`}
                     className="max-h-10 w-auto max-w-[180px] object-contain"
-                    loading="eager"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = "none";
                     }}
@@ -227,7 +220,7 @@ export default function ClientSlider() {
         </div>
 
         {/* Progress Navigation Dots (1 dot per 3-card batch) */}
-        {mounted && total > 3 && (
+        {total > 3 && (
           <div className="mt-8 flex items-center justify-center gap-2 flex-wrap max-w-xl mx-auto">
             {Array.from({ length: Math.ceil(total / 3) }).map((_, i) => (
               <button
