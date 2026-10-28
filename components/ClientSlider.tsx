@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Building2, ChevronLeft, ChevronRight } from "lucide-react";
 import { ALL_CLIENTS, ClientItem } from "@/lib/clientsData";
 
@@ -8,9 +8,28 @@ export default function ClientSlider() {
   const [startIndex, setStartIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Viewport Intersection Observer: Only run carousel & load heavy photos when near view
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: "400px 0px" } // Start preloading 400px before scrolling into section
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   // Focus slider on distinguished leaders with verified portraits & brand logos
@@ -19,6 +38,29 @@ export default function ClientSlider() {
   }, []);
 
   const total = leaders.length;
+
+  // Smart Background Preloader: Always pre-fetch the next batch into browser memory
+  useEffect(() => {
+    if (!mounted || total === 0) return;
+    const nextBatch = [
+      leaders[startIndex % total],
+      leaders[(startIndex + 1) % total],
+      leaders[(startIndex + 2) % total],
+      leaders[(startIndex + 3) % total],
+      leaders[(startIndex + 4) % total],
+      leaders[(startIndex + 5) % total],
+    ];
+    nextBatch.forEach((item) => {
+      if (item?.photo) {
+        const img = new Image();
+        img.src = item.photo;
+      }
+      if (item?.logo) {
+        const img = new Image();
+        img.src = item.logo;
+      }
+    });
+  }, [startIndex, leaders, total, mounted]);
 
   const handleNext = () => {
     if (total === 0) return;
@@ -30,14 +72,14 @@ export default function ClientSlider() {
     setStartIndex((prev) => (prev - 3 + total) % total);
   };
 
-  // Auto glide every 4.8 seconds by 3 cards (pauses on hover)
+  // Auto glide every 5 seconds by 3 cards (pauses on hover & only runs when visible)
   useEffect(() => {
-    if (isPaused || total <= 3) return;
+    if (isPaused || !isVisible || total <= 3) return;
     const timer = setInterval(() => {
       setStartIndex((prev) => (prev + 3) % total);
-    }, 4800);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [total, isPaused]);
+  }, [total, isPaused, isVisible]);
 
   // Compute 3 visible cards
   const visibleLeaders: ClientItem[] = useMemo(() => {
@@ -51,7 +93,7 @@ export default function ClientSlider() {
   }, [leaders, startIndex, total]);
 
   return (
-    <section className="relative overflow-hidden py-20 sm:py-24 bg-[#f4efe6] border-y border-line content-auto">
+    <section ref={sectionRef} className="relative overflow-hidden py-20 sm:py-24 bg-[#f4efe6] border-y border-line content-auto">
       {/* Section Header */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 mb-12 text-center">
         <span className="text-xs uppercase tracking-[0.4em] text-gold font-sans font-medium">
@@ -121,7 +163,7 @@ export default function ClientSlider() {
         <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {visibleLeaders.map((leader, idx) => (
             <div
-              key={`${leader.id}-${startIndex}-${idx}`}
+              key={leader.id}
               className="group relative flex flex-col justify-between overflow-hidden rounded-md border border-line bg-white shadow-sm hover:border-gold hover:shadow-xl transition-all duration-300"
             >
               {/* Leader Photo Stage */}
@@ -130,7 +172,7 @@ export default function ClientSlider() {
                   src={leader.photo}
                   alt={`${leader.name} — ${leader.role}`}
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "/clients/deepinder_goyal.jpg";
@@ -151,7 +193,7 @@ export default function ClientSlider() {
                     src={leader.logo}
                     alt={`${leader.company} Official Logo`}
                     className="max-h-10 w-auto max-w-[180px] object-contain"
-                    loading="lazy"
+                    loading="eager"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = "none";
                     }}
