@@ -565,6 +565,7 @@ export const ALL_CLIENTS: ClientItem[] = [
     photo: "/clients/harpreet_chhabra.jpg",
     logo: "/clients/client_27_logo.png",
     badge: "Camellias Residence",
+    isFeatured: true,
   },
   {
     id: "client-sidharth-shekri",
@@ -610,8 +611,8 @@ export const ALL_CLIENTS: ClientItem[] = [
   },
   {
     id: "client-anant-bhalotia",
-    name: "Mr. Anant Bhalotia & Mrs. Shriya Bhalotia",
-    company: "Anaprone",
+    name: "Mr. Anant Bhalotia",
+    company: "Anadrone",
     role: "Managing Director",
     property: "DLF Aralias (AR 206 B Residence)",
     building: "DLF Aralias",
