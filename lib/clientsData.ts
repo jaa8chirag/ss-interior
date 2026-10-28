@@ -150,20 +150,7 @@ export const ALL_CLIENTS: ClientItem[] = [
     badge: "DLF Camellias Residence",
     isFeatured: true,
   },
-  {
-    id: "client-rohtas-goel",
-    name: "Mr. Rohtas Goel",
-    company: "Omaxe Ltd.",
-    role: "Founder & Chairman",
-    property: "Ansal Villa Sprawling Country Estate (Farm No. E7)",
-    building: "Ansal Villa Farm House",
-    category: "villas_farmhouses",
-    categoryLabel: "Ansal Villa Farmhouse",
-    photo: "/clients/rohtas_goel.jpg",
-    logo: "/clients/omaxe_logo.png",
-    badge: "Sprawling Country Estate",
-    isFeatured: true,
-  },
+
   {
     id: "client-jatin-goel",
     name: "Mr. Jatin Goel",
@@ -307,7 +294,7 @@ export const ALL_CLIENTS: ClientItem[] = [
   {
     id: "client-vivek-mathur",
     name: "Mr. Vivek Mathur",
-    company: "Paytm",
+    company: "Elevation Capital",
     role: "Board of Directors",
     property: "DLF The Crest Sky Penthouse (B 384)",
     building: "DLF The Crest",
@@ -519,7 +506,7 @@ export const ALL_CLIENTS: ClientItem[] = [
     name: "Mr. Virender Awal",
     company: "Mochiko Shoes",
     role: "Founder & CEO",
-    property: "DLF Camellias Luxury Residence (CM 608 B)",
+    property: "DLF Camellias Luxury Residence (CM 802 A)",
     building: "DLF Camellias",
     category: "camellias",
     categoryLabel: "DLF Camellias",
@@ -565,7 +552,6 @@ export const ALL_CLIENTS: ClientItem[] = [
     photo: "/clients/harpreet_chhabra.jpg",
     logo: "/clients/client_27_logo.png",
     badge: "Camellias Residence",
-    isFeatured: true,
   },
   {
     id: "client-sidharth-shekri",

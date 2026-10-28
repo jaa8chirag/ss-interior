@@ -104,15 +104,15 @@ export default function ClientSlider() {
         {/* Prestigious Metric Highlights */}
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 max-w-7xl mx-auto border-y border-line py-8 sm:py-10 text-center px-4">
           <div className="flex flex-col items-center justify-center p-2">
-            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">100+</span>
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">35+</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Camellias Residences</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
-            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">95+</span>
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">30+</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Magnolias Suites</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
-            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">60+</span>
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">20+</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Aralias & The Crest</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
@@ -120,7 +120,7 @@ export default function ClientSlider() {
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">Sky Duplex (42nd Fl.)</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
-            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">45+</span>
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">25+</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">Bespoke Country Farmhouses</span>
           </div>
           <div className="flex flex-col items-center justify-center p-2">
@@ -237,11 +237,10 @@ export default function ClientSlider() {
                 suppressHydrationWarning
                 onClick={() => setStartIndex(i * 3)}
                 aria-label={`Go to slide set ${i + 1}`}
-                className={`h-2 transition-all rounded-full cursor-pointer ${
-                  i === Math.floor(startIndex / 3)
-                    ? "w-8 bg-gold shadow-sm"
-                    : "w-2 bg-line hover:bg-gold/50"
-                }`}
+                className={`h-2 transition-all rounded-full cursor-pointer ${i === Math.floor(startIndex / 3)
+                  ? "w-8 bg-gold shadow-sm"
+                  : "w-2 bg-line hover:bg-gold/50"
+                  }`}
               />
             ))}
           </div>
