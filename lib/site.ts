@@ -117,35 +117,35 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Executive Workspaces & Corporate Headquarters",
     description:
       "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
-    featuredImage: "/projects/real/commercial/15.jpg",
+    featuredImage: "/projects/real/commercial/16.jpg",
     gallery: [
-      {
-        url: "/projects/real/commercial/15.jpg",
-        caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
-      },
-      {
-        url: "/projects/real/commercial/20.jpg",
-        caption: "Managing Director Leadership Suite — Sleek Minimalist Desk & Custom Credenza",
-      },
-      {
-        url: "/projects/real/commercial/27.jpg",
-        caption: "Corporate Reception Lounge & Fluted Architectural Feature Wall",
-      },
       {
         url: "/projects/real/commercial/16.jpg",
         caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Ambient Linears",
-      },
-      {
-        url: "/projects/real/commercial/26.jpg",
-        caption: "Executive Conference Room — Marble Table Setting & Presentation Display",
       },
       {
         url: "/projects/real/commercial/29.jpg",
         caption: "Corporate Sacred Mandir & Prayer Sanctum — Backlit Pristine Marble Shrine",
       },
       {
+        url: "/projects/real/commercial/27.jpg",
+        caption: "Corporate Reception Lounge & Fluted Architectural Feature Wall",
+      },
+      {
+        url: "/projects/real/commercial/15.jpg",
+        caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
+      },
+      {
+        url: "/projects/real/commercial/26.jpg",
+        caption: "Executive Conference Room — Marble Table Setting & Presentation Display",
+      },
+      {
         url: "/projects/real/commercial/25.jpg",
         caption: "Corporate Breakout & Collaboration Hub — Modern Scandinavian High Stools",
+      },
+      {
+        url: "/projects/real/commercial/20.jpg",
+        caption: "Managing Director Leadership Suite — Sleek Minimalist Desk & Custom Credenza",
       },
       {
         url: "/projects/gallery/corporate_workspaces/img_016_aralias_study.jpg",
