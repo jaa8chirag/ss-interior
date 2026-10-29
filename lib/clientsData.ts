@@ -549,9 +549,10 @@ export const ALL_CLIENTS: ClientItem[] = [
     building: "DLF Camellias",
     category: "camellias",
     categoryLabel: "DLF Camellias",
-    photo: "/clients/harpreet_chhabra.jpg",
+    photo: "/clients/harpreet_singh_chhabra.jpg",
     logo: "/clients/client_27_logo.png",
     badge: "Camellias Residence",
+    isFeatured: true,
   },
   {
     id: "client-sidharth-shekri",
