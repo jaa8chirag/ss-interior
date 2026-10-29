@@ -611,7 +611,7 @@ export const ALL_CLIENTS: ClientItem[] = [
   },
   {
     id: "client-amit-madan",
-    name: "Mr. Amit Madan",
+    name: "Mr. Amit Kishan Madan",
     company: "Madan Group",
     role: "Managing Director",
     property: "DLF Magnolias Sky Penthouse (MG 803)",
