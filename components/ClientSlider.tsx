@@ -102,7 +102,11 @@ export default function ClientSlider() {
         </p>
 
         {/* Prestigious Metric Highlights */}
-        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 max-w-7xl mx-auto border-y border-line py-8 sm:py-10 text-center px-4">
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4 sm:gap-6 max-w-7xl mx-auto border-y border-line py-8 sm:py-10 text-center px-4">
+          <div className="col-span-2 sm:col-span-3 lg:col-span-1 flex flex-col items-center justify-center p-2">
+            <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">100+</span>
+            <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">Total Projects</span>
+          </div>
           <div className="flex flex-col items-center justify-center p-2">
             <span className="font-serif text-3xl sm:text-4xl md:text-5xl text-fg font-semibold block mb-1">35+</span>
             <span className="text-xs sm:text-sm text-gold font-semibold uppercase tracking-wider block">DLF Camellias Residences</span>
