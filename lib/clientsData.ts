@@ -618,7 +618,7 @@ export const ALL_CLIENTS: ClientItem[] = [
     building: "DLF Magnolias",
     category: "magnolias_aralias",
     categoryLabel: "DLF Magnolias",
-    photo: "/clients/amit_madan.jpg",
+    photo: "/clients/amit_kishan_madan.jpg",
     logo: "/clients/amit_madan_logo.png",
     badge: "Magnolias Sky Penthouse",
     isFeatured: true,
