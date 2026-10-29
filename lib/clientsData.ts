@@ -593,7 +593,7 @@ export const ALL_CLIENTS: ClientItem[] = [
     category: "magnolias_aralias",
     categoryLabel: "DLF Aralias",
     photo: "/clients/anant_bhalotia.jpg",
-    logo: "/clients/client_37_logo.png",
+    logo: "/clients/anadrone_logo.png",
     badge: "DLF Aralias Residence",
     isFeatured: true,
   },
