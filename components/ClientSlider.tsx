@@ -179,6 +179,7 @@ export default function ClientSlider() {
                   src={leader.photo}
                   alt={`${leader.name} — ${leader.role}`}
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
                   decoding="async"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "/clients/deepinder_goyal.jpg";
@@ -199,7 +200,9 @@ export default function ClientSlider() {
                     src={leader.logo}
                     alt={`${leader.company} Official Logo`}
                     className="max-h-10 w-auto max-w-[180px] object-contain"
-                    onError={(e) => {
+                    loading="lazy"
+                      decoding="async"
+                      onError={(e) => {
                       (e.target as HTMLImageElement).style.display = "none";
                     }}
                   />

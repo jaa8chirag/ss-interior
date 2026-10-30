@@ -33,7 +33,7 @@ export const THREE_PILLARS = [
   {
     title: "Residential",
     slug: "residential",
-    image: "/projects/real/camellias/DSCF1000.JPG",
+    image: "/projects/real/camellias/DSCF1000.webp",
     description:
       "Our client’s needs and sensibilities are pivotal to our dream home creations. We combine a uniqueness in style with the nitty-gritties of the practical and functional to make our creations hugely distinctive. They are truly signatures of timeless appeal, with a stamp of minimalism and beautiful functionalism.",
     link: "/services#residential",
@@ -41,7 +41,7 @@ export const THREE_PILLARS = [
   {
     title: "Office Interiors",
     slug: "offices",
-    image: "/projects/real/commercial/15.jpg",
+    image: "/projects/real/commercial/15.webp",
     description:
       "High-end office spaces that strike the perfect balance between sophistication and functionality. Each project is thoughtfully tailored to reflect the client’s brand identity while creating an environment that inspires productivity and comfort. With a refined aesthetic and meticulous attention to detail, the designs incorporate premium materials, smart spatial planning, and custom furnishings.",
     link: "/services#commercial",
@@ -49,7 +49,7 @@ export const THREE_PILLARS = [
   {
     title: "Hospitality & Turnkey Execution",
     slug: "hospitality",
-    image: "/projects/gallery/luxury_apartment_522/img_003.jpg",
+    image: "/projects/gallery/luxury_apartment_522/img_003.webp",
     description:
       "Spaces That Welcome, Experiences That Stay. Our hospitality projects are a fusion of luxury, experience, and storytelling. From boutique retreats to private entertainment lounges, we design immersive spaces with natural stone, ambient lighting, and custom furniture.",
     link: "/services#hospitality",
@@ -74,38 +74,38 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Bespoke Apartments, Penthouses & Duplexes",
     description:
       "From super-penthouses at DLF Camellias and DLF Magnolias to expansive duplexes across Delhi NCR, we create sanctuaries of understated opulence. Balancing custom millwork, ambient architectural lighting, sacred marble mandirs, and imported European materials.",
-    featuredImage: "/projects/real/camellias/DSCF1000.JPG",
+    featuredImage: "/projects/real/camellias/DSCF1000.webp",
     gallery: [
       {
-        url: "/projects/real/camellias/DSCF1000.JPG",
+        url: "/projects/real/camellias/DSCF1000.webp",
         caption: "DLF Camellias — Grand Formal Living Salon & Bookmatched Statuary Marble",
       },
       {
-        url: "/projects/real/camellias/DSCF1023.JPG",
+        url: "/projects/real/camellias/DSCF1023.webp",
         caption: "DLF Camellias — Private Bar & Wood-Paneled Architectural Foyer",
       },
       {
-        url: "/projects/real/camellias/DSCF1042.jpg",
+        url: "/projects/real/camellias/DSCF1042.webp",
         caption: "DLF Camellias — Hand-Carved Marble Mandir Sanctuary & Backlit Sacred Jali",
       },
       {
-        url: "/projects/real/camellias/DSCF1031.JPG",
+        url: "/projects/real/camellias/DSCF1031.webp",
         caption: "DLF Camellias — Master Presidential Suite & Curved Architectural Headboard",
       },
       {
-        url: "/projects/real/magnolias/DSCF1292.jpg",
+        url: "/projects/real/magnolias/DSCF1292.webp",
         caption: "DLF Magnolias — Rose Quartz Semi-Precious Monolithic Ensuite Basin",
       },
       {
-        url: "/projects/real/camellias/DSCF3037.JPG",
+        url: "/projects/real/camellias/DSCF3037.webp",
         caption: "DLF Camellias — Bookmatched Marble Master Ensuite with Frameless Glass",
       },
       {
-        url: "/projects/real/magnolias/DSCF1307.jpg",
+        url: "/projects/real/magnolias/DSCF1307.webp",
         caption: "DLF Magnolias — Italian Marble Architectural Entry Gallery & Niches",
       },
       {
-        url: "/projects/real/camellias/DSCF6729.JPG",
+        url: "/projects/real/camellias/DSCF6729.webp",
         caption: "DLF Camellias — Formal Salon with Direct Panoramic Golf Course Vistas",
       },
     ],
@@ -117,46 +117,46 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Executive Workspaces & Corporate Headquarters",
     description:
       "Sophisticated corporate environments that reflect brand prestige and ignite executive collaboration. Delivering end-to-end turnkey MEP, HVAC, smart conferencing, and ergonomic acoustics across Gurgaon & Delhi NCR.",
-    featuredImage: "/projects/real/commercial/16.jpg",
+    featuredImage: "/projects/real/commercial/16.webp",
     gallery: [
       {
-        url: "/projects/real/commercial/16.jpg",
+        url: "/projects/real/commercial/16.webp",
         caption: "Collaborative Open Workstation Bay — Ergonomic Furniture & Ambient Linears",
       },
       {
-        url: "/projects/real/commercial/29.jpg",
+        url: "/projects/real/commercial/29.webp",
         caption: "Corporate Sacred Mandir & Prayer Sanctum — Backlit Pristine Marble Shrine",
       },
       {
-        url: "/projects/real/commercial/27.jpg",
+        url: "/projects/real/commercial/27.webp",
         caption: "Corporate Reception Lounge & Fluted Architectural Feature Wall",
       },
       {
-        url: "/projects/real/commercial/15.jpg",
+        url: "/projects/real/commercial/15.webp",
         caption: "Executive Boardroom & Audio-Visual Presentation Suite — Modern Acoustic Engineering",
       },
       {
-        url: "/projects/real/commercial/26.jpg",
+        url: "/projects/real/commercial/26.webp",
         caption: "Executive Conference Room — Marble Table Setting & Presentation Display",
       },
       {
-        url: "/projects/real/commercial/25.jpg",
+        url: "/projects/real/commercial/25.webp",
         caption: "Corporate Breakout & Collaboration Hub — Modern Scandinavian High Stools",
       },
       {
-        url: "/projects/real/commercial/20.jpg",
+        url: "/projects/real/commercial/20.webp",
         caption: "Managing Director Leadership Suite — Sleek Minimalist Desk & Custom Credenza",
       },
       {
-        url: "/projects/gallery/corporate_workspaces/img_016_aralias_study.jpg",
+        url: "/projects/gallery/corporate_workspaces/img_016_aralias_study.webp",
         caption: "Executive Study & Leadership Worksuite — Bespoke Library & Ambient Lighting",
       },
       {
-        url: "/projects/real/commercial/32.jpg",
+        url: "/projects/real/commercial/32.webp",
         caption: "Executive Leadership Suite & Bespoke Wall Storage Architecture — Modern Minimalist Office",
       },
       {
-        url: "/projects/real/commercial/33.jpg",
+        url: "/projects/real/commercial/33.webp",
         caption: "Director Executive Cabin & Modern Linear Chandelier Detailing — Fluted Desk Front",
       },
     ],
@@ -168,38 +168,38 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
     tagline: "Boutique Lounges, Private Bars & Signature Venues",
     description:
       "Our hospitality and turnkey execution weaves mood, tactile textures, and statement architecture into cohesive luxury journeys from boutique retreats to private entertainment lounges.",
-    featuredImage: "/projects/gallery/luxury_apartment_522/img_003.jpg",
+    featuredImage: "/projects/gallery/luxury_apartment_522/img_003.webp",
     gallery: [
       {
-        url: "/projects/gallery/luxury_apartment_522/img_003.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_003.webp",
         caption: "DLF Camellias — Luxury Executive Foyer & Curved Sculptural Staircase",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_001.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_001.webp",
         caption: "DLF Camellias — Double-Height Grand Architectural Salon",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_004.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_004.webp",
         caption: "DLF Camellias — Statement Floating Spiral Staircase & Ambient Cove",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_005.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_005.webp",
         caption: "DLF Camellias — Curated Executive Lounge & Backlit Brass Console",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_007.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_007.webp",
         caption: "DLF Camellias — Master Bedroom Suite with Custom Acoustic Paneling",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_009.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_009.webp",
         caption: "DLF Camellias — Luxury Ensuite & Backlit Marble Vanity",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_010.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_010.webp",
         caption: "DLF Camellias — Walk-in Dressing Suite & Tinted Glass Wardrobes",
       },
       {
-        url: "/projects/gallery/luxury_apartment_522/img_006.jpg",
+        url: "/projects/gallery/luxury_apartment_522/img_006.webp",
         caption: "DLF Camellias — Architectural Living & Dining Gallery",
       },
     ],
@@ -208,98 +208,98 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
 
 export const ADDITIONAL_PROJECTS = [
   {
-    url: "/projects/corp_25.jpg",
+    url: "/projects/corp_25.webp",
     caption: "Corporate Breakout & Collaboration Hub — Modern Scandinavian High Stools",
     category: "Commercial",
     sectionId: "commercial",
     sectionTitle: "Commercial & Corporate Interiors",
   },
   {
-    url: "/projects/corp_17.jpg",
+    url: "/projects/corp_17.webp",
     caption: "Agile Team Workspace — Glass Partitions & Acoustic Ceiling Clouds",
     category: "Commercial",
     sectionId: "commercial",
     sectionTitle: "Commercial & Corporate Interiors",
   },
   {
-    url: "/projects/corp_21.jpg",
+    url: "/projects/corp_21.webp",
     caption: "Senior Executive Cabin — Panoramic Skyline Views & Ergonomic Mesh Seating",
     category: "Commercial",
     sectionId: "commercial",
     sectionTitle: "Commercial & Corporate Interiors",
   },
   {
-    url: "/projects/corp_19.jpg",
+    url: "/projects/corp_19.webp",
     caption: "Executive Corridor & Gallery — Architectural Strip Lighting & Soundproofing",
     category: "Commercial",
     sectionId: "commercial",
     sectionTitle: "Commercial & Corporate Interiors",
   },
   {
-    url: "/projects/camellias_real_4.jpg",
+    url: "/projects/camellias_real_4.webp",
     caption: "DLF Camellias — Backlit Onyx Entry Console & Vertical Architectural Screen",
     category: "Residential",
     sectionId: "residential",
     sectionTitle: "Luxury Residential Interiors",
   },
   {
-    url: "/projects/camellias_real_5.jpg",
+    url: "/projects/camellias_real_5.webp",
     caption: "DLF Camellias — Fluted Timber Corridor & Concealed Flush Wardrobes",
     category: "Residential",
     sectionId: "residential",
     sectionTitle: "Luxury Residential Interiors",
   },
   {
-    url: "/projects/camellias_real_6.jpg",
+    url: "/projects/camellias_real_6.webp",
     caption: "DLF Camellias — Contemporary Fireplace Detail & Sculptural Mirrors",
     category: "Residential",
     sectionId: "residential",
     sectionTitle: "Luxury Residential Interiors",
   },
   {
-    url: "/projects/magnolias_real_4.jpg",
+    url: "/projects/magnolias_real_4.webp",
     caption: "DLF Magnolias — Sculptural Birds Foyer Wall & Floating Stone Console",
     category: "Residential",
     sectionId: "residential",
     sectionTitle: "Luxury Residential Interiors",
   },
   {
-    url: "/projects/magnolias_real_5.jpg",
+    url: "/projects/magnolias_real_5.webp",
     caption: "DLF Magnolias — Powder Room Hand-Carved Rose Onyx Basin",
     category: "Residential",
     sectionId: "residential",
     sectionTitle: "Luxury Residential Interiors",
   },
   {
-    url: "/projects/curved_master_suite.jpg",
+    url: "/projects/curved_master_suite.webp",
     caption: "Bespoke Master Bed Suite — Curved Velvet Headboard & Floating Cove Lighting",
     category: "Residential",
     sectionId: "residential",
     sectionTitle: "Luxury Residential Interiors",
   },
   {
-    url: "/projects/thecrest_hero.jpg",
+    url: "/projects/thecrest_hero.webp",
     caption: "DLF The Crest — Executive Headquarters Formal Reception",
     category: "Commercial",
     sectionId: "commercial",
     sectionTitle: "Commercial & Corporate Interiors",
   },
   {
-    url: "/projects/gallery/luxury_apartment_522/img_003.jpg",
+    url: "/projects/gallery/luxury_apartment_522/img_003.webp",
     caption: "DLF Camellias — Luxury Curved Architectural Foyer & Statement Spiral Staircase",
     category: "Hospitality",
     sectionId: "hospitality",
     sectionTitle: "Hospitality & Turnkey Execution",
   },
   {
-    url: "/projects/aralias_2.jpg",
+    url: "/projects/aralias_2.webp",
     caption: "DLF Aralias — Drawing Room & Formal Lounge with Earthy Textures",
     category: "Farmhouses",
     sectionId: "farmhouses",
     sectionTitle: "Country Estates & Farmhouses",
   },
   {
-    url: "/projects/aralias_3.jpg",
+    url: "/projects/aralias_3.webp",
     caption: "DLF Aralias — Countryside Villa Bedroom & Courtyard Views",
     category: "Farmhouses",
     sectionId: "farmhouses",

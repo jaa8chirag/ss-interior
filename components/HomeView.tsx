@@ -20,54 +20,70 @@ import {
 
 const HERO_SLIDES = [
   {
-    image: "/hero/grand_penthouse_salon.jpg",
+    image: "/hero/grand_penthouse_salon.webp",
     subtitle: "DLF Camellias Grand Duplex · Double-Height Architectural Salon & Crystal Chandelier",
   },
   {
-    image: "/hero/luxury_duplex_living.jpg",
+    image: "/hero/luxury_duplex_living.webp",
     subtitle: "Super-Luxury Duplex Penthouse · Mezzanine Gallery & Bespoke Italian Seating",
   },
   {
-    image: "/hero/sky_penthouse_piano_lounge.jpg",
+    image: "/hero/sky_penthouse_piano_lounge.webp",
     subtitle: "Panoramic Sky Penthouse · Grand Piano Salon & Floor-to-Ceiling Skyline Views",
   },
   {
-    image: "/hero/presidential_master_bedroom.jpg",
+    image: "/hero/presidential_master_bedroom.webp",
     subtitle: "Presidential Master Suite · Champagne Gold Curved Accent Wall & Luxury Chaise",
   },
   // --- Ultra High-Resolution 4K UHD Renders (DLF Aralias) ---
   {
-    image: "/hero/aralias_entrance_gallery.jpg",
+    image: "/hero/aralias_entrance_gallery.webp",
     subtitle: "DLF Aralias · Grand Entrance Hallway Gallery & Architectural Fluting",
   },
   {
-    image: "/hero/aralias_living_dining.jpg",
+    image: "/hero/aralias_living_dining.webp",
     subtitle: "DLF Aralias · Double-Height Formal Living Salon & Curvilinear Architectural Lounge",
   },
   {
-    image: "/hero/aralias_grand_salon_p20.jpg",
+    image: "/hero/aralias_grand_salon_p20.webp",
     subtitle: "DLF Aralias · Grand Living & Dining Salon with Floor-to-Ceiling Panoramic Windows",
   },
   {
-    image: "/hero/aralias_family_lounge_p35.jpg",
+    image: "/hero/aralias_family_lounge_p35.webp",
     subtitle: "DLF Aralias · Contemporary Family Lounge & Black Forest Marble Architectural Wall",
   },
   {
-    image: "/hero/aralias_master_suite_p45.jpg",
+    image: "/hero/aralias_master_suite_p45.webp",
     subtitle: "DLF Aralias · Master Suite with Fluted Architectural Paneling & Ambient Cove Lighting",
   },
 ];
 
 export default function HomeView() {
   const heroRef = useRef<HTMLElement>(null);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
 
-  // Hero Slider State (Smooth continuous 3-second auto-transition)
+  // Hero Slider State (Smooth continuous 3.5-second auto-transition)
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Progressive Just-In-Time Preloading (Zero Quality Loss, Instant Initial Load)
   const [loadedSlides, setLoadedSlides] = useState<Set<number>>(new Set([0]));
 
+  // Viewport Observer: Pause hero slideshow and image loading when scrolled away
   useEffect(() => {
+    const el = heroRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeroVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isHeroVisible) return;
     // Keep current slide and next slide preloaded in browser cache
     setLoadedSlides((prev) => {
       const nextSlide = (currentSlide + 1) % HERO_SLIDES.length;
@@ -77,14 +93,15 @@ export default function HomeView() {
       updated.add(nextSlide);
       return updated;
     });
-  }, [currentSlide]);
+  }, [currentSlide, isHeroVisible]);
 
   useEffect(() => {
+    if (!isHeroVisible) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(timer);
-  }, []);
+  }, [isHeroVisible]);
 
   // Smooth hash scroll on mount and hash changes
   useEffect(() => {

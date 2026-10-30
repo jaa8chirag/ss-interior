@@ -114,7 +114,7 @@ export default function SectionImageSlider({
                 <img
                   src={item.url}
                   alt={item.caption}
-                  loading={idx === 0 ? "eager" : "lazy"}
+                  loading="lazy"
                   decoding="async"
                   className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.02]"
                 />
@@ -197,28 +197,36 @@ export default function SectionImageSlider({
         </div>
       </div>
 
-      {/* ================= THUMBNAIL PREVIEW STRIP ================= */}
+      {/* ================= THUMBNAIL PREVIEW STRIP (ULTRA-LIGHTWEIGHT WEBP THUMBNAILS) ================= */}
       <div className="mt-3 flex items-center gap-2.5 overflow-x-auto pb-1 scrollbar-none">
-        {items.map((item, idx) => (
-          <button
-            key={item.url + idx}
-            type="button"
-            suppressHydrationWarning
-            onClick={() => setCurrent(idx)}
-            aria-label={`Select ${item.caption}`}
-            className={`group relative h-16 w-24 sm:h-20 sm:w-28 shrink-0 overflow-hidden rounded border transition-all ${
-              idx === current
-                ? "border-gold ring-2 ring-gold/40 shadow-sm scale-[1.02]"
-                : "border-line opacity-60 hover:opacity-100"
-            }`}
-          >
-            <img
-              src={item.url}
-              alt=""
-              className="h-full w-full object-cover transition-transform group-hover:scale-105"
-            />
-          </button>
-        ))}
+        {items.map((item, idx) => {
+          const thumbUrl = `/thumbs${item.url.replace(/\.[^/.]+$/, "")}.webp`;
+          return (
+            <button
+              key={item.url + idx}
+              type="button"
+              suppressHydrationWarning
+              onClick={() => setCurrent(idx)}
+              aria-label={`Select ${item.caption}`}
+              className={`group relative h-16 w-24 sm:h-20 sm:w-28 shrink-0 overflow-hidden rounded border transition-all ${
+                idx === current
+                  ? "border-gold ring-2 ring-gold/40 shadow-sm scale-[1.02]"
+                  : "border-line opacity-60 hover:opacity-100"
+              }`}
+            >
+              <img
+                src={thumbUrl}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = item.url;
+                }}
+              />
+            </button>
+          );
+        })}
       </div>
     </div>
   );
