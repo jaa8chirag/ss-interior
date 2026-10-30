@@ -441,6 +441,62 @@
     ]
   },
   {
+    "id": "omaxe_the_forest_grand_salon",
+    "category_id": "luxury_apartments",
+    "category_name": "Luxury Apartments",
+    "title": "Omaxe The Forest — Grand Drawing Room & Formal Dining Salon",
+    "location": "Omaxe The Forest, Sector 92",
+    "specs": "Super-Luxury Residence · Formal Drawing Room, Classical Fireplace, Bespoke Dining Suite & Entry Gallery",
+    "description": "An exquisite blend of classical architectural grandeur and contemporary luxury. Featuring a centerpiece black marble fireplace, hand-crafted crystal chandeliers, arched structural gateways, nature-inspired hand-painted murals, and bespoke Italian furnishings.",
+    "badge": "Omaxe The Forest",
+    "cover_image": "/projects/omaxe/omaxe_drawing_room_fireplace_p1.webp",
+    "images_count": 6,
+    "images": [
+      {
+        "id": "omaxe_the_forest_1",
+        "url": "/projects/omaxe/omaxe_drawing_room_fireplace_p1.webp",
+        "title": "Omaxe The Forest — Grand Drawing Room Salon with Classical Fireplace",
+        "caption": "Grand Drawing Room Salon with Classical Black Marble Fireplace & Crystal Chandelier",
+        "original_filename": "omaxe_drawing_room_fireplace_p1.jpg"
+      },
+      {
+        "id": "omaxe_the_forest_2",
+        "url": "/projects/omaxe/omaxe_drawing_room_lounge_p2.webp",
+        "title": "Omaxe The Forest — Drawing Room Lounge & Arched Vista",
+        "caption": "Drawing Room Lounge & Architectural Arched Vista towards Formal Dining",
+        "original_filename": "omaxe_drawing_room_lounge_p2.jpg"
+      },
+      {
+        "id": "omaxe_the_forest_3",
+        "url": "/projects/omaxe/omaxe_dining_hall_chandelier_p3.webp",
+        "title": "Omaxe The Forest — Grand Dining Hall & Custom Chandelier",
+        "caption": "Grand Dining Hall with Bespoke Chandelier & Classical Fluted Joinery",
+        "original_filename": "omaxe_dining_hall_chandelier_p3.jpg"
+      },
+      {
+        "id": "omaxe_the_forest_4",
+        "url": "/projects/omaxe/omaxe_panoramic_living_dining_p4.webp",
+        "title": "Omaxe The Forest — Panoramic Living & Formal Dining Salon",
+        "caption": "Panoramic Open-Plan Drawing Room & Dining Salon with Dual Chandeliers",
+        "original_filename": "omaxe_panoramic_living_dining_p4.jpg"
+      },
+      {
+        "id": "omaxe_the_forest_5",
+        "url": "/projects/omaxe/omaxe_dining_botanical_mural_p5.webp",
+        "title": "Omaxe The Forest — Formal Dining Salon with Botanical Mural",
+        "caption": "Formal Dining Salon with Hand-Painted Nature Wall Mural & Ambient Cove",
+        "original_filename": "omaxe_dining_botanical_mural_p5.jpg"
+      },
+      {
+        "id": "omaxe_the_forest_6",
+        "url": "/projects/omaxe/omaxe_entrance_foyer_console_p6.webp",
+        "title": "Omaxe The Forest — Grand Entrance Foyer & Blossom Mural",
+        "caption": "Grand Entrance Foyer with Sculptural Marble Console & Blossom Mural Wall",
+        "original_filename": "omaxe_entrance_foyer_console_p6.jpg"
+      }
+    ]
+  },
+  {
     "id": "camellias_316b",
     "category_id": "luxury_apartments",
     "category_name": "Luxury Apartments",

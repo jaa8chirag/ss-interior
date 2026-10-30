@@ -108,6 +108,30 @@ export const SHOWCASE_SECTIONS: ProjectShowcaseItem[] = [
         url: "/projects/real/camellias/DSCF6729.webp",
         caption: "DLF Camellias — Formal Salon with Direct Panoramic Golf Course Vistas",
       },
+      {
+        url: "/projects/omaxe/omaxe_drawing_room_fireplace_p1.webp",
+        caption: "Omaxe The Forest — Grand Drawing Room Salon with Classical Marble Fireplace",
+      },
+      {
+        url: "/projects/omaxe/omaxe_panoramic_living_dining_p4.webp",
+        caption: "Omaxe The Forest — Panoramic Open-Plan Drawing Room & Dining Salon",
+      },
+      {
+        url: "/projects/omaxe/omaxe_dining_hall_chandelier_p3.webp",
+        caption: "Omaxe The Forest — Grand Dining Hall with Bespoke Chandelier & Arched Portals",
+      },
+      {
+        url: "/projects/omaxe/omaxe_dining_botanical_mural_p5.webp",
+        caption: "Omaxe The Forest — Formal Dining Salon with Hand-Painted Nature Wallpaper",
+      },
+      {
+        url: "/projects/omaxe/omaxe_drawing_room_lounge_p2.webp",
+        caption: "Omaxe The Forest — Drawing Room Lounge & Architectural Arched Vista",
+      },
+      {
+        url: "/projects/omaxe/omaxe_entrance_foyer_console_p6.webp",
+        caption: "Omaxe The Forest — Grand Entrance Foyer with Sculptural Marble Console",
+      },
     ],
   },
   {

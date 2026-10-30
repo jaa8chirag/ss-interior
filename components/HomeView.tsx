@@ -56,6 +56,19 @@ const HERO_SLIDES = [
     image: "/hero/aralias_master_suite_p45.webp",
     subtitle: "DLF Aralias · Master Suite with Fluted Architectural Paneling & Ambient Cove Lighting",
   },
+  // --- Ultra High-Resolution 4K UHD Renders (Omaxe The Forest) ---
+  {
+    image: "/projects/omaxe/omaxe_drawing_room_fireplace_p1.webp",
+    subtitle: "Omaxe The Forest · Grand Drawing Room Salon & Classical Marble Fireplace",
+  },
+  {
+    image: "/projects/omaxe/omaxe_panoramic_living_dining_p4.webp",
+    subtitle: "Omaxe The Forest · Panoramic Luxury Living & Formal Dining Salon",
+  },
+  {
+    image: "/projects/omaxe/omaxe_entrance_foyer_console_p6.webp",
+    subtitle: "Omaxe The Forest · Grand Entrance Foyer & Hand-Painted Blossom Mural",
+  },
 ];
 
 export default function HomeView() {

@@ -249,11 +249,14 @@ function ProjectFolderSlider({
                 }`}
             >
               <img
-                src={item.url}
+                src={`/thumbs${item.url.replace(/\.[^/.]+$/, "")}.webp`}
                 alt=""
                 loading="lazy"
                 decoding="async"
                 className="h-full w-full object-cover object-center"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = item.url;
+                }}
               />
             </button>
           ))}
